@@ -4,7 +4,13 @@ import pandas as pd
 from datetime import datetime
 
 url = "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
-response = requests.get(url)
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                  "AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/114.0.5735.90 Safari/537.36"
+}
+
+response = requests.get(url, headers=headers)
 
 if response.status_code != 200:
     with open("index.html", "w") as f:
@@ -13,6 +19,13 @@ if response.status_code != 200:
 
 soup = BeautifulSoup(response.content, "html.parser")
 table = soup.find("table", {"id": "reportForm:reportResultTable"})
+
+if not table:
+    with open("index.html", "w") as f:
+        f.write("<h1>Could not find breach table</h1><pre>")
+        f.write(soup.prettify())
+        f.write("</pre>")
+    exit()
 
 rows = table.find_all("tr")[1:]  # Skip header
 data = []
