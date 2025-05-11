@@ -2,15 +2,15 @@ name: HHS Breach Scraper
 
 on:
   schedule:
-    - cron: '0 0,12 * * *'  # Every 12 hours UTC
-  workflow_dispatch:
+    - cron: '0 0,12 * * *'  # Run every 12 hours (00:00 and 12:00 UTC)
+  workflow_dispatch:        # Manual run option from the Actions tab
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -18,10 +18,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Python dependencies
-        run: pip install requests beautifulsoup4 pandas
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4 pandas
 
-      - name: Run scraper
+      - name: Run scraper script
         run: python scraper.py
 
       - name: Commit and push if index.html changed
@@ -30,5 +31,4 @@ jobs:
           git config --global user.email "breachbot@example.com"
           git add index.html
           git diff --quiet && git diff --staged --quiet || git commit -m "Update breach report"
-          git push
-
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD:main
