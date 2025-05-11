@@ -2,7 +2,7 @@ name: HHS Breach Scraper
 
 on:
   schedule:
-    - cron: '0 0,12 * * *'  # Runs twice daily (00:00 and 12:00 UTC)
+    - cron: '0 0,12 * * *'
   workflow_dispatch:
 
 jobs:
@@ -16,23 +16,17 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: '3.11'
 
-      - name: Install dependencies & Chrome
+      - name: Install Google Chrome and ChromeDriver
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip
+          sudo apt-get install -y wget unzip curl
+          
+          # Install Chrome
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
-          pip install selenium beautifulsoup4 pandas
 
-      - name: Run scraper
-        run: python scraper.py
-
-      - name: Commit and push if changed
-        run: |
-          git config --global user.name 'Breach Bot'
-          git config --global user.email 'breachbot@example.com'
-          git add index.html
-          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update breach report"
-          git push
+          # Get Chrome version
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+')
+          CHROME_MAJOR=$(echo $CHROME_VERSION | cut -d
