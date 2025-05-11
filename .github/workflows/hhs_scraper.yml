@@ -2,8 +2,8 @@ name: HHS Breach Scraper
 
 on:
   schedule:
-    - cron: '0 0,12 * * *'  # Runs at 00:00 and 12:00 UTC every day
-  workflow_dispatch:        # Allows manual execution via GitHub Actions tab
+    - cron: '0 0,12 * * *'  # Every 12 hours (UTC)
+  workflow_dispatch:        # Manual trigger
 
 jobs:
   run-scraper:
@@ -18,17 +18,19 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Google Chrome and ChromeDriver (Stable Version 124)
+      - name: Install Google Chrome via apt repo
         run: |
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
           sudo apt-get update
-          sudo apt-get install -y wget unzip curl
+          sudo apt-get install -y google-chrome-stable
 
-          # Install Google Chrome v124
-          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_124.0.6367.60-1_amd64.deb
-          sudo apt install -y ./google-chrome-stable_124.0.6367.60-1_amd64.deb
-
-          # Install matching ChromeDriver v124
-          wget https://chromedriver.storage.googleapis.com/124.0.6367.60/chromedriver_linux64.zip
+      - name: Install matching ChromeDriver
+        run: |
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+')
+          CHROME_MAJOR=$(echo "$CHROME_VERSION" | cut -d '.' -f 1)
+          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR")
+          wget "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
@@ -39,10 +41,11 @@ jobs:
       - name: Run scraper
         run: python scraper.py
 
-      - name: Commit and push if index.html was updated
+      - name: Commit and push if changed
         run: |
           git config --global user.name 'Breach Bot'
           git config --global user.email 'breachbot@example.com'
           git add index.html
           git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update breach report"
           git push
+
