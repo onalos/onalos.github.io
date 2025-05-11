@@ -24,10 +24,17 @@ jobs:
       - name: Run scraper
         run: python scraper.py
 
-      - name: Commit and push if index.html changed
+      - name: Configure Git user
         run: |
           git config --global user.name "Breach Bot"
           git config --global user.email "actions@github.com"
+
+      - name: Override origin to use PAT
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git
+
+      - name: Commit and push if index.html changed
+        run: |
           git add index.html
           git diff --quiet && git diff --staged --quiet || git commit -m "Update breach report"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git HEAD:main
+          git push origin HEAD:main
