@@ -2,8 +2,8 @@ name: HHS Breach Scraper
 
 on:
   schedule:
-    - cron: '0 0,12 * * *'
-  workflow_dispatch:
+    - cron: '0 0,12 * * *'  # Every 12 hours (00:00 and 12:00 UTC)
+  workflow_dispatch:        # Allow manual runs from the Actions tab
 
 jobs:
   run-scraper:
@@ -22,11 +22,32 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y wget unzip curl
-          
+
           # Install Chrome
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
           # Get Chrome version
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+')
-          CHROME_MAJOR=$(echo $CHROME_VERSION | cut -d
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
+          CHROME_MAJOR=$(echo "$CHROME_VERSION" | cut -d'.' -f1)
+
+          # Download matching ChromeDriver
+          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR")
+          wget https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+
+      - name: Install Python dependencies
+        run: pip install selenium beautifulsoup4 pandas
+
+      - name: Run scraper
+        run: python scraper.py
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'Breach Bot'
+          git config --global user.email 'breachbot@example.com'
+          git add index.html
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update breach report"
+          git push
