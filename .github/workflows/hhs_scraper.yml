@@ -2,8 +2,8 @@ name: HHS Breach Scraper
 
 on:
   schedule:
-    - cron: '0 0,12 * * *'  # Every 12 hours (00:00 and 12:00 UTC)
-  workflow_dispatch:        # Allow manual runs from the Actions tab
+    - cron: '0 0,12 * * *'  # Runs at 00:00 and 12:00 UTC every day
+  workflow_dispatch:        # Allows manual execution via GitHub Actions tab
 
 jobs:
   run-scraper:
@@ -18,22 +18,17 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Google Chrome and ChromeDriver
+      - name: Install Google Chrome and ChromeDriver (Stable Version 124)
         run: |
           sudo apt-get update
           sudo apt-get install -y wget unzip curl
 
-          # Install Chrome
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+          # Install Google Chrome v124
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_124.0.6367.60-1_amd64.deb
+          sudo apt install -y ./google-chrome-stable_124.0.6367.60-1_amd64.deb
 
-          # Get Chrome version
-          CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
-          CHROME_MAJOR=$(echo "$CHROME_VERSION" | cut -d'.' -f1)
-
-          # Download matching ChromeDriver
-          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR")
-          wget https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip
+          # Install matching ChromeDriver v124
+          wget https://chromedriver.storage.googleapis.com/124.0.6367.60/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
@@ -44,7 +39,7 @@ jobs:
       - name: Run scraper
         run: python scraper.py
 
-      - name: Commit and push if changed
+      - name: Commit and push if index.html was updated
         run: |
           git config --global user.name 'Breach Bot'
           git config --global user.email 'breachbot@example.com'
