@@ -18,12 +18,13 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Install dependencies
+      - name: Install dependencies & Chrome
         run: |
-          pip install selenium beautifulsoup4 pandas
           sudo apt-get update
-          sudo apt-get install -y chromium-driver
-          export PATH=$PATH:/usr/lib/chromium-browser/
+          sudo apt-get install -y wget unzip
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+          pip install selenium beautifulsoup4 pandas
 
       - name: Run scraper
         run: python scraper.py
