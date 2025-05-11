@@ -2,8 +2,8 @@ name: HHS Breach Scraper
 
 on:
   schedule:
-    - cron: '0 0,12 * * *'  # Every 12 hours (UTC)
-  workflow_dispatch:        # Manual trigger
+    - cron: '0 0,12 * * *'  # Every 12 hours
+  workflow_dispatch:        # Manual trigger support
 
 jobs:
   run-scraper:
@@ -18,25 +18,12 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Google Chrome via apt repo
+      - name: Install dependencies
         run: |
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-
-      - name: Install matching ChromeDriver
-        run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+')
-          CHROME_MAJOR=$(echo "$CHROME_VERSION" | cut -d '.' -f 1)
-          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR")
-          wget "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/chromedriver
-          sudo chmod +x /usr/local/bin/chromedriver
-
-      - name: Install Python dependencies
-        run: pip install selenium beautifulsoup4 pandas
+          pip install --upgrade pip
+          pip install selenium beautifulsoup4 pandas
 
       - name: Run scraper
         run: python scraper.py
