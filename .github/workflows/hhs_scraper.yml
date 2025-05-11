@@ -1,0 +1,37 @@
+name: HHS Breach Scraper
+
+on:
+  schedule:
+    - cron: '0 0,12 * * *'  # Runs twice daily (00:00 and 12:00 UTC)
+  workflow_dispatch:
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
+        run: |
+          pip install selenium beautifulsoup4 pandas
+          sudo apt-get update
+          sudo apt-get install -y chromium-driver
+          export PATH=$PATH:/usr/lib/chromium-browser/
+
+      - name: Run scraper
+        run: python scraper.py
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'Breach Bot'
+          git config --global user.email 'breachbot@example.com'
+          git add index.html
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update breach report"
+          git push
