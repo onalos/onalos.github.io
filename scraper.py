@@ -1,8 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 
+# Define the URL and headers
 url = "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
 headers = {
     "User-Agent": (
@@ -15,25 +16,26 @@ headers = {
     "Connection": "keep-alive",
 }
 
-# Fetch the breach page
+# Fetch the page
 response = requests.get(url, headers=headers)
 
-# Save raw HTML to debug
+# Save raw HTML for debugging
 with open("raw.html", "w", encoding="utf-8") as f:
     f.write(response.text)
 
-# Try to parse breach table
+# Parse the page with BeautifulSoup
 soup = BeautifulSoup(response.text, "html.parser")
 table = soup.find("table", {"id": "reportForm:reportResultTable"})
 
+# Check if the table exists
 if not table:
     with open("index.html", "w", encoding="utf-8") as f:
         f.write("<h1>Could not find breach table</h1>\n")
-        f.write("<p>Inspect <a href='raw.html'>raw.html</a> to debug the HHS response.</p>\n")
+        f.write("<p>Inspect <a href='raw.html'>raw.html</a> to debug.</p>\n")
     exit()
 
-# Parse rows
-rows = table.find_all("tr")[1:]  # skip header
+# Extract table rows
+rows = table.find_all("tr")[1:]  # Skip header
 data = []
 
 for row in rows:
@@ -41,17 +43,32 @@ for row in rows:
     if cols:
         data.append(cols)
 
+# Define column names
 columns = [
     "Name of Covered Entity", "State", "Covered Entity Type", "Individuals Affected",
     "Type of Breach", "Location of Breached Information", "Date of Breach", "Date Added"
 ]
 
+# Create DataFrame
 df = pd.DataFrame(data, columns=columns)
 
-timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-html = f"<h1>New Healthcare Breaches as of {timestamp}</h1>\n"
-html += "<p>Source: <a href='https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf'>HHS OCR Breach Portal</a></p>\n"
-html += df.head(20).to_html(index=False)
+# Convert 'Date Added' to datetime
+df['Date Added'] = pd.to_datetime(df['Date Added'], format='%m/%d/%Y', errors='coerce')
 
+# Filter entries added in the last 24 hours
+now = datetime.utcnow()
+last_24_hours = now - timedelta(hours=24)
+df_recent = df[df['Date Added'] >= last_24_hours]
+
+# Check if there are recent entries
+if df_recent.empty:
+    html = "<h1>No new breach entries in the last 24 hours.</h1>"
+else:
+    timestamp = now.strftime('%Y-%m-%d %H:%M:%S UTC')
+    html = f"<h1>Healthcare Breaches Added in the Last 24 Hours (as of {timestamp})</h1>\n"
+    html += "<p>Source: <a href='https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf'>HHS OCR Breach Portal</a></p>\n"
+    html += df_recent.to_html(index=False)
+
+# Save the HTML output
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
