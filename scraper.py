@@ -8,11 +8,16 @@ headers = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/114.0.5735.90 Safari/537.36"
-    )
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept": "text/html,application/xhtml+xml",
+    "Connection": "keep-alive",
 }
 
-response = requests.get(url, headers=headers)
+response = requests.get(url, headers=headers) with open("raw.html", "w") as f:
+    f.write(response.text)
+
 
 if response.status_code != 200:
     with open("index.html", "w") as f:
