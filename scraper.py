@@ -15,27 +15,24 @@ headers = {
     "Connection": "keep-alive",
 }
 
-response = requests.get(url, headers=headers) 
-with open("raw.html", "w") as f:
+response = requests.get(url, headers=headers)
+
+# ✅ Save raw HTML for inspection
+with open("raw.html", "w", encoding="utf-8") as f:
     f.write(response.text)
 
-
-if response.status_code != 200:
-    with open("index.html", "w") as f:
-        f.write(f"<h1>Failed to load HHS OCR page</h1><p>Status Code: {response.status_code}</p>")
-    exit()
-
-soup = BeautifulSoup(response.content, "html.parser")
+# ✅ Try to parse the page
+soup = BeautifulSoup(response.text, "html.parser")
 table = soup.find("table", {"id": "reportForm:reportResultTable"})
 
 if not table:
-    with open("index.html", "w") as f:
-        f.write("<h1>Could not find breach table</h1><pre>")
-        f.write(soup.prettify())
-        f.write("</pre>")
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write("<h1>Could not find breach table</h1>\n")
+        f.write("<p>Inspect <a href='raw.html'>raw.html</a> to debug.</p>\n")
     exit()
 
-rows = table.find_all("tr")[1:]  # Skip header
+# ✅ Parse and write breach table to index.html
+rows = table.find_all("tr")[1:]  # skip header
 data = []
 
 for row in rows:
@@ -51,9 +48,9 @@ columns = [
 df = pd.DataFrame(data, columns=columns)
 
 timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-html_output = f"<h1>New Healthcare Breaches as of {timestamp}</h1>"
-html_output += "<p>Source: <a href='https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf'>HHS OCR Breach Portal</a></p>"
-html_output += df.head(20).to_html(index=False)
+html = f"<h1>New Healthcare Breaches as of {timestamp}</h1>\n"
+html += "<p>Source: <a href='https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf'>HHS OCR Breach Portal</a></p>\n"
+html += df.head(20).to_html(index=False)
 
-with open("index.html", "w") as f:
-    f.write(html_output)
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html)
