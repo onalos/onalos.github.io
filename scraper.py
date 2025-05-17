@@ -15,7 +15,8 @@ headers = {
     "Connection": "keep-alive",
 }
 
-response = requests.get(url, headers=headers) with open("raw.html", "w") as f:
+response = requests.get(url, headers=headers) 
+with open("raw.html", "w") as f:
     f.write(response.text)
 
 
