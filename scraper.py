@@ -15,23 +15,24 @@ headers = {
     "Connection": "keep-alive",
 }
 
+# Fetch the breach page
 response = requests.get(url, headers=headers)
 
-# ✅ Save raw HTML for inspection
+# Save raw HTML to debug
 with open("raw.html", "w", encoding="utf-8") as f:
     f.write(response.text)
 
-# ✅ Try to parse the page
+# Try to parse breach table
 soup = BeautifulSoup(response.text, "html.parser")
 table = soup.find("table", {"id": "reportForm:reportResultTable"})
 
 if not table:
     with open("index.html", "w", encoding="utf-8") as f:
         f.write("<h1>Could not find breach table</h1>\n")
-        f.write("<p>Inspect <a href='raw.html'>raw.html</a> to debug.</p>\n")
+        f.write("<p>Inspect <a href='raw.html'>raw.html</a> to debug the HHS response.</p>\n")
     exit()
 
-# ✅ Parse and write breach table to index.html
+# Parse rows
 rows = table.find_all("tr")[1:]  # skip header
 data = []
 
