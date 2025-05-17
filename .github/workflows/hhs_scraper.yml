@@ -2,7 +2,7 @@ name: HHS Breach Scraper
 
 on:
   schedule:
-    - cron: '0 0,12 * * *'  # Every 12 hours UTC
+    - cron: '0 0,12 * * *'
   workflow_dispatch:
 
 jobs:
@@ -10,10 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Set up Python
+      - name: Install Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -21,20 +18,20 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4 pandas
 
-      - name: Run scraper
-        run: python scraper.py
-
-      - name: Configure Git user
+      - name: Manually clone repo using PAT
         run: |
-          git config --global user.name "Breach Bot"
-          git config --global user.email "actions@github.com"
+          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git repo
 
-      - name: Override origin to use PAT
+      - name: Run scraper in cloned repo
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git
+          cd repo
+          python ../scraper.py
 
-      - name: Commit and push if index.html changed
+      - name: Commit and push from authenticated repo
         run: |
+          cd repo
+          git config user.name "Breach Bot"
+          git config user.email "actions@github.com"
           git add index.html
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update breach report"
+          git diff --cached --quiet || git commit -m "Update breach report"
           git push origin HEAD:main
