@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out the repo (to get scraper.py)
+        uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -18,16 +21,16 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4 pandas
 
-      - name: Clone repo using PAT
+      - name: Clone GitHub Pages repo using PAT
         run: |
           git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git repo
 
-      - name: Run scraper
+      - name: Run scraper and copy results to repo
         run: |
           python scraper.py
           cp index.html raw.html repo/
 
-      - name: Commit and push output
+      - name: Commit and push updated files
         run: |
           cd repo
           git config user.name "Breach Bot"
