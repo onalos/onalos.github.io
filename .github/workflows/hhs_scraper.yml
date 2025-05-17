@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -18,20 +18,21 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4 pandas
 
-      - name: Manually clone repo using PAT
+      - name: Clone repo using PAT
         run: |
           git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git repo
 
-      - name: Run scraper in cloned repo
+      - name: Run scraper
         run: |
-          cd repo
           python scraper.py
+          cp index.html raw.html repo/
 
-      - name: Commit and push from authenticated repo
+      - name: Commit and push output
         run: |
           cd repo
           git config user.name "Breach Bot"
           git config user.email "actions@github.com"
-          git add index.html
-          git diff --cached --quiet || git commit -m "Update breach report"
+          git add index.html raw.html
+          git status
+          git diff --cached --quiet || git commit -m "Update breach report and raw page"
           git push origin HEAD:main
