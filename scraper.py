@@ -12,7 +12,7 @@ HEADERS = {
         "Chrome/124.0.0.0 Safari/537.36"
     )
 }
-DAYS_BACK = 7
+DAYS_BACK = 30
 
 # --- FETCH HTML ---
 response = requests.get(HHS_URL, headers=HEADERS)
