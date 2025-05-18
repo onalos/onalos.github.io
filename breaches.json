@@ -1,0 +1,299 @@
+[
+  {
+    "Name of Covered Entity":"Serviceaide, Inc.",
+    "State":"CA",
+    "Entity Type":"Business Associate",
+    "Individuals Affected":"483126",
+    "Date Added":1746748800000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Other"
+  },
+  {
+    "Name of Covered Entity":"Tri-City Cardiology Consultants, P.C.",
+    "State":"AZ",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"22753",
+    "Date Added":1746662400000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"The Carpenter Health Network",
+    "State":"LA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"878",
+    "Date Added":1746489600000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Primary Health Care, Inc.",
+    "State":"IA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"787",
+    "Date Added":1746489600000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Email"
+  },
+  {
+    "Name of Covered Entity":"Minnesota Orthodontics and Dentofacial Orthopedics, P.A.",
+    "State":"MN",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"501",
+    "Date Added":1746403200000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Monongalia Health System, Inc.",
+    "State":"WV",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"4895",
+    "Date Added":1746230400000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Email"
+  },
+  {
+    "Name of Covered Entity":"CardioVascular Health Clinic",
+    "State":"OK",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"501",
+    "Date Added":1746230400000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Schewitz Psychological Services Inc (DBA: Couples Learn)",
+    "State":"ME",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"3700",
+    "Date Added":1746230400000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"DermCare Management",
+    "State":"FL",
+    "Entity Type":"Business Associate",
+    "Individuals Affected":"501",
+    "Date Added":1746144000000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Arizona Arthritis and Rheumatology Associates, P.C.",
+    "State":"AZ",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"5509",
+    "Date Added":1746144000000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Email"
+  },
+  {
+    "Name of Covered Entity":"Lincoln National Corporation d\/b\/a Lincoln Financial",
+    "State":"IN",
+    "Entity Type":"Health Plan",
+    "Individuals Affected":"1123",
+    "Date Added":1746144000000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Anesthesia Associates of Morristown, P.A.",
+    "State":"NJ",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"501",
+    "Date Added":1746144000000,
+    "Type of Breach":"Improper Disposal",
+    "Location of Breached Info":"Paper\/Films"
+  },
+  {
+    "Name of Covered Entity":"Sonrisas Dental Health",
+    "State":"CA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"15644",
+    "Date Added":1746144000000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"The Neurological Institute of Savannah & Center for Spine, P.C",
+    "State":"GA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"32548",
+    "Date Added":1746057600000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Berkeley Research Group, LLC",
+    "State":"CA",
+    "Entity Type":"Business Associate",
+    "Individuals Affected":"500",
+    "Date Added":1745971200000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Family Christian Health Center",
+    "State":"IL",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"12500",
+    "Date Added":1745971200000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Physician Wound Solutions, LLC dba Apollo Medical Supply",
+    "State":"FL",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"3561",
+    "Date Added":1745884800000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Network Server, Other"
+  },
+  {
+    "Name of Covered Entity":"Ascension Health",
+    "State":"MO",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"437329",
+    "Date Added":1745798400000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Maximus, Inc.",
+    "State":"VA",
+    "Entity Type":"Business Associate",
+    "Individuals Affected":"4529",
+    "Date Added":1745539200000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Carlton County Public Health and Human Services",
+    "State":"MN",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"3502",
+    "Date Added":1745539200000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Email"
+  },
+  {
+    "Name of Covered Entity":"Prestonwood Baptist Church, Inc.",
+    "State":"TX",
+    "Entity Type":"Health Plan",
+    "Individuals Affected":"501",
+    "Date Added":1745539200000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Brainard Surgery Center LLC",
+    "State":"OH",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"501",
+    "Date Added":1745452800000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Palo Verde Hospital",
+    "State":"CA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"594",
+    "Date Added":1745452800000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Drug and Alcohol Treatment Services, Inc.",
+    "State":"PA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"22215",
+    "Date Added":1745452800000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Orthopaedic Specialists of Connecticut",
+    "State":"CT",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"22541",
+    "Date Added":1745366400000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Marc Irwin Sharfman, M.D., P.A.",
+    "State":"FL",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"650",
+    "Date Added":1745366400000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"City of Bristol, Tennessee",
+    "State":"TN",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"4708",
+    "Date Added":1745280000000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Icon Family Healthcare LLC",
+    "State":"CA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"1800",
+    "Date Added":1745280000000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Email"
+  },
+  {
+    "Name of Covered Entity":"Charleston Fire Department",
+    "State":"WV",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"2583",
+    "Date Added":1745280000000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Email"
+  },
+  {
+    "Name of Covered Entity":"Union Health System, Inc.",
+    "State":"IN",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"262831",
+    "Date Added":1745193600000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Onsite Mammography",
+    "State":"MA",
+    "Entity Type":"Business Associate",
+    "Individuals Affected":"357265",
+    "Date Added":1745193600000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Email"
+  },
+  {
+    "Name of Covered Entity":"Horizon Behavioral Health",
+    "State":"VA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"49822",
+    "Date Added":1745193600000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Rheumatology Associates of Baltimore",
+    "State":"MD",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"28968",
+    "Date Added":1745193600000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Network Server"
+  }
+]

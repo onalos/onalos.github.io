@@ -1,4 +1,28 @@
-<h1>Healthcare Breaches in the Last 30 Days</h1><p>As of 2025-05-18 14:35:50 UTC — Source: <a href='https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf'>HHS OCR Portal</a></p><table border="1" class="dataframe">
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Healthcare Breaches - Last 30 Days</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #f8f9fa; }
+    h1 { color: #2c3e50; }
+    .download-links a { margin-right: 1em; }
+    table { background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  </style>
+</head>
+<body>
+  <h1>Healthcare Breaches - Last 30 Days</h1>
+  <p>As of 2025-05-18 15:07:52 UTC</p>
+  <p class="download-links">
+    📥 <a href="breaches.csv">CSV</a> |
+    📥 <a href="breaches.json">JSON</a> |
+    🔎 Source: <a href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank">HHS OCR Breach Portal</a>
+  </p>
+  <table id="breach-table" class="display" style="width:100%">
+<table class="dataframe display">
   <thead>
     <tr style="text-align: right;">
       <th>Name of Covered Entity</th>
@@ -310,3 +334,13 @@
     </tr>
   </tbody>
 </table>
+  </table>
+  <script>
+    $(document).ready(function() {
+        $('#breach-table').DataTable({
+            "pageLength": 25
+        });
+    });
+  </script>
+</body>
+</html>
