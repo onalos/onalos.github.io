@@ -7,21 +7,56 @@
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; background: #f8f9fa; }
-    h1 { color: #2c3e50; }
-    .download-links a { margin-right: 1em; }
-    table { background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #f8f9fa;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .download-links a {
+      margin-right: 1em;
+    }
+    table.display {
+      width: 100% !important;
+      table-layout: auto;
+      background: white;
+      border-collapse: collapse;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      word-wrap: break-word;
+    }
+    table.display th,
+    table.display td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      vertical-align: top;
+      max-width: 240px;
+      word-break: break-word;
+    }
+    table.display th {
+      background-color: #2c3e50;
+      color: white;
+      text-align: left;
+    }
+    table.display tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    table.display tr:hover {
+      background-color: #f1f1f1;
+    }
   </style>
 </head>
 <body>
   <h1>Healthcare Breaches - Last 30 Days</h1>
-  <p>As of 2025-05-18 15:07:52 UTC</p>
+  <p>As of 2025-05-18 15:16:35 UTC</p>
   <p class="download-links">
     📥 <a href="breaches.csv">CSV</a> |
     📥 <a href="breaches.json">JSON</a> |
     🔎 Source: <a href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank">HHS OCR Breach Portal</a>
   </p>
-  <table id="breach-table" class="display" style="width:100%">
+  <table id="breach-table" class="display">
 <table class="dataframe display">
   <thead>
     <tr style="text-align: right;">
