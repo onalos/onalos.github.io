@@ -2,7 +2,7 @@ name: HHS Breach Scraper
 
 on:
   schedule:
-    - cron: '0 0,12 * * *'
+    - cron: '0 0,12 * * *'  # Every 12 hours UTC
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the repo (to get scraper.py)
+      - name: Check out this repo (to access scraper.py)
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -21,21 +21,21 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4 pandas
 
-      - name: Clone GitHub Pages repo using PAT
+      - name: Clone GitHub Pages repo using token
         run: |
           git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git repo
 
-      - name: Run scraper and copy results to repo
+      - name: Run scraper and generate output
         run: |
           python scraper.py
-          cp index.html raw.html repo/
+          cp index.html raw.html breaches.csv breaches.json repo/
 
-      - name: Commit and push updated files
+      - name: Commit and push to GitHub Pages
         run: |
           cd repo
           git config user.name "Breach Bot"
           git config user.email "actions@github.com"
-          git add index.html raw.html
+          git add index.html raw.html breaches.csv breaches.json
           git status
-          git diff --cached --quiet || git commit -m "Update breach report and raw page"
+          git diff --cached --quiet || git commit -m "Update breach feed and raw files"
           git push origin HEAD:main
