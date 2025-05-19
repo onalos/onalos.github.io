@@ -126,6 +126,15 @@
     "Location of Breached Info":"Network Server"
   },
   {
+    "Name of Covered Entity":"Canby Clinic",
+    "State":"OR",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"549",
+    "Date Added":1745971200000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Email"
+  },
+  {
     "Name of Covered Entity":"Berkeley Research Group, LLC",
     "State":"CA",
     "Entity Type":"Business Associate",
