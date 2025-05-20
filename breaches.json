@@ -1,5 +1,23 @@
 [
   {
+    "Name of Covered Entity":"Union County Children and Youth Services",
+    "State":"PA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"501",
+    "Date Added":1747094400000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"CVS Caremark",
+    "State":"RI",
+    "Entity Type":"Business Associate",
+    "Individuals Affected":"2599",
+    "Date Added":1747094400000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Paper\/Films"
+  },
+  {
     "Name of Covered Entity":"Serviceaide, Inc.",
     "State":"CA",
     "Entity Type":"Business Associate",
