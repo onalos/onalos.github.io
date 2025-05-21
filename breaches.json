@@ -18,6 +18,15 @@
     "Location of Breached Info":"Paper\/Films"
   },
   {
+    "Name of Covered Entity":"Marlboro-Chesterfield Pathology, P.C.",
+    "State":"NC",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"235911",
+    "Date Added":1746748800000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
     "Name of Covered Entity":"Serviceaide, Inc.",
     "State":"CA",
     "Entity Type":"Business Associate",
@@ -279,6 +288,15 @@
     "Location of Breached Info":"Email"
   },
   {
+    "Name of Covered Entity":"Eliza Jennings Senior Care Network",
+    "State":"OH",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"845",
+    "Date Added":1745280000000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
     "Name of Covered Entity":"Charleston Fire Department",
     "State":"WV",
     "Entity Type":"Healthcare Provider",
@@ -286,41 +304,5 @@
     "Date Added":1745280000000,
     "Type of Breach":"Hacking\/IT Incident",
     "Location of Breached Info":"Email"
-  },
-  {
-    "Name of Covered Entity":"Union Health System, Inc.",
-    "State":"IN",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"262831",
-    "Date Added":1745193600000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Onsite Mammography",
-    "State":"MA",
-    "Entity Type":"Business Associate",
-    "Individuals Affected":"357265",
-    "Date Added":1745193600000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Email"
-  },
-  {
-    "Name of Covered Entity":"Horizon Behavioral Health",
-    "State":"VA",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"49822",
-    "Date Added":1745193600000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Rheumatology Associates of Baltimore",
-    "State":"MD",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"28968",
-    "Date Added":1745193600000,
-    "Type of Breach":"Unauthorized Access\/Disclosure",
-    "Location of Breached Info":"Network Server"
   }
 ]

@@ -1,6 +1,7 @@
 Name of Covered Entity,State,Entity Type,Individuals Affected,Date Added,Type of Breach,Location of Breached Info
 Union County Children and Youth Services,PA,Healthcare Provider,501,2025-05-13,Hacking/IT Incident,Network Server
 CVS Caremark,RI,Business Associate,2599,2025-05-13,Unauthorized Access/Disclosure,Paper/Films
+"Marlboro-Chesterfield Pathology, P.C.",NC,Healthcare Provider,235911,2025-05-09,Hacking/IT Incident,Network Server
 "Serviceaide, Inc.",CA,Business Associate,483126,2025-05-09,Unauthorized Access/Disclosure,Other
 "Tri-City Cardiology Consultants, P.C.",AZ,Healthcare Provider,22753,2025-05-08,Hacking/IT Incident,Network Server
 The Carpenter Health Network,LA,Healthcare Provider,878,2025-05-06,Hacking/IT Incident,Network Server
@@ -30,8 +31,5 @@ Orthopaedic Specialists of Connecticut,CT,Healthcare Provider,22541,2025-04-23,H
 "Marc Irwin Sharfman, M.D., P.A.",FL,Healthcare Provider,650,2025-04-23,Hacking/IT Incident,Network Server
 "City of Bristol, Tennessee",TN,Healthcare Provider,4708,2025-04-22,Hacking/IT Incident,Network Server
 Icon Family Healthcare LLC,CA,Healthcare Provider,1800,2025-04-22,Unauthorized Access/Disclosure,Email
+Eliza Jennings Senior Care Network,OH,Healthcare Provider,845,2025-04-22,Hacking/IT Incident,Network Server
 Charleston Fire Department,WV,Healthcare Provider,2583,2025-04-22,Hacking/IT Incident,Email
-"Union Health System, Inc.",IN,Healthcare Provider,262831,2025-04-21,Hacking/IT Incident,Network Server
-Onsite Mammography,MA,Business Associate,357265,2025-04-21,Hacking/IT Incident,Email
-Horizon Behavioral Health,VA,Healthcare Provider,49822,2025-04-21,Hacking/IT Incident,Network Server
-Rheumatology Associates of Baltimore,MD,Healthcare Provider,28968,2025-04-21,Unauthorized Access/Disclosure,Network Server
