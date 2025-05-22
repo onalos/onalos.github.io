@@ -1,11 +1,15 @@
 Name of Covered Entity,State,Entity Type,Individuals Affected,Date Added,Type of Breach,Location of Breached Info
+Weiser Valley Hospital District dba Weiser Memorial Hospital,ID,Healthcare Provider,59990,2025-05-15,Hacking/IT Incident,Network Server
+Katie Jo Sider,CO,Healthcare Provider,1435,2025-05-13,Unauthorized Access/Disclosure,Email
 Union County Children and Youth Services,PA,Healthcare Provider,501,2025-05-13,Hacking/IT Incident,Network Server
 CVS Caremark,RI,Business Associate,2599,2025-05-13,Unauthorized Access/Disclosure,Paper/Films
 "Marlboro-Chesterfield Pathology, P.C.",NC,Healthcare Provider,235911,2025-05-09,Hacking/IT Incident,Network Server
 "Serviceaide, Inc.",CA,Business Associate,483126,2025-05-09,Unauthorized Access/Disclosure,Other
+"THE CARING HEALTHCARE NETWORK, LLC",PA,Healthcare Provider,1019,2025-05-09,Unauthorized Access/Disclosure,Paper/Films
 "Tri-City Cardiology Consultants, P.C.",AZ,Healthcare Provider,22753,2025-05-08,Hacking/IT Incident,Network Server
 The Carpenter Health Network,LA,Healthcare Provider,878,2025-05-06,Hacking/IT Incident,Network Server
 "Primary Health Care, Inc.",IA,Healthcare Provider,787,2025-05-06,Unauthorized Access/Disclosure,Email
+"SunLink Health Systems, Inc.",GA,Healthcare Provider,2856,2025-05-06,Hacking/IT Incident,Network Server
 "Minnesota Orthodontics and Dentofacial Orthopedics, P.A.",MN,Healthcare Provider,501,2025-05-05,Hacking/IT Incident,Network Server
 "Monongalia Health System, Inc.",WV,Healthcare Provider,4895,2025-05-03,Unauthorized Access/Disclosure,Email
 CardioVascular Health Clinic,OK,Healthcare Provider,501,2025-05-03,Hacking/IT Incident,Network Server
@@ -29,7 +33,3 @@ Palo Verde Hospital,CA,Healthcare Provider,594,2025-04-24,Hacking/IT Incident,Ne
 "Drug and Alcohol Treatment Services, Inc.",PA,Healthcare Provider,22215,2025-04-24,Hacking/IT Incident,Network Server
 Orthopaedic Specialists of Connecticut,CT,Healthcare Provider,22541,2025-04-23,Hacking/IT Incident,Network Server
 "Marc Irwin Sharfman, M.D., P.A.",FL,Healthcare Provider,650,2025-04-23,Hacking/IT Incident,Network Server
-"City of Bristol, Tennessee",TN,Healthcare Provider,4708,2025-04-22,Hacking/IT Incident,Network Server
-Icon Family Healthcare LLC,CA,Healthcare Provider,1800,2025-04-22,Unauthorized Access/Disclosure,Email
-Eliza Jennings Senior Care Network,OH,Healthcare Provider,845,2025-04-22,Hacking/IT Incident,Network Server
-Charleston Fire Department,WV,Healthcare Provider,2583,2025-04-22,Hacking/IT Incident,Email

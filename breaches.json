@@ -1,5 +1,23 @@
 [
   {
+    "Name of Covered Entity":"Weiser Valley Hospital District dba Weiser Memorial Hospital",
+    "State":"ID",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"59990",
+    "Date Added":1747267200000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Katie Jo Sider",
+    "State":"CO",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"1435",
+    "Date Added":1747094400000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Email"
+  },
+  {
     "Name of Covered Entity":"Union County Children and Youth Services",
     "State":"PA",
     "Entity Type":"Healthcare Provider",
@@ -36,6 +54,15 @@
     "Location of Breached Info":"Other"
   },
   {
+    "Name of Covered Entity":"THE CARING HEALTHCARE NETWORK, LLC",
+    "State":"PA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"1019",
+    "Date Added":1746748800000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Paper\/Films"
+  },
+  {
     "Name of Covered Entity":"Tri-City Cardiology Consultants, P.C.",
     "State":"AZ",
     "Entity Type":"Healthcare Provider",
@@ -61,6 +88,15 @@
     "Date Added":1746489600000,
     "Type of Breach":"Unauthorized Access\/Disclosure",
     "Location of Breached Info":"Email"
+  },
+  {
+    "Name of Covered Entity":"SunLink Health Systems, Inc.",
+    "State":"GA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"2856",
+    "Date Added":1746489600000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
   },
   {
     "Name of Covered Entity":"Minnesota Orthodontics and Dentofacial Orthopedics, P.A.",
@@ -268,41 +304,5 @@
     "Date Added":1745366400000,
     "Type of Breach":"Hacking\/IT Incident",
     "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"City of Bristol, Tennessee",
-    "State":"TN",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"4708",
-    "Date Added":1745280000000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Icon Family Healthcare LLC",
-    "State":"CA",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"1800",
-    "Date Added":1745280000000,
-    "Type of Breach":"Unauthorized Access\/Disclosure",
-    "Location of Breached Info":"Email"
-  },
-  {
-    "Name of Covered Entity":"Eliza Jennings Senior Care Network",
-    "State":"OH",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"845",
-    "Date Added":1745280000000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Charleston Fire Department",
-    "State":"WV",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"2583",
-    "Date Added":1745280000000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Email"
   }
 ]
