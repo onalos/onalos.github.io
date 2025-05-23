@@ -1,9 +1,11 @@
 Name of Covered Entity,State,Entity Type,Individuals Affected,Date Added,Type of Breach,Location of Breached Info
+Balance Autism,IA,Healthcare Provider,1281,2025-05-16,Hacking/IT Incident,Network Server
 Weiser Valley Hospital District dba Weiser Memorial Hospital,ID,Healthcare Provider,59990,2025-05-15,Hacking/IT Incident,Network Server
 Katie Jo Sider,CO,Healthcare Provider,1435,2025-05-13,Unauthorized Access/Disclosure,Email
 Union County Children and Youth Services,PA,Healthcare Provider,501,2025-05-13,Hacking/IT Incident,Network Server
 CVS Caremark,RI,Business Associate,2599,2025-05-13,Unauthorized Access/Disclosure,Paper/Films
 "Marlboro-Chesterfield Pathology, P.C.",NC,Healthcare Provider,235911,2025-05-09,Hacking/IT Incident,Network Server
+Blue Cross Blue Shield of Texas,IL,Business Associate,593,2025-05-09,Unauthorized Access/Disclosure,Paper/Films
 "Serviceaide, Inc.",CA,Business Associate,483126,2025-05-09,Unauthorized Access/Disclosure,Other
 "THE CARING HEALTHCARE NETWORK, LLC",PA,Healthcare Provider,1019,2025-05-09,Unauthorized Access/Disclosure,Paper/Films
 "Tri-City Cardiology Consultants, P.C.",AZ,Healthcare Provider,22753,2025-05-08,Hacking/IT Incident,Network Server
@@ -31,5 +33,3 @@ Carlton County Public Health and Human Services,MN,Healthcare Provider,3502,2025
 Brainard Surgery Center LLC,OH,Healthcare Provider,501,2025-04-24,Hacking/IT Incident,Network Server
 Palo Verde Hospital,CA,Healthcare Provider,594,2025-04-24,Hacking/IT Incident,Network Server
 "Drug and Alcohol Treatment Services, Inc.",PA,Healthcare Provider,22215,2025-04-24,Hacking/IT Incident,Network Server
-Orthopaedic Specialists of Connecticut,CT,Healthcare Provider,22541,2025-04-23,Hacking/IT Incident,Network Server
-"Marc Irwin Sharfman, M.D., P.A.",FL,Healthcare Provider,650,2025-04-23,Hacking/IT Incident,Network Server

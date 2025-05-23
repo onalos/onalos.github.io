@@ -1,5 +1,14 @@
 [
   {
+    "Name of Covered Entity":"Balance Autism",
+    "State":"IA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"1281",
+    "Date Added":1747353600000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
     "Name of Covered Entity":"Weiser Valley Hospital District dba Weiser Memorial Hospital",
     "State":"ID",
     "Entity Type":"Healthcare Provider",
@@ -43,6 +52,15 @@
     "Date Added":1746748800000,
     "Type of Breach":"Hacking\/IT Incident",
     "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Blue Cross Blue Shield of Texas",
+    "State":"IL",
+    "Entity Type":"Business Associate",
+    "Individuals Affected":"593",
+    "Date Added":1746748800000,
+    "Type of Breach":"Unauthorized Access\/Disclosure",
+    "Location of Breached Info":"Paper\/Films"
   },
   {
     "Name of Covered Entity":"Serviceaide, Inc.",
@@ -284,24 +302,6 @@
     "Entity Type":"Healthcare Provider",
     "Individuals Affected":"22215",
     "Date Added":1745452800000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Orthopaedic Specialists of Connecticut",
-    "State":"CT",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"22541",
-    "Date Added":1745366400000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Marc Irwin Sharfman, M.D., P.A.",
-    "State":"FL",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"650",
-    "Date Added":1745366400000,
     "Type of Breach":"Hacking\/IT Incident",
     "Location of Breached Info":"Network Server"
   }
