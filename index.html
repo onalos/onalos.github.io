@@ -389,16 +389,17 @@
 </body>
 </html>
 
+
 <!-- START-BREACH-SECTION -->
 <h1>Healthcare Breaches - Last 30 Days</h1>
-<p>As of 2025-05-24 15:22:20 UTC</p>
+<p>As of 2025-05-24 15:54:08 UTC</p>
 <p class="download-links">
   📥 <a href="breaches.csv">CSV</a> |
   📥 <a href="breaches.json">JSON</a> |
   🔎 Source: <a href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank">HHS OCR Breach Portal</a>
 </p>
 <table id="breach-table" class="display">
-<table class="dataframe display">
+<table class="dataframe display breach-table-html">
   <thead>
     <tr style="text-align: right;">
       <th>Name of Covered Entity</th>
@@ -713,10 +714,13 @@
 </table>
 <script>
   $(document).ready(function() {
+    if (!$.fn.dataTable.isDataTable('#breach-table')) {
       $('#breach-table').DataTable({ "pageLength": 25 });
+    }
   });
 </script>
 <!-- END-BREACH-SECTION -->
+
 
 rset="UTF-8">
   <title>Healthcare Breaches - Last 30 Days</title>
