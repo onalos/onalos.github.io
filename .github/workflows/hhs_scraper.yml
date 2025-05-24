@@ -2,7 +2,7 @@ name: HHS Breach Scraper
 
 on:
   schedule:
-    - cron: '0 15 * * *'  # 10am Eastern
+    - cron: '0 15 * * *'
   workflow_dispatch:
 
 jobs:
@@ -36,5 +36,5 @@ jobs:
           git config user.name "Breach Bot"
           git config user.email "actions@github.com"
           git add index.html raw.html breaches.csv breaches.json
-          git diff --cached --quiet || git commit -m "Update HHS breach section"
+          git diff --cached --quiet || git commit -m "Update breach section"
           git push origin HEAD:main
