@@ -1,49 +1,40 @@
 name: HHS Breach Scraper
 
 on:
-  # Schedule the workflow to run daily at 10 AM US Eastern (15:00 UTC)
   schedule:
-    - cron: '0 15 * * *'
-  # Allow the workflow to be manually triggered from the Actions tab
+    - cron: '0 15 * * *'  # 10am Eastern
   workflow_dispatch:
 
 jobs:
-  scrape:
+  breach:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repo where scraper.py lives
-      - name: Check out repo
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      # Step 2: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      # Step 3: Install Python libraries needed by scraper.py
       - name: Install dependencies
         run: pip install requests beautifulsoup4 pandas
 
-      # Step 4: Clone the GitHub Pages repo into ./repo
       - name: Clone GitHub Pages repo
         run: |
           git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git repo
 
-      # Step 5: Run the scraper and copy its outputs into ./repo
-      - name: Run scraper and copy outputs
+      - name: Run scraper
         run: |
           python scraper.py
           cp index.html raw.html breaches.csv breaches.json repo/
 
-      # Step 6: Commit and push the generated files back to GitHub Pages
-      - name: Commit and push updates
+      - name: Commit and push
         run: |
           cd repo
           git config user.name "Breach Bot"
           git config user.email "actions@github.com"
           git add index.html raw.html breaches.csv breaches.json
-          git status
-          git diff --cached --quiet || git commit -m "Update breach feed"
+          git diff --cached --quiet || git commit -m "Update HHS breach section"
           git push origin HEAD:main
