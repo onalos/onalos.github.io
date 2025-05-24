@@ -71,9 +71,19 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-weight: bold;
     }
     .range-select button.active {
       background-color: #0096c7;
+      border: 2px solid #023e8a;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+    #current-range {
+      text-align: center;
+      font-size: 1.2rem;
+      margin: 0.5rem 0 2rem;
+      font-weight: bold;
+      color: #0077b6;
     }
   </style>
 </head>
@@ -89,10 +99,11 @@
   </nav>
   <main>
     <div class="range-select">
-      <button onclick="loadCharts(1)">1 Day</button>
-      <button onclick="loadCharts(7)">7 Days</button>
-      <button class="active" onclick="loadCharts(30)">30 Days</button>
+      <button onclick="loadCharts(1, this)">1 Day</button>
+      <button onclick="loadCharts(7, this)">7 Days</button>
+      <button class="active" onclick="loadCharts(30, this)">30 Days</button>
     </div>
+    <div id="current-range">Currently showing data for: Last 30 Days</div>
     <section>
       <h2>Top Breach Types</h2>
       <div class="chart-wrapper">
@@ -112,9 +123,13 @@
   <script>
     let breachTypeChart, stateChart;
 
-    function loadCharts(days) {
-      document.querySelectorAll('.range-select button').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+    function loadCharts(days, btn = null) {
+      if (btn) {
+        document.querySelectorAll('.range-select button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+
+      document.getElementById('current-range').textContent = `Currently showing data for: Last ${days} Day${days > 1 ? 's' : ''}`;
 
       fetch('breaches.json')
         .then(response => response.json())
@@ -180,9 +195,9 @@
         });
     }
 
-    // Load default 30 days view on page load
     window.onload = function () {
-      loadCharts(30);
+      const defaultBtn = document.querySelector('.range-select button.active');
+      loadCharts(30, defaultBtn);
     };
   </script>
 </body>
