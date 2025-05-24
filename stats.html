@@ -10,98 +10,123 @@
       font-family: 'Segoe UI', sans-serif;
       background-color: #f7f9fb;
       color: #333;
-      padding: 2rem;
+      margin: 0;
+      padding: 0;
     }
-    h1 {
+    header {
+      background-color: #0077b6;
+      color: white;
+      padding: 1rem;
       text-align: center;
-      color: #0077b6;
     }
     nav {
+      background-color: #023e8a;
       text-align: center;
-      margin-bottom: 2rem;
+      padding: 0.5rem;
     }
     nav a {
-      margin: 0 1rem;
+      color: white;
       text-decoration: none;
+      margin: 0 1rem;
       font-weight: bold;
-      color: #0077b6;
     }
-    .chart-container {
-      max-width: 700px;
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 960px;
       margin: 2rem auto;
       padding: 1rem;
-      background: #fff;
+    }
+    section {
+      background: white;
+      padding: 1rem;
       border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    canvas {
+      max-width: 100%;
+      height: auto;
     }
     footer {
       text-align: center;
-      font-size: 0.9em;
-      color: #888;
-      margin-top: 4rem;
+      padding: 1rem;
+      background-color: #f1f1f1;
+      font-size: 0.9rem;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <h1>📈 Healthcare Breach Stats</h1>
+  <header>
+    <h1>📈 Healthcare Breach Stats</h1>
+    <p>Visualizing real-time data from the HHS Breach Portal</p>
+  </header>
   <nav>
     <a href="index.html">Home</a>
     <a href="breaches.html">Breaches</a>
     <a href="news.html">News</a>
   </nav>
-
-  <div class="chart-container">
-    <h3>Top Breach Types (Last 30 Days)</h3>
-    <canvas id="breachTypeChart"></canvas>
-  </div>
-
-  <div class="chart-container">
-    <h3>Breaches by State (Last 30 Days)</h3>
-    <canvas id="stateChart"></canvas>
-  </div>
-
+  <main>
+    <section>
+      <h2>Top Breach Types (Last 30 Days)</h2>
+      <canvas id="breachTypeChart"></canvas>
+    </section>
+    <section>
+      <h2>Breaches by State</h2>
+      <canvas id="stateChart"></canvas>
+    </section>
+  </main>
   <footer>
-    &copy; 2025 ThreatPodium. Data sourced from HHS Breach Portal.
+    &copy; 2025 ThreatPodium. Data sourced from HHS.
   </footer>
-
   <script>
     fetch('breaches.json')
       .then(response => response.json())
       .then(data => {
-        const breachTypeCounts = {};
-        const stateCounts = {};
+        const breachTypes = {};
+        const states = {};
 
         data.forEach(entry => {
-          breachTypeCounts[entry["Type of Breach"]] = (breachTypeCounts[entry["Type of Breach"]] || 0) + 1;
-          stateCounts[entry["State"]] = (stateCounts[entry["State"]] || 0) + 1;
+          const type = entry["Type of Breach"] || "Unknown";
+          const state = entry["State"] || "Unknown";
+
+          breachTypes[type] = (breachTypes[type] || 0) + 1;
+          states[state] = (states[state] || 0) + 1;
         });
 
-        const typeCtx = document.getElementById('breachTypeChart').getContext('2d');
-        new Chart(typeCtx, {
+        new Chart(document.getElementById('breachTypeChart'), {
           type: 'bar',
           data: {
-            labels: Object.keys(breachTypeCounts),
+            labels: Object.keys(breachTypes),
             datasets: [{
-              label: '# of Breaches',
-              data: Object.values(breachTypeCounts),
+              label: 'Number of Breaches',
+              data: Object.values(breachTypes),
               backgroundColor: '#0077b6'
             }]
           },
-          options: { responsive: true, maintainAspectRatio: false }
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: false }
+            }
+          }
         });
 
-        const stateCtx = document.getElementById('stateChart').getContext('2d');
-        new Chart(stateCtx, {
-          type: 'pie',
+        new Chart(document.getElementById('stateChart'), {
+          type: 'doughnut',
           data: {
-            labels: Object.keys(stateCounts),
+            labels: Object.keys(states),
             datasets: [{
-              label: 'States',
-              data: Object.values(stateCounts),
-              backgroundColor: Object.keys(stateCounts).map(() => '#' + Math.floor(Math.random()*16777215).toString(16))
+              label: 'Breaches by State',
+              data: Object.values(states),
+              backgroundColor: Object.keys(states).map(() => '#' + Math.floor(Math.random()*16777215).toString(16))
             }]
           },
-          options: { responsive: true, maintainAspectRatio: false }
+          options: {
+            responsive: true
+          }
         });
       });
   </script>
