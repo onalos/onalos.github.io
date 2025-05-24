@@ -7,10 +7,10 @@ from datetime import datetime, timedelta
 # CONFIGURATION
 # -----------------------------
 
-# URL of the HHS OCR breach portal
+# HHS OCR Breach Portal
 url = "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
 
-# Headers to make the request look like it's coming from a real browser
+# Browser-like headers for request
 headers = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -19,87 +19,69 @@ headers = {
     )
 }
 
-# Number of days back to filter breach records (e.g., last 30 days)
+# How many days back to show
 DAYS_BACK = 30
 
 # -----------------------------
-# FETCH HTML CONTENT
+# STEP 1: FETCH HHS HTML
 # -----------------------------
-
-# Make a GET request to the HHS portal
 response = requests.get(url, headers=headers)
 html = response.text
 
-# Save raw HTML to file for debugging or manual inspection
+# Save raw response to debug file
 with open("raw.html", "w", encoding="utf-8") as f:
     f.write(html)
 
 # -----------------------------
-# PARSE THE BREACH TABLE
+# STEP 2: PARSE THE BREACH TABLE
 # -----------------------------
-
-# Use BeautifulSoup to parse the HTML content
 soup = BeautifulSoup(html, "html.parser")
-
-# The breach table is contained within a specific <tbody> tag
 tbody = soup.find("tbody", {"id": "ocrForm:reportResultTable_data"})
 
-# Exit early if the breach table isn't found
+# Exit if table is not found
 if not tbody:
     with open("index.html", "w", encoding="utf-8") as f:
         f.write("<h1>Could not find breach table</h1><p>Check <a href='raw.html'>raw.html</a></p>")
     exit()
 
-# Extract table rows
+# Parse each row of the table
 rows = tbody.find_all("tr")
 data = []
 
-# Parse relevant data columns from each row
 for row in rows:
     cells = row.find_all("td")
     if len(cells) >= 8:
         data.append([
-            cells[1].text.strip(),  # Name of Covered Entity
+            cells[1].text.strip(),  # Name
             cells[2].text.strip(),  # State
             cells[3].text.strip(),  # Entity Type
             cells[4].text.strip(),  # Individuals Affected
             cells[5].text.strip(),  # Date Added
             cells[6].text.strip(),  # Type of Breach
-            cells[7].text.strip(),  # Location of Breached Info
+            cells[7].text.strip(),  # Location
         ])
 
 # -----------------------------
-# CREATE STRUCTURED DATAFRAME
+# STEP 3: STRUCTURE & FILTER
 # -----------------------------
-
-# Define column names to match table structure
 columns = [
     "Name of Covered Entity", "State", "Entity Type", "Individuals Affected",
     "Date Added", "Type of Breach", "Location of Breached Info"
 ]
 
-# Convert list of rows into a DataFrame
 df = pd.DataFrame(data, columns=columns)
-
-# Parse "Date Added" to datetime and filter for the last N days
 df["Date Added"] = pd.to_datetime(df["Date Added"], format="%m/%d/%Y", errors="coerce")
 cutoff = datetime.utcnow() - timedelta(days=DAYS_BACK)
 df_recent = df[df["Date Added"] >= cutoff].copy()
 
-# -----------------------------
-# SAVE CSV AND JSON OUTPUTS
-# -----------------------------
-
+# Save CSV and JSON for reuse
 df_recent.to_csv("breaches.csv", index=False)
 df_recent.to_json("breaches.json", orient="records", indent=2)
 
 # -----------------------------
-# GENERATE HTML OUTPUT
+# STEP 4: BUILD HTML OUTPUT
 # -----------------------------
-
 timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
-
-# Start building the HTML document
 html_output = f"""
 <html>
 <head>
@@ -156,15 +138,15 @@ html_output = f"""
   <p class="download-links">
     📥 <a href="breaches.csv">CSV</a> |
     📥 <a href="breaches.json">JSON</a> |
-    🔎 Source: <a href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank">HHS OCR Breach Portal</a>
+    🔎 Source: <a href="{url}" target="_blank">HHS OCR Breach Portal</a>
   </p>
   <table id="breach-table" class="display">
 """
 
-# Append the formatted DataFrame as an HTML table
+# Add table of breaches
 html_output += df_recent.to_html(index=False, classes="display", border=0)
 
-# Close out the HTML with a script to enable DataTables functionality
+# Close table and add DataTables JS
 html_output += """
   </table>
   <script>
@@ -174,10 +156,24 @@ html_output += """
         });
     });
   </script>
+"""
+
+# -----------------------------
+# STEP 5: APPEND NEWS SECTION IF EXISTS
+# -----------------------------
+try:
+    with open("news.html", "r", encoding="utf-8") as news_file:
+        news_section = news_file.read()
+    html_output += "<hr>" + news_section
+except FileNotFoundError:
+    html_output += "<hr><p><em>No news content found.</em></p>"
+
+# Close HTML
+html_output += """
 </body>
 </html>
 """
 
-# Save final HTML output
+# Write full output to index.html
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_output)
