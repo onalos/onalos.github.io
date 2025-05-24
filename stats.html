@@ -45,9 +45,12 @@
       margin-bottom: 2rem;
       box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
+    .chart-wrapper {
+      height: 400px;
+    }
     canvas {
-      max-width: 100%;
-      height: auto;
+      width: 100% !important;
+      height: 100% !important;
     }
     footer {
       text-align: center;
@@ -71,11 +74,15 @@
   <main>
     <section>
       <h2>Top Breach Types (Last 30 Days)</h2>
-      <canvas id="breachTypeChart"></canvas>
+      <div class="chart-wrapper">
+        <canvas id="breachTypeChart"></canvas>
+      </div>
     </section>
     <section>
       <h2>Breaches by State</h2>
-      <canvas id="stateChart"></canvas>
+      <div class="chart-wrapper">
+        <canvas id="stateChart"></canvas>
+      </div>
     </section>
   </main>
   <footer>
@@ -108,8 +115,12 @@
           },
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
               legend: { display: false }
+            },
+            scales: {
+              y: { beginAtZero: true }
             }
           }
         });
@@ -125,7 +136,8 @@
             }]
           },
           options: {
-            responsive: true
+            responsive: true,
+            maintainAspectRatio: false
           }
         });
       });
