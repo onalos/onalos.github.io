@@ -1,108 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Healthcare@ThreatPodium</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="X-Frame-Options" content="DENY" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
   <style>
     :root {
-      --bg: #f4f4f4;
-      --fg: #111;
-      --accent: #00ffcc;
+      --bg-color: #ffffff;
+      --text-color: #000000;
     }
+
     [data-theme='dark'] {
-      --bg: #111;
-      --fg: #f4f4f4;
-      --accent: #00ffcc;
+      --bg-color: #121212;
+      --text-color: #f0f0f0;
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--fg);
-      font-family: 'Courier New', monospace;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       transition: background-color 0.3s, color 0.3s;
-    }
-
-    nav {
-      margin-bottom: 2rem;
     }
 
     nav a {
       margin: 0 1rem;
       text-decoration: none;
       font-weight: bold;
-      color: var(--accent);
-      border-bottom: 2px solid transparent;
+      color: var(--text-color);
     }
 
-    nav a:hover {
-      border-color: var(--accent);
-    }
-
-    .toggle-btn {
+    .toggle {
       position: absolute;
       top: 1rem;
       right: 1rem;
+      background: transparent;
+      border: 2px solid var(--text-color);
       padding: 0.5rem 1rem;
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      border-radius: 5px;
+      color: var(--text-color);
       cursor: pointer;
       font-weight: bold;
-    }
-
-    pre {
-      font-size: 12px;
-      color: var(--accent);
-      text-align: left;
-      white-space: pre-wrap;
-      word-break: break-word;
     }
   </style>
 </head>
 <body>
-  <button class="toggle-btn" onclick="toggleTheme()">Toggle Dark Mode</button>
+  <button class="toggle" onclick="toggleTheme()">Toggle Dark Mode</button>
 
+  <h1>Welcome to Healthcare@ThreatPodium</h1>
   <nav>
     <a href="/breaches">Breaches</a>
     <a href="/news">News</a>
     <a href="/stats">Stats</a>
   </nav>
-
-  <pre>
- _______ _     _                         _   _             _           
-|__   __| |   (_)                       | | (_)           (_)          
-   | |  | |__  _ _ __   __ _ _ __ __ _  | |_ _ _ __   __ _ _ _ __  ___ 
-   | |  | '_ \| | '_ \ / _` | '__/ _` | | __| | '_ \ / _` | | '_ \/ __|
-   | |  | | | | | | | | (_| | | | (_| | | |_| | | | | (_| | | | | \__ \
-   |_|  |_| |_|_|_| |_|\__, |_|  \__,_|  \__|_|_| |_|\__, |_|_| |_|___/
-                       __/ |                          __/ |           
-                      |___/                          |___/            
-
-                   _______   ______   _____   _    _   _   _ 
-                  |__   __| |  ____| |  __ \ | |  | | | \ | |
-                     | |    | |__    | |__) || |  | | |  \| |
-                     | |    |  __|   |  _  / | |  | | | . ` |
-                     | |    | |____  | | \ \ | |__| | | |\  |
-                     |_|    |______| |_|  \_\ \____/  |_| \_|
-  </pre>
+  <p>This is the start of something awesome by Onalos and Mark Carson!</p>
 
   <script>
     function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme');
-      document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+      const theme = document.documentElement.getAttribute('data-theme');
+      document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'light' : 'dark');
     }
+
     if (!document.documentElement.getAttribute('data-theme')) {
-      document.documentElement.setAttribute('data-theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
     }
   </script>
 </body>
