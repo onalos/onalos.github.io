@@ -1,12 +1,12 @@
-name: Healthcare Threat News Fetcher
+name: Threat News Page Generator
 
 on:
   schedule:
-    - cron: '5 15 * * *'
+    - cron: '5 15 * * *'  # Daily at 10:05am ET
   workflow_dispatch:
 
 jobs:
-  news:
+  generate-news:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,18 +23,19 @@ jobs:
 
       - name: Clone GitHub Pages repo
         run: |
-          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git repo
+          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git site
 
-      - name: Run news scraper
+      - name: Generate news.html
         run: |
-          cd repo
-          python ../news_scraper.py
+          cp site/base_template.html .
+          python news_scraper.py
+          cp news.html site/
 
       - name: Commit and push
         run: |
-          cd repo
+          cd site
           git config user.name "News Bot"
           git config user.email "actions@github.com"
-          git add index.html
+          git add news.html
           git diff --cached --quiet || git commit -m "Update news section"
           git push origin HEAD:main
