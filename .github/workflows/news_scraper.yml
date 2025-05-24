@@ -2,7 +2,7 @@ name: Healthcare Threat News Fetcher
 
 on:
   schedule:
-    - cron: '5 15 * * *'  # 10:05am Eastern
+    - cron: '5 15 * * *'
   workflow_dispatch:
 
 jobs:
