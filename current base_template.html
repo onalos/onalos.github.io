@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ThreatPodium — Healthcare Cyber Threat Intelligence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #f7f9fb;
+      --text-color: #333;
+      --header-color: #2c3e50;
+      --row-alt-color: #f0f8ff;
+      --table-header-bg: #0077b6;
+      --table-header-color: #fff;
+    }
+    body.dark-mode {
+      --bg-color: #1a1a1a;
+      --text-color: #f1f1f1;
+      --header-color: #ddd;
+      --row-alt-color: #2a2a2a;
+      --table-header-bg: #444;
+      --table-header-color: #fff;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 2rem;
+      background: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .toggle {
+      background: none;
+      border: 1px solid var(--text-color);
+      color: var(--text-color);
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    h1, h2 {
+      color: var(--header-color);
+    }
+    .download-links {
+      margin-bottom: 1rem;
+    }
+    table.display {
+      width: 100% !important;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+    table.display th, table.display td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      word-break: break-word;
+      vertical-align: top;
+    }
+    table.display th {
+      background-color: var(--table-header-bg);
+      color: var(--table-header-color);
+    }
+    table.display tr:nth-child(even) {
+      background-color: var(--row-alt-color);
+    }
+    #news-filter {
+      margin: 1rem 0;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #888;
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>ThreatPodium</h1>
+      <p class="subtitle">Your daily source for healthcare breach and threat intelligence.</p>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="breaches.html">Breaches</a>
+      <a href="news.html">News</a>
+      <a href="stats.html">Stats</a>
+      <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- START-BREACH-SECTION -->
+    <!-- END-BREACH-SECTION -->
+
+    <!-- START-NEWS-SECTION -->
+    <!-- END-NEWS-SECTION -->
+  </main>
+
+  <footer>
+    &copy; 2025 ThreatPodium. Data sourced from HHS & trusted cybersecurity news.
+  </footer>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    }
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
+</body>
+</html>
