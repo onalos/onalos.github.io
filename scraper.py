@@ -15,7 +15,7 @@ with open("raw.html", "w", encoding="utf-8") as f:
 soup = BeautifulSoup(html, "html.parser")
 tbody = soup.find("tbody", {"id": "ocrForm:reportResultTable_data"})
 if not tbody:
-    with open("index.html", "w", encoding="utf-8") as f:
+    with open("breaches.html", "w", encoding="utf-8") as f:
         f.write("<h1>Could not find breach table</h1>")
     exit()
 
@@ -45,14 +45,14 @@ for _, row in df_recent.iterrows():
 timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 breach_html = f"""
 <!-- START-BREACH-SECTION -->
-<h2>📊 Healthcare Breaches — Last {DAYS_BACK} Days</h2>
+<h2>\ud83d\udcca Healthcare Breaches \u2014 Last {DAYS_BACK} Days</h2>
 <p>As of {timestamp}</p>
-<p class="download-links">
-  📥 <a href="breaches.csv">CSV</a> |
-  📥 <a href="breaches.json">JSON</a> |
-  🔎 Source: <a href="{url}" target="_blank">HHS OCR Breach Portal</a>
+<p class=\"download-links\">
+  \ud83d\udcc5 <a href=\"breaches.csv\">CSV</a> |
+  \ud83d\udcc5 <a href=\"breaches.json\">JSON</a> |
+  \ud83d\udd0e Source: <a href=\"{url}\" target=\"_blank\">HHS OCR Breach Portal</a>
 </p>
-<table id="breach-table" class="display">
+<table id=\"breach-table\" class=\"display\">
   <thead>
     <tr>
       <th>Name of Covered Entity</th>
@@ -79,48 +79,14 @@ breach_html = f"""
 """
 
 try:
-    with open("index.html", "r", encoding="utf-8") as f:
+    with open("base_template.html", "r", encoding="utf-8") as f:
         content = f.read()
 except FileNotFoundError:
-    content = """
-<html>
-<head>
-  <meta charset='UTF-8'>
-  <title>ThreatPodium — Healthcare Cyber Threat Intelligence</title>
-  <link rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css'>
-  <script src='https://code.jquery.com/jquery-3.7.0.min.js'></script>
-  <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
-  <style>
-    body { font-family: 'Segoe UI', sans-serif; margin: 2rem; background: #f7f9fb; color: #333; line-height: 1.6; }
-    h1 { text-align: center; margin-bottom: 0.5rem; }
-    p.subtitle { text-align: center; color: #666; margin-top: 0; }
-    h2 { color: #2c3e50; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
-    table.display th { background-color: #0077b6; color: white; }
-    table.display tr:nth-child(even) { background-color: #f0f8ff; }
-    footer { text-align: center; font-size: 0.9em; color: #888; margin-top: 4rem; }
-  </style>
-</head>
-<body>
-<header>
-  <h1>ThreatPodium</h1>
-  <p class="subtitle">Your daily source for healthcare breach and threat intelligence.</p>
-</header>
-<div class="section" id="breach-section">
-  <!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION -->
-</div>
-<div class="section" id="news-section">
-  <!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION -->
-</div>
-<footer>
-  &copy; 2025 ThreatPodium. Data sourced from HHS & trusted cybersecurity news.
-</footer>
-</body>
-</html>
-"""
+    raise Exception("Missing base_template.html. Please create it from ThreatPodium_Upgrade.")
 
 start = content.find("<!-- START-BREACH-SECTION -->")
 end = content.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
 new_content = content[:start] + breach_html + content[end:]
 
-with open("index.html", "w", encoding="utf-8") as f:
+with open("breaches.html", "w", encoding="utf-8") as f:
     f.write(new_content)
