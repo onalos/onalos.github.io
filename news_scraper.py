@@ -51,7 +51,16 @@ try:
     with open("index.html", "r", encoding="utf-8") as f:
         content = f.read()
 except FileNotFoundError:
-    content = "<html><body><!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION --><!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION --></body></html>"
+    content = """
+<html><head><title>ThreatPodium</title></head><body>
+<div class="section" id="breach-section">
+<!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION -->
+</div>
+<div class="section" id="news-section">
+<!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION -->
+</div>
+</body></html>
+"""
 
 start = content.find("<!-- START-NEWS-SECTION -->")
 end = content.find("<!-- END-NEWS-SECTION -->") + len("<!-- END-NEWS-SECTION -->")
