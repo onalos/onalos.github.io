@@ -1,40 +1,66 @@
-name: Healthcare Threat News Fetcher
+import feedparser
+from datetime import datetime, timedelta
 
-on:
-  schedule:
-    - cron: '5 15 * * *'  # 10:05am Eastern
-  workflow_dispatch:
+# RSS feed from BleepingComputer
+RSS_URL = "https://www.bleepingcomputer.com/feed/"
+KEYWORDS = [
+    "hospital", "clinic", "healthcare", "medtech", "medical", "EMR", "ehr",
+    "HHS", "pharma", "provider", "cyberattack", "ransomware", "data breach"
+]
 
-jobs:
-  news:
-    runs-on: ubuntu-latest
+# Parse RSS and filter relevant stories from the last 24 hours
+feed = feedparser.parse(RSS_URL)
+now = datetime.utcnow()
+one_day_ago = now - timedelta(days=1)
+filtered = []
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+for entry in feed.entries:
+    published = datetime(*entry.published_parsed[:6])
+    if published < one_day_ago:
+        continue
+    summary = entry.summary.lower()
+    title = entry.title.lower()
+    if any(keyword in summary or keyword in title for keyword in KEYWORDS):
+        filtered.append({
+            "title": entry.title,
+            "link": entry.link,
+            "summary": entry.summary,
+            "published": published.strftime("%Y-%m-%d %H:%M UTC")
+        })
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+# Build news section HTML
+news_html = f"""
+<!-- START-NEWS-SECTION -->
+<h2>📰 Recent Healthcare Threat News</h2>
+<p>As of {now.strftime('%Y-%m-%d %H:%M:%S UTC')} | Source: <a href="{RSS_URL}">BleepingComputer RSS</a></p>
+<ul>
+"""
 
-      - name: Install dependencies
-        run: pip install feedparser
+if not filtered:
+    news_html += "<li>No healthcare-relevant news found in the last 24 hours.</li>"
+else:
+    for article in filtered:
+        news_html += f"""
+        <li>
+            <strong><a href="{article['link']}" target="_blank">{article['title']}</a></strong><br>
+            <em>{article['published']}</em><br>
+            {article['summary'][:300]}...
+        </li><br>
+        """
 
-      - name: Clone GitHub Pages repo
-        run: |
-          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git repo
+news_html += "</ul>\n<!-- END-NEWS-SECTION -->"
 
-      - name: Run news scraper
-        run: |
-          cd repo
-          python ../news_scraper.py
+# Inject news section into index.html (leave breach section untouched)
+try:
+    with open("index.html", "r", encoding="utf-8") as f:
+        content = f.read()
+except FileNotFoundError:
+    content = "<html><head><title>ThreatPodium</title></head><body><!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION --><!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION --></body></html>"
 
-      - name: Commit and push
-        run: |
-          cd repo
-          git config user.name "News Bot"
-          git config user.email "actions@github.com"
-          git add index.html
-          git diff --cached --quiet || git commit -m "Update news section"
-          git push origin HEAD:main
+start = content.find("<!-- START-NEWS-SECTION -->")
+end = content.find("<!-- END-NEWS-SECTION -->") + len("<!-- END-NEWS-SECTION -->")
+new_content = content[:start] + news_html + content[end:]
+
+# Save updated index.html
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(new_content)
