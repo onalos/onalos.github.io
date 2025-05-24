@@ -11,10 +11,10 @@ KEYWORDS = [
 # Parse the RSS feed
 feed = feedparser.parse(RSS_URL)
 now = datetime.utcnow()
-one_day_ago = now - timedelta(days=10)
+one_day_ago = now - timedelta(days=30)
 filtered = []
 
-# Filter entries with relevant keywords in the last 24 hours
+# Filter entries with relevant keywords in the last 30 Days
 for entry in feed.entries:
     published = datetime(*entry.published_parsed[:6])
     if published < one_day_ago:
