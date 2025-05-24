@@ -1,19 +1,20 @@
 import feedparser
 from datetime import datetime, timedelta
 
-# RSS feed from BleepingComputer
+# BleepingComputer RSS Feed URL
 RSS_URL = "https://www.bleepingcomputer.com/feed/"
 KEYWORDS = [
     "hospital", "clinic", "healthcare", "medtech", "medical", "EMR", "ehr",
     "HHS", "pharma", "provider", "cyberattack", "ransomware", "data breach"
 ]
 
-# Parse RSS and filter relevant stories from the last 24 hours
+# Parse the RSS feed
 feed = feedparser.parse(RSS_URL)
 now = datetime.utcnow()
 one_day_ago = now - timedelta(days=1)
 filtered = []
 
+# Filter entries with relevant keywords in the last 24 hours
 for entry in feed.entries:
     published = datetime(*entry.published_parsed[:6])
     if published < one_day_ago:
@@ -28,11 +29,11 @@ for entry in feed.entries:
             "published": published.strftime("%Y-%m-%d %H:%M UTC")
         })
 
-# Build news section HTML
+# Format HTML block for injection
 news_html = f"""
 <!-- START-NEWS-SECTION -->
 <h2>📰 Recent Healthcare Threat News</h2>
-<p>As of {now.strftime('%Y-%m-%d %H:%M:%S UTC')} | Source: <a href="{RSS_URL}">BleepingComputer RSS</a></p>
+<p>As of {now.strftime('%Y-%m-%d %H:%M:%S UTC')} | Source: <a href='{RSS_URL}'>BleepingComputer RSS</a></p>
 <ul>
 """
 
@@ -50,15 +51,26 @@ else:
 
 news_html += "</ul>\n<!-- END-NEWS-SECTION -->"
 
-# Inject news section into index.html (leave breach section untouched)
+# Read or create index.html and update news section
 try:
     with open("index.html", "r", encoding="utf-8") as f:
         content = f.read()
 except FileNotFoundError:
-    content = "<html><head><title>ThreatPodium</title></head><body><!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION --><!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION --></body></html>"
+    content = """
+<html>
+<head><title>ThreatPodium</title></head>
+<body>
+<!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION -->
+<!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION -->
+</body></html>
+"""
 
+# Ensure replacement only happens inside <body>
 start = content.find("<!-- START-NEWS-SECTION -->")
 end = content.find("<!-- END-NEWS-SECTION -->") + len("<!-- END-NEWS-SECTION -->")
+if start == -1 or end == -1:
+    raise Exception("Missing section markers for news section in index.html")
+
 new_content = content[:start] + news_html + content[end:]
 
 # Save updated index.html
