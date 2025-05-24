@@ -1,0 +1,67 @@
+
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>ThreatPodium — Healthcare Cyber Threat Intelligence</title>
+  <link rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css'>
+  <script src='https://code.jquery.com/jquery-3.7.0.min.js'></script>
+  <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; margin: 2rem; background: #f7f9fb; color: #333; line-height: 1.6; }
+    h1 { text-align: center; margin-bottom: 0.5rem; }
+    p.subtitle { text-align: center; color: #666; margin-top: 0; }
+    h2 { color: #2c3e50; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
+    table.display th { background-color: #0077b6; color: white; }
+    table.display tr:nth-child(even) { background-color: #f0f8ff; }
+    footer { text-align: center; font-size: 0.9em; color: #888; margin-top: 4rem; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>ThreatPodium</h1>
+  <p class="subtitle">Your daily source for healthcare breach and threat intelligence.</p>
+</header>
+<div class="section" id="breach-section">
+  
+<!-- START-BREACH-SECTION -->
+<h2>📊 Healthcare Breaches — Last 30 Days</h2>
+<p>As of 2025-05-24 21:55:12 UTC</p>
+<p class="download-links">
+  📥 <a href="breaches.csv">CSV</a> |
+  📥 <a href="breaches.json">JSON</a> |
+  🔎 Source: <a href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank">HHS OCR Breach Portal</a>
+</p>
+<table id="breach-table" class="display">
+  <thead>
+    <tr>
+      <th>Name of Covered Entity</th>
+      <th>State</th>
+      <th>Entity Type</th>
+      <th>Individuals Affected</th>
+      <th>Date Added</th>
+      <th>Type of Breach</th>
+      <th>Location of Breached Info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Balance Autism</td><td>IA</td><td>Healthcare Provider</td><td>1281</td><td>2025-05-16 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Harbin Clinic, LLC</td><td>GA</td><td>Healthcare Provider</td><td>176149</td><td>2025-05-16 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Weiser Valley Hospital District dba Weiser Memorial Hospital</td><td>ID</td><td>Healthcare Provider</td><td>59990</td><td>2025-05-15 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Anne Arundel County Department of Health</td><td>MD</td><td>Healthcare Provider</td><td>500</td><td>2025-05-15 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Katie Jo Sider</td><td>CO</td><td>Healthcare Provider</td><td>1435</td><td>2025-05-13 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Email</td></tr><tr><td>Union County Children and Youth Services</td><td>PA</td><td>Healthcare Provider</td><td>501</td><td>2025-05-13 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>CVS Caremark</td><td>RI</td><td>Business Associate</td><td>2599</td><td>2025-05-13 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Paper/Films</td></tr><tr><td>Marlboro-Chesterfield Pathology, P.C.</td><td>NC</td><td>Healthcare Provider</td><td>235911</td><td>2025-05-09 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Blue Cross Blue Shield of Texas</td><td>IL</td><td>Business Associate</td><td>593</td><td>2025-05-09 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Paper/Films</td></tr><tr><td>Serviceaide, Inc.</td><td>CA</td><td>Business Associate</td><td>483126</td><td>2025-05-09 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Other</td></tr><tr><td>THE CARING HEALTHCARE NETWORK, LLC</td><td>PA</td><td>Healthcare Provider</td><td>1019</td><td>2025-05-09 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Paper/Films</td></tr><tr><td>Tri-City Cardiology Consultants, P.C.</td><td>AZ</td><td>Healthcare Provider</td><td>22753</td><td>2025-05-08 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>The Carpenter Health Network</td><td>LA</td><td>Healthcare Provider</td><td>878</td><td>2025-05-06 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Primary Health Care, Inc.</td><td>IA</td><td>Healthcare Provider</td><td>787</td><td>2025-05-06 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Email</td></tr><tr><td>SunLink Health Systems, Inc.</td><td>GA</td><td>Healthcare Provider</td><td>2856</td><td>2025-05-06 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Minnesota Orthodontics and Dentofacial Orthopedics, P.A.</td><td>MN</td><td>Healthcare Provider</td><td>501</td><td>2025-05-05 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Monongalia Health System, Inc.</td><td>WV</td><td>Healthcare Provider</td><td>4895</td><td>2025-05-03 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Email</td></tr><tr><td>CardioVascular Health Clinic</td><td>OK</td><td>Healthcare Provider</td><td>501</td><td>2025-05-03 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Schewitz Psychological Services Inc (DBA: Couples Learn)</td><td>ME</td><td>Healthcare Provider</td><td>3700</td><td>2025-05-03 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>DermCare Management</td><td>FL</td><td>Business Associate</td><td>501</td><td>2025-05-02 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Arizona Arthritis and Rheumatology Associates, P.C.</td><td>AZ</td><td>Healthcare Provider</td><td>5509</td><td>2025-05-02 00:00:00</td><td>Hacking/IT Incident</td><td>Email</td></tr><tr><td>Lincoln National Corporation d/b/a Lincoln Financial</td><td>IN</td><td>Health Plan</td><td>1123</td><td>2025-05-02 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Anesthesia Associates of Morristown, P.A.</td><td>NJ</td><td>Healthcare Provider</td><td>501</td><td>2025-05-02 00:00:00</td><td>Improper Disposal</td><td>Paper/Films</td></tr><tr><td>Sonrisas Dental Health</td><td>CA</td><td>Healthcare Provider</td><td>15644</td><td>2025-05-02 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>The Neurological Institute of Savannah & Center for Spine, P.C</td><td>GA</td><td>Healthcare Provider</td><td>32548</td><td>2025-05-01 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Canby Clinic</td><td>OR</td><td>Healthcare Provider</td><td>549</td><td>2025-04-30 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Email</td></tr><tr><td>Berkeley Research Group, LLC</td><td>CA</td><td>Business Associate</td><td>500</td><td>2025-04-30 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Family Christian Health Center</td><td>IL</td><td>Healthcare Provider</td><td>12500</td><td>2025-04-30 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Physician Wound Solutions, LLC dba Apollo Medical Supply</td><td>FL</td><td>Healthcare Provider</td><td>3561</td><td>2025-04-29 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Network Server, Other</td></tr><tr><td>Ascension Health</td><td>MO</td><td>Healthcare Provider</td><td>437329</td><td>2025-04-28 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Maximus, Inc.</td><td>VA</td><td>Business Associate</td><td>4529</td><td>2025-04-25 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Network Server</td></tr><tr><td>Carlton County Public Health and Human Services</td><td>MN</td><td>Healthcare Provider</td><td>3502</td><td>2025-04-25 00:00:00</td><td>Hacking/IT Incident</td><td>Email</td></tr><tr><td>Prestonwood Baptist Church, Inc.</td><td>TX</td><td>Health Plan</td><td>501</td><td>2025-04-25 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr>
+  </tbody>
+</table>
+<script>
+  $(document).ready(function() {
+    if (!$.fn.dataTable.isDataTable('#breach-table')) {
+      $('#breach-table').DataTable({ "pageLength": 25 });
+    }
+  });
+</script>
+<!-- END-BREACH-SECTION -->
+
+</div>
+<div class="section" id="news-section">
+  <!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION -->
+</div>
+<footer>
+  &copy; 2025 ThreatPodium. Data sourced from HHS & trusted cybersecurity news.
+</footer>
+</body>
+</html>
