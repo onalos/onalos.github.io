@@ -15,7 +15,7 @@ with open("raw.html", "w", encoding="utf-8") as f:
 soup = BeautifulSoup(html, "html.parser")
 tbody = soup.find("tbody", {"id": "ocrForm:reportResultTable_data"})
 if not tbody:
-    with open("breaches.html", "w", encoding="utf-8") as f:
+    with open("breaches.html", "w", encoding="utf-8", errors="surrogatepass") as f:
         f.write("<h1>Could not find breach table</h1>")
     exit()
 
@@ -45,12 +45,12 @@ for _, row in df_recent.iterrows():
 timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 breach_html = f"""
 <!-- START-BREACH-SECTION -->
-<h2>\ud83d\udcca Healthcare Breaches \u2014 Last {DAYS_BACK} Days</h2>
+<h2>📊 Healthcare Breaches — Last {DAYS_BACK} Days</h2>
 <p>As of {timestamp}</p>
 <p class=\"download-links\">
-  \ud83d\udcc5 <a href=\"breaches.csv\">CSV</a> |
-  \ud83d\udcc5 <a href=\"breaches.json\">JSON</a> |
-  \ud83d\udd0e Source: <a href=\"{url}\" target=\"_blank\">HHS OCR Breach Portal</a>
+  📥 <a href=\"breaches.csv\">CSV</a> |
+  📥 <a href=\"breaches.json\">JSON</a> |
+  🔎 Source: <a href=\"{url}\" target=\"_blank\">HHS OCR Breach Portal</a>
 </p>
 <table id=\"breach-table\" class=\"display\">
   <thead>
@@ -88,5 +88,5 @@ start = content.find("<!-- START-BREACH-SECTION -->")
 end = content.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
 new_content = content[:start] + breach_html + content[end:]
 
-with open("breaches.html", "w", encoding="utf-8") as f:
+with open("breaches.html", "w", encoding="utf-8", errors="surrogatepass") as f:
     f.write(new_content)
