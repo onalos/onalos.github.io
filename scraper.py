@@ -6,21 +6,17 @@ from datetime import datetime, timedelta
 # HHS OCR Breach Portal
 url = "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
 headers = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    )
+    "User-Agent": "Mozilla/5.0"
 }
 DAYS_BACK = 30
 
-# Fetch and save raw HTML from HHS
+# Fetch breach data
 response = requests.get(url, headers=headers)
 html = response.text
 with open("raw.html", "w", encoding="utf-8") as f:
     f.write(html)
 
-# Parse breach table
+# Parse HTML
 soup = BeautifulSoup(html, "html.parser")
 tbody = soup.find("tbody", {"id": "ocrForm:reportResultTable_data"})
 if not tbody:
@@ -44,7 +40,7 @@ for row in rows:
             cells[7].text.strip(),
         ])
 
-# Create DataFrame and filter
+# Convert to DataFrame
 columns = [
     "Name of Covered Entity", "State", "Entity Type", "Individuals Affected",
     "Date Added", "Type of Breach", "Location of Breached Info"
@@ -54,16 +50,14 @@ df["Date Added"] = pd.to_datetime(df["Date Added"], format="%m/%d/%Y", errors="c
 cutoff = datetime.utcnow() - timedelta(days=DAYS_BACK)
 df_recent = df[df["Date Added"] >= cutoff].copy()
 
-# Save exports
 df_recent.to_csv("breaches.csv", index=False)
 df_recent.to_json("breaches.json", orient="records", indent=2)
 
-# Build table rows
+# Format rows for HTML
 table_rows = ""
 for _, row in df_recent.iterrows():
     table_rows += f"<tr>{''.join(f'<td>{cell}</td>' for cell in row)}</tr>"
 
-# Construct section HTML
 timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 breach_html = f"""
 <!-- START-BREACH-SECTION -->
@@ -100,7 +94,7 @@ breach_html = f"""
 <!-- END-BREACH-SECTION -->
 """
 
-# Inject into index.html
+# Read or create index.html
 try:
     with open("index.html", "r", encoding="utf-8") as f:
         content = f.read()
@@ -134,6 +128,7 @@ except FileNotFoundError:
 </html>
 """
 
+# Replace breach section
 start = content.find("<!-- START-BREACH-SECTION -->")
 end = content.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
 new_content = content[:start] + breach_html + content[end:]
