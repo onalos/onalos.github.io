@@ -9,10 +9,28 @@
     "Location of Breached Info":"Network Server"
   },
   {
+    "Name of Covered Entity":"Harbin Clinic, LLC",
+    "State":"GA",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"176149",
+    "Date Added":1747353600000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
     "Name of Covered Entity":"Weiser Valley Hospital District dba Weiser Memorial Hospital",
     "State":"ID",
     "Entity Type":"Healthcare Provider",
     "Individuals Affected":"59990",
+    "Date Added":1747267200000,
+    "Type of Breach":"Hacking\/IT Incident",
+    "Location of Breached Info":"Network Server"
+  },
+  {
+    "Name of Covered Entity":"Anne Arundel County Department of Health",
+    "State":"MD",
+    "Entity Type":"Healthcare Provider",
+    "Individuals Affected":"500",
     "Date Added":1747267200000,
     "Type of Breach":"Hacking\/IT Incident",
     "Location of Breached Info":"Network Server"
@@ -275,33 +293,6 @@
     "Entity Type":"Health Plan",
     "Individuals Affected":"501",
     "Date Added":1745539200000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Brainard Surgery Center LLC",
-    "State":"OH",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"501",
-    "Date Added":1745452800000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Palo Verde Hospital",
-    "State":"CA",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"594",
-    "Date Added":1745452800000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Drug and Alcohol Treatment Services, Inc.",
-    "State":"PA",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"22215",
-    "Date Added":1745452800000,
     "Type of Breach":"Hacking\/IT Incident",
     "Location of Breached Info":"Network Server"
   }

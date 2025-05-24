@@ -1,6 +1,8 @@
 Name of Covered Entity,State,Entity Type,Individuals Affected,Date Added,Type of Breach,Location of Breached Info
 Balance Autism,IA,Healthcare Provider,1281,2025-05-16,Hacking/IT Incident,Network Server
+"Harbin Clinic, LLC",GA,Healthcare Provider,176149,2025-05-16,Hacking/IT Incident,Network Server
 Weiser Valley Hospital District dba Weiser Memorial Hospital,ID,Healthcare Provider,59990,2025-05-15,Hacking/IT Incident,Network Server
+Anne Arundel County Department of Health,MD,Healthcare Provider,500,2025-05-15,Hacking/IT Incident,Network Server
 Katie Jo Sider,CO,Healthcare Provider,1435,2025-05-13,Unauthorized Access/Disclosure,Email
 Union County Children and Youth Services,PA,Healthcare Provider,501,2025-05-13,Hacking/IT Incident,Network Server
 CVS Caremark,RI,Business Associate,2599,2025-05-13,Unauthorized Access/Disclosure,Paper/Films
@@ -30,6 +32,3 @@ Ascension Health,MO,Healthcare Provider,437329,2025-04-28,Hacking/IT Incident,Ne
 "Maximus, Inc.",VA,Business Associate,4529,2025-04-25,Unauthorized Access/Disclosure,Network Server
 Carlton County Public Health and Human Services,MN,Healthcare Provider,3502,2025-04-25,Hacking/IT Incident,Email
 "Prestonwood Baptist Church, Inc.",TX,Health Plan,501,2025-04-25,Hacking/IT Incident,Network Server
-Brainard Surgery Center LLC,OH,Healthcare Provider,501,2025-04-24,Hacking/IT Incident,Network Server
-Palo Verde Hospital,CA,Healthcare Provider,594,2025-04-24,Hacking/IT Incident,Network Server
-"Drug and Alcohol Treatment Services, Inc.",PA,Healthcare Provider,22215,2025-04-24,Hacking/IT Incident,Network Server
