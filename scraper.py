@@ -58,19 +58,37 @@ df_recent = df[df["Date Added"] >= cutoff].copy()
 df_recent.to_csv("breaches.csv", index=False)
 df_recent.to_json("breaches.json", orient="records", indent=2)
 
-# Build breach section HTML
+# Build table rows
+table_rows = ""
+for _, row in df_recent.iterrows():
+    table_rows += f"<tr>{''.join(f'<td>{cell}</td>' for cell in row)}</tr>"
+
+# Construct section HTML
 timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 breach_html = f"""
 <!-- START-BREACH-SECTION -->
-<h1>Healthcare Breaches - Last {DAYS_BACK} Days</h1>
+<h2>📊 Healthcare Breaches — Last {DAYS_BACK} Days</h2>
 <p>As of {timestamp}</p>
-<p class=\"download-links\">
-  📥 <a href=\"breaches.csv\">CSV</a> |
-  📥 <a href=\"breaches.json\">JSON</a> |
-  🔎 Source: <a href=\"{url}\" target=\"_blank\">HHS OCR Breach Portal</a>
+<p class="download-links">
+  📥 <a href="breaches.csv">CSV</a> |
+  📥 <a href="breaches.json">JSON</a> |
+  🔎 Source: <a href="{url}" target="_blank">HHS OCR Breach Portal</a>
 </p>
-<table id=\"breach-table\" class=\"display\">
-{df_recent.to_html(index=False, classes="display breach-table-html", border=0)}
+<table id="breach-table" class="display">
+  <thead>
+    <tr>
+      <th>Name of Covered Entity</th>
+      <th>State</th>
+      <th>Entity Type</th>
+      <th>Individuals Affected</th>
+      <th>Date Added</th>
+      <th>Type of Breach</th>
+      <th>Location of Breached Info</th>
+    </tr>
+  </thead>
+  <tbody>
+    {table_rows}
+  </tbody>
 </table>
 <script>
   $(document).ready(function() {{
@@ -82,7 +100,7 @@ breach_html = f"""
 <!-- END-BREACH-SECTION -->
 """
 
-# Replace breach section in index.html
+# Inject into index.html
 try:
     with open("index.html", "r", encoding="utf-8") as f:
         content = f.read()
@@ -91,23 +109,29 @@ except FileNotFoundError:
 <html>
 <head>
   <meta charset='UTF-8'>
-  <title>ThreatPodium</title>
+  <title>ThreatPodium — Healthcare Cyber Threat Intelligence</title>
   <link rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css'>
   <script src='https://code.jquery.com/jquery-3.7.0.min.js'></script>
   <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
   <style>
-    body {{ font-family: Arial, sans-serif; margin: 2rem; background: #f8f9fa; color: #333; }}
-    table.display {{ width: 100% !important; table-layout: auto; border-collapse: collapse; }}
-    table.display th, table.display td {{ border: 1px solid #ddd; padding: 8px; max-width: 240px; word-break: break-word; }}
-    table.display th {{ background-color: #2c3e50; color: white; text-align: left; }}
-    table.display tr:nth-child(even) {{ background-color: #f2f2f2; }}
-    table.display tr:hover {{ background-color: #f1f1f1; }}
+    body { font-family: 'Segoe UI', sans-serif; margin: 2rem; background: #f7f9fb; color: #333; line-height: 1.6; }
+    h2 { color: #2c3e50; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
+    table.display th { background-color: #0077b6; color: white; }
+    table.display tr:nth-child(even) { background-color: #f0f8ff; }
   </style>
 </head>
 <body>
-<!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION -->
-<!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION -->
-</body></html>
+<header>
+  <h1>ThreatPodium</h1>
+  <p>Your daily source for healthcare breach and threat intelligence.</p>
+</header>
+<div class="section" id="breach-section"> <!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION --> </div>
+<div class="section" id="news-section"> <!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION --> </div>
+<footer>
+  &copy; 2025 ThreatPodium. Data sourced from HHS & trusted cybersecurity news.
+</footer>
+</body>
+</html>
 """
 
 start = content.find("<!-- START-BREACH-SECTION -->")
