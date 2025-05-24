@@ -1,145 +1,61 @@
-import requests
-from bs4 import BeautifulSoup
-import pandas as pd
+import feedparser
 from datetime import datetime, timedelta
 
-# HHS OCR Breach Portal
-url = "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
-headers = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    )
-}
-DAYS_BACK = 30
-
-# Fetch and save raw HTML from HHS
-response = requests.get(url, headers=headers)
-html = response.text
-with open("raw.html", "w", encoding="utf-8") as f:
-    f.write(html)
-
-# Parse breach table
-soup = BeautifulSoup(html, "html.parser")
-tbody = soup.find("tbody", {"id": "ocrForm:reportResultTable_data"})
-if not tbody:
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write("<h1>Could not find breach table</h1>")
-    exit()
-
-# Extract rows
-rows = tbody.find_all("tr")
-data = []
-for row in rows:
-    cells = row.find_all("td")
-    if len(cells) >= 8:
-        data.append([
-            cells[1].text.strip(),
-            cells[2].text.strip(),
-            cells[3].text.strip(),
-            cells[4].text.strip(),
-            cells[5].text.strip(),
-            cells[6].text.strip(),
-            cells[7].text.strip(),
-        ])
-
-# Create DataFrame and filter
-columns = [
-    "Name of Covered Entity", "State", "Entity Type", "Individuals Affected",
-    "Date Added", "Type of Breach", "Location of Breached Info"
+RSS_URL = "https://www.bleepingcomputer.com/feed/"
+KEYWORDS = [
+    "hospital", "clinic", "healthcare", "medtech", "medical", "EMR", "ehr",
+    "HHS", "pharma", "provider", "cyberattack", "ransomware", "data breach"
 ]
-df = pd.DataFrame(data, columns=columns)
-df["Date Added"] = pd.to_datetime(df["Date Added"], format="%m/%d/%Y", errors="coerce")
-cutoff = datetime.utcnow() - timedelta(days=DAYS_BACK)
-df_recent = df[df["Date Added"] >= cutoff].copy()
 
-# Save exports
-df_recent.to_csv("breaches.csv", index=False)
-df_recent.to_json("breaches.json", orient="records", indent=2)
+feed = feedparser.parse(RSS_URL)
+now = datetime.utcnow()
+one_day_ago = now - timedelta(days=1)
+filtered = []
 
-# Build breach table body rows
-table_rows = ""
-for _, row in df_recent.iterrows():
-    table_rows += f"<tr>{''.join(f'<td>{cell}</td>' for cell in row)}</tr>"
+for entry in feed.entries:
+    published = datetime(*entry.published_parsed[:6])
+    if published < one_day_ago:
+        continue
+    summary = entry.summary.lower()
+    title = entry.title.lower()
+    if any(keyword in summary or keyword in title for keyword in KEYWORDS):
+        filtered.append({
+            "title": entry.title,
+            "link": entry.link,
+            "summary": entry.summary,
+            "published": published.strftime("%Y-%m-%d %H:%M UTC")
+        })
 
-# Replace breach section in index.html
-timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
-breach_html = f"""
-<!-- START-BREACH-SECTION -->
-<h2>📊 Healthcare Breaches — Last {DAYS_BACK} Days</h2>
-<p>As of {timestamp}</p>
-<p class=\"download-links\">
-  📥 <a href=\"breaches.csv\">CSV</a> |
-  📥 <a href=\"breaches.json\">JSON</a> |
-  🔎 Source: <a href=\"{url}\" target=\"_blank\">HHS OCR Breach Portal</a>
-</p>
-<table id=\"breach-table\" class=\"display\">
-  <thead>
-    <tr>
-      <th>Name of Covered Entity</th>
-      <th>State</th>
-      <th>Entity Type</th>
-      <th>Individuals Affected</th>
-      <th>Date Added</th>
-      <th>Type of Breach</th>
-      <th>Location of Breached Info</th>
-    </tr>
-  </thead>
-  <tbody>
-    {table_rows}
-  </tbody>
-</table>
-<script>
-  $(document).ready(function() {{
-    if (!$.fn.dataTable.isDataTable('#breach-table')) {{
-      $('#breach-table').DataTable({{ "pageLength": 25 }});
-    }}
-  }});
-</script>
-<!-- END-BREACH-SECTION -->
+news_html = f"""
+<!-- START-NEWS-SECTION -->
+<h2>📰 Recent Healthcare Threat News</h2>
+<p>As of {now.strftime('%Y-%m-%d %H:%M:%S UTC')} | Source: <a href="{RSS_URL}">BleepingComputer RSS</a></p>
+<ul>
 """
 
-# Read or create base index.html
+if not filtered:
+    news_html += "<li>No healthcare-relevant news found in the last 24 hours.</li>"
+else:
+    for article in filtered:
+        news_html += f"""
+        <li>
+            <strong><a href="{article['link']}" target="_blank">{article['title']}</a></strong><br>
+            <em>{article['published']}</em><br>
+            {article['summary'][:300]}...
+        </li><br>
+        """
+
+news_html += "</ul>\n<!-- END-NEWS-SECTION -->"
+
 try:
     with open("index.html", "r", encoding="utf-8") as f:
         content = f.read()
 except FileNotFoundError:
-    content = """
-<html>
-<head>
-  <meta charset='UTF-8'>
-  <title>ThreatPodium — Healthcare Cyber Threat Intelligence</title>
-  <link rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css'>
-  <script src='https://code.jquery.com/jquery-3.7.0.min.js'></script>
-  <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
-  <style>
-    body { font-family: 'Segoe UI', sans-serif; margin: 2rem; background: #f7f9fb; color: #333; line-height: 1.6; }
-    h2 { color: #2c3e50; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
-    .download-links { margin-bottom: 1rem; }
-    table.display { width: 100% !important; table-layout: auto; border-collapse: collapse; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.05); }
-    table.display th, table.display td { border: 1px solid #ddd; padding: 10px; word-break: break-word; vertical-align: top; }
-    table.display th { background-color: #0077b6; color: white; }
-    table.display tr:nth-child(even) { background-color: #f0f8ff; }
-  </style>
-</head>
-<body>
-<header>
-  <h1>ThreatPodium</h1>
-  <p>Your daily source for healthcare breach and threat intelligence.</p>
-</header>
-<div class=\"section\" id=\"breach-section\"> <!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION --> </div>
-<div class=\"section\" id=\"news-section\"> <!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION --> </div>
-<footer>
-  &copy; 2025 ThreatPodium. Data sourced from HHS & trusted cybersecurity news.
-</footer>
-</body>
-</html>
-"""
+    content = "<html><body><!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION --><!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION --></body></html>"
 
-start = content.find("<!-- START-BREACH-SECTION -->")
-end = content.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
-new_content = content[:start] + breach_html + content[end:]
+start = content.find("<!-- START-NEWS-SECTION -->")
+end = content.find("<!-- END-NEWS-SECTION -->") + len("<!-- END-NEWS-SECTION -->")
+new_content = content[:start] + news_html + content[end:]
 
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(new_content)
