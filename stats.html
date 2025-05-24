@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Healthcare Breach Stats — ThreatPodium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f7f9fb;
+      color: #333;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #0077b6;
+    }
+    nav {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+      color: #0077b6;
+    }
+    .chart-container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #888;
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>📈 Healthcare Breach Stats</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="breaches.html">Breaches</a>
+    <a href="news.html">News</a>
+  </nav>
+
+  <div class="chart-container">
+    <h3>Top Breach Types (Last 30 Days)</h3>
+    <canvas id="breachTypeChart"></canvas>
+  </div>
+
+  <div class="chart-container">
+    <h3>Breaches by State (Last 30 Days)</h3>
+    <canvas id="stateChart"></canvas>
+  </div>
+
+  <footer>
+    &copy; 2025 ThreatPodium. Data sourced from HHS Breach Portal.
+  </footer>
+
+  <script>
+    fetch('breaches.json')
+      .then(response => response.json())
+      .then(data => {
+        const breachTypeCounts = {};
+        const stateCounts = {};
+
+        data.forEach(entry => {
+          breachTypeCounts[entry["Type of Breach"]] = (breachTypeCounts[entry["Type of Breach"]] || 0) + 1;
+          stateCounts[entry["State"]] = (stateCounts[entry["State"]] || 0) + 1;
+        });
+
+        const typeCtx = document.getElementById('breachTypeChart').getContext('2d');
+        new Chart(typeCtx, {
+          type: 'bar',
+          data: {
+            labels: Object.keys(breachTypeCounts),
+            datasets: [{
+              label: '# of Breaches',
+              data: Object.values(breachTypeCounts),
+              backgroundColor: '#0077b6'
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        const stateCtx = document.getElementById('stateChart').getContext('2d');
+        new Chart(stateCtx, {
+          type: 'pie',
+          data: {
+            labels: Object.keys(stateCounts),
+            datasets: [{
+              label: 'States',
+              data: Object.values(stateCounts),
+              backgroundColor: Object.keys(stateCounts).map(() => '#' + Math.floor(Math.random()*16777215).toString(16))
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+      });
+  </script>
+</body>
+</html>
