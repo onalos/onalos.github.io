@@ -2,162 +2,188 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ThreatPodium Stats</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self';">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="X-Frame-Options" content="DENY">
+  <title>Healthcare Breach Stats — ThreatPodium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root {
-      --bg: #ffffff;
-      --fg: #000000;
-      --accent: #00bfa5;
-    }
-    [data-theme='dark'] {
-      --bg: #121212;
-      --fg: #f0f0f0;
-      --accent: #00ffcc;
-    }
-
     body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      transition: background 0.3s, color 0.3s;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f7f9fb;
+      color: #333;
+      margin: 0;
+      padding: 0;
     }
-
-    .toggle {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      padding: 0.5rem 1rem;
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
+    header {
+      background-color: #0077b6;
+      color: white;
+      padding: 1rem;
+      text-align: center;
     }
-
-    .controls {
-      margin: 1rem 0;
+    nav {
+      background-color: #023e8a;
+      text-align: center;
+      padding: 0.5rem;
     }
-
-    .controls button {
-      margin-right: 1rem;
-      padding: 0.5rem 1rem;
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
       font-weight: bold;
     }
-
-    canvas {
-      max-width: 100%;
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    section {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .chart-wrapper {
       height: 400px;
+    }
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #f1f1f1;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .range-select {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .range-select button {
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem;
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .range-select button.active {
+      background-color: #0096c7;
     }
   </style>
 </head>
 <body>
-  <button class="toggle" onclick="toggleTheme()">Toggle Dark Mode</button>
-
-  <h1>Threat Activity Statistics</h1>
-  <div class="controls">
-    <button onclick="loadChartData('24h')">Last 24 Hours</button>
-    <button onclick="loadChartData('7d')">Last 7 Days</button>
-    <button onclick="loadChartData('30d')">Last 30 Days</button>
-  </div>
-
-  <canvas id="statsChart"></canvas>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <header>
+    <h1>📈 Healthcare Breach Stats</h1>
+    <p>Visualizing real-time data from the HHS Breach Portal</p>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="breaches.html">Breaches</a>
+    <a href="news.html">News</a>
+  </nav>
+  <main>
+    <div class="range-select">
+      <button onclick="loadCharts(1)">1 Day</button>
+      <button onclick="loadCharts(7)">7 Days</button>
+      <button class="active" onclick="loadCharts(30)">30 Days</button>
+    </div>
+    <section>
+      <h2>Top Breach Types</h2>
+      <div class="chart-wrapper">
+        <canvas id="breachTypeChart"></canvas>
+      </div>
+    </section>
+    <section>
+      <h2>Breaches by State</h2>
+      <div class="chart-wrapper">
+        <canvas id="stateChart"></canvas>
+      </div>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 ThreatPodium. Data sourced from HHS.
+  </footer>
   <script>
-    let chart;
+    let breachTypeChart, stateChart;
 
-    const chartConfigs = {
-      '24h': {
-        labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
-        data: Array.from({ length: 24 }, () => Math.floor(Math.random() * 10 + 1)),
-        label: 'Incidents per Hour'
-      },
-      '7d': {
-        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        data: Array.from({ length: 7 }, () => Math.floor(Math.random() * 100 + 20)),
-        label: 'Incidents per Day'
-      },
-      '30d': {
-        labels: Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`),
-        data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 50 + 10)),
-        label: 'Incidents per Day'
-      }
-    };
+    function loadCharts(days) {
+      document.querySelectorAll('.range-select button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
 
-    function loadChartData(range) {
-      const config = chartConfigs[range];
-      chart.data.labels = config.labels;
-      chart.data.datasets[0].data = config.data;
-      chart.data.datasets[0].label = config.label;
-      chart.update();
-    }
+      fetch('breaches.json')
+        .then(response => response.json())
+        .then(data => {
+          const now = new Date();
+          const cutoff = new Date(now);
+          cutoff.setDate(cutoff.getDate() - days);
 
-    function initChart() {
-      const ctx = document.getElementById('statsChart').getContext('2d');
-      chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: chartConfigs['24h'].labels,
-          datasets: [{
-            label: chartConfigs['24h'].label,
-            data: chartConfigs['24h'].data,
-            borderColor: '#00bfa5',
-            backgroundColor: 'rgba(0, 191, 165, 0.1)',
-            tension: 0.3,
-            fill: true
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: {
-              ticks: { color: getComputedStyle(document.body).getPropertyValue('--fg') }
-            },
-            y: {
-              beginAtZero: true,
-              ticks: { color: getComputedStyle(document.body).getPropertyValue('--fg') }
+          const breachTypes = {};
+          const states = {};
+
+          data.forEach(entry => {
+            const entryDate = new Date(entry["Date Added"]);
+            if (entryDate >= cutoff) {
+              const type = entry["Type of Breach"] || "Unknown";
+              const state = entry["State"] || "Unknown";
+
+              breachTypes[type] = (breachTypes[type] || 0) + 1;
+              states[state] = (states[state] || 0) + 1;
             }
-          },
-          plugins: {
-            legend: {
-              labels: {
-                color: getComputedStyle(document.body).getPropertyValue('--fg')
+          });
+
+          if (breachTypeChart) breachTypeChart.destroy();
+          if (stateChart) stateChart.destroy();
+
+          breachTypeChart = new Chart(document.getElementById('breachTypeChart'), {
+            type: 'bar',
+            data: {
+              labels: Object.keys(breachTypes),
+              datasets: [{
+                label: 'Number of Breaches',
+                data: Object.values(breachTypes),
+                backgroundColor: '#0077b6'
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: { beginAtZero: true }
               }
             }
-          }
-        }
-      });
+          });
+
+          stateChart = new Chart(document.getElementById('stateChart'), {
+            type: 'doughnut',
+            data: {
+              labels: Object.keys(states),
+              datasets: [{
+                label: 'Breaches by State',
+                data: Object.values(states),
+                backgroundColor: Object.keys(states).map(() => '#' + Math.floor(Math.random()*16777215).toString(16))
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false
+            }
+          });
+        });
     }
 
-    function toggleTheme() {
-      const root = document.documentElement;
-      const currentTheme = root.getAttribute('data-theme');
-      root.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
-      chart.options.scales.x.ticks.color = getComputedStyle(document.body).getPropertyValue('--fg');
-      chart.options.scales.y.ticks.color = getComputedStyle(document.body).getPropertyValue('--fg');
-      chart.options.plugins.legend.labels.color = getComputedStyle(document.body).getPropertyValue('--fg');
-      chart.update();
-    }
-
-    if (!document.documentElement.getAttribute('data-theme')) {
-      document.documentElement.setAttribute(
-        'data-theme',
-        window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-      );
-    }
-
-    window.onload = initChart;
+    // Load default 30 days view on page load
+    window.onload = function () {
+      loadCharts(30);
+    };
   </script>
 </body>
 </html>
