@@ -1,91 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
   <title>Healthcare@ThreatPodium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';" />
   <style>
     :root {
-      --bg-color: #f7f9fb;
-      --text-color: #333;
-      --accent-color: #0077b6;
-      --hover-color: #005f8f;
+      --bg: #f4f4f4;
+      --fg: #111;
+      --accent: #00ffcc;
     }
-    body.dark-mode {
-      --bg-color: #1a1a1a;
-      --text-color: #f1f1f1;
-      --accent-color: #0077b6;
-      --hover-color: #0096c7;
+    [data-theme='dark'] {
+      --bg: #111;
+      --fg: #f4f4f4;
+      --accent: #00ffcc;
     }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: 'Courier New', monospace;
+      margin: 0;
       padding: 2rem;
-      text-align: center;
-      transition: background 0.3s ease, color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.3s, color 0.3s;
     }
-    h1 {
-      font-size: 2.5rem;
-      color: var(--accent-color);
-      margin-bottom: 0.5rem;
-    }
-    p {
-      font-size: 1.2rem;
-      color: var(--text-color);
-    }
+
     nav {
-      margin-top: 2rem;
+      margin-bottom: 2rem;
     }
+
     nav a {
-      display: inline-block;
       margin: 0 1rem;
-      padding: 0.75rem 1.5rem;
-      background-color: var(--accent-color);
-      color: white;
       text-decoration: none;
+      font-weight: bold;
+      color: var(--accent);
+      border-bottom: 2px solid transparent;
+    }
+
+    nav a:hover {
+      border-color: var(--accent);
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
       border-radius: 5px;
+      cursor: pointer;
       font-weight: bold;
     }
-    nav a:hover {
-      background-color: var(--hover-color);
-    }
-    .toggle {
-      display: inline-block;
-      margin-top: 2rem;
-      background: none;
-      border: 1px solid var(--text-color);
-      color: var(--text-color);
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    footer {
-      margin-top: 4rem;
-      font-size: 0.9rem;
-      color: #888;
+
+    pre {
+      font-size: 12px;
+      color: var(--accent);
+      text-align: left;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
   </style>
 </head>
 <body>
-  <h1>Healthcare@ThreatPodium</h1>
-  <p>Your portal to breach intelligence and cybersecurity threats affecting the healthcare industry.</p>
+  <button class="toggle-btn" onclick="toggleTheme()">Toggle Dark Mode</button>
+
   <nav>
-    <a href="breaches.html">📊 Breaches</a>
-    <a href="news.html">📰 News</a>
-    <a href="stats.html">📈 Stats</a>
+    <a href="/breaches">Breaches</a>
+    <a href="/news">News</a>
+    <a href="/stats">Stats</a>
   </nav>
-  <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
-  <footer>
-    &copy; 2025 Healthcare@ThreatPodium. Automatically updated daily.
-  </footer>
+
+  <pre>
+ _______ _     _                         _   _             _           
+|__   __| |   (_)                       | | (_)           (_)          
+   | |  | |__  _ _ __   __ _ _ __ __ _  | |_ _ _ __   __ _ _ _ __  ___ 
+   | |  | '_ \| | '_ \ / _` | '__/ _` | | __| | '_ \ / _` | | '_ \/ __|
+   | |  | | | | | | | | (_| | | | (_| | | |_| | | | | (_| | | | | \__ \
+   |_|  |_| |_|_|_| |_|\__, |_|  \__,_|  \__|_|_| |_|\__, |_|_| |_|___/
+                       __/ |                          __/ |           
+                      |___/                          |___/            
+
+                   _______   ______   _____   _    _   _   _ 
+                  |__   __| |  ____| |  __ \ | |  | | | \ | |
+                     | |    | |__    | |__) || |  | | |  \| |
+                     | |    |  __|   |  _  / | |  | | | . ` |
+                     | |    | |____  | | \ \ | |__| | | |\  |
+                     |_|    |______| |_|  \_\ \____/  |_| \_|
+  </pre>
+
   <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
     }
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
+    if (!document.documentElement.getAttribute('data-theme')) {
+      document.documentElement.setAttribute('data-theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     }
   </script>
 </body>
