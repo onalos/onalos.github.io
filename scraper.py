@@ -3,20 +3,15 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime, timedelta
 
-# HHS OCR Breach Portal
 url = "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
-headers = {
-    "User-Agent": "Mozilla/5.0"
-}
+headers = {"User-Agent": "Mozilla/5.0"}
 DAYS_BACK = 30
 
-# Fetch breach data
 response = requests.get(url, headers=headers)
 html = response.text
 with open("raw.html", "w", encoding="utf-8") as f:
     f.write(html)
 
-# Parse HTML
 soup = BeautifulSoup(html, "html.parser")
 tbody = soup.find("tbody", {"id": "ocrForm:reportResultTable_data"})
 if not tbody:
@@ -24,23 +19,13 @@ if not tbody:
         f.write("<h1>Could not find breach table</h1>")
     exit()
 
-# Extract rows
 rows = tbody.find_all("tr")
 data = []
 for row in rows:
     cells = row.find_all("td")
     if len(cells) >= 8:
-        data.append([
-            cells[1].text.strip(),
-            cells[2].text.strip(),
-            cells[3].text.strip(),
-            cells[4].text.strip(),
-            cells[5].text.strip(),
-            cells[6].text.strip(),
-            cells[7].text.strip(),
-        ])
+        data.append([cell.text.strip() for cell in cells[1:8]])
 
-# Convert to DataFrame
 columns = [
     "Name of Covered Entity", "State", "Entity Type", "Individuals Affected",
     "Date Added", "Type of Breach", "Location of Breached Info"
@@ -53,7 +38,6 @@ df_recent = df[df["Date Added"] >= cutoff].copy()
 df_recent.to_csv("breaches.csv", index=False)
 df_recent.to_json("breaches.json", orient="records", indent=2)
 
-# Format rows for HTML
 table_rows = ""
 for _, row in df_recent.iterrows():
     table_rows += f"<tr>{''.join(f'<td>{cell}</td>' for cell in row)}</tr>"
@@ -94,7 +78,6 @@ breach_html = f"""
 <!-- END-BREACH-SECTION -->
 """
 
-# Read or create index.html
 try:
     with open("index.html", "r", encoding="utf-8") as f:
         content = f.read()
@@ -109,18 +92,25 @@ except FileNotFoundError:
   <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
   <style>
     body { font-family: 'Segoe UI', sans-serif; margin: 2rem; background: #f7f9fb; color: #333; line-height: 1.6; }
+    h1 { text-align: center; margin-bottom: 0.5rem; }
+    p.subtitle { text-align: center; color: #666; margin-top: 0; }
     h2 { color: #2c3e50; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
     table.display th { background-color: #0077b6; color: white; }
     table.display tr:nth-child(even) { background-color: #f0f8ff; }
+    footer { text-align: center; font-size: 0.9em; color: #888; margin-top: 4rem; }
   </style>
 </head>
 <body>
 <header>
   <h1>ThreatPodium</h1>
-  <p>Your daily source for healthcare breach and threat intelligence.</p>
+  <p class="subtitle">Your daily source for healthcare breach and threat intelligence.</p>
 </header>
-<div class="section" id="breach-section"> <!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION --> </div>
-<div class="section" id="news-section"> <!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION --> </div>
+<div class="section" id="breach-section">
+  <!-- START-BREACH-SECTION --><!-- END-BREACH-SECTION -->
+</div>
+<div class="section" id="news-section">
+  <!-- START-NEWS-SECTION --><!-- END-NEWS-SECTION -->
+</div>
 <footer>
   &copy; 2025 ThreatPodium. Data sourced from HHS & trusted cybersecurity news.
 </footer>
@@ -128,7 +118,6 @@ except FileNotFoundError:
 </html>
 """
 
-# Replace breach section
 start = content.find("<!-- START-BREACH-SECTION -->")
 end = content.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
 new_content = content[:start] + breach_html + content[end:]
