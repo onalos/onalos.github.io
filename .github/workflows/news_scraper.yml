@@ -2,7 +2,7 @@ name: Healthcare Threat News Fetcher
 
 on:
   schedule:
-    - cron: '5 15 * * *'  # Daily at 15:05 UTC (just after breach scraper)
+    - cron: '5 15 * * *'  # 10:05am Eastern
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repo
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -25,19 +25,16 @@ jobs:
         run: |
           git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git repo
 
-      - name: Run news scraper and append to site
+      - name: Run news scraper
         run: |
-          python news_scraper.py
-          cp news.html repo/
           cd repo
-          cp ../index.html .  # Pull in current breach file to update
-          python ../scraper.py  # Rebuild index.html with appended news section
+          python ../news_scraper.py
+          cp index.html .
 
       - name: Commit and push
         run: |
-          cd repo
           git config user.name "News Bot"
           git config user.email "actions@github.com"
-          git add index.html news.html
-          git diff --cached --quiet || git commit -m "Update with latest healthcare news"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Update news section"
           git push origin HEAD:main
