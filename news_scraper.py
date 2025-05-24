@@ -5,16 +5,16 @@ from datetime import datetime, timedelta
 RSS_URL = "https://www.bleepingcomputer.com/feed/"
 KEYWORDS = [
     "hospital", "clinic", "healthcare", "medtech", "medical", "EMR", "ehr",
-    "HHS", "pharma", "provider", "cyberattack", "ransomware", "data breach"
+    "HHS", "pharma", "provider", "health", "patients", "pharmacy"
 ]
 
 # Parse the RSS feed
 feed = feedparser.parse(RSS_URL)
 now = datetime.utcnow()
-one_day_ago = now - timedelta(days=30)
+one_day_ago = now - timedelta(days=7)
 filtered = []
 
-# Filter entries with relevant keywords in the last 30 Days
+# Filter entries with relevant keywords in the last 7 days
 for entry in feed.entries:
     published = datetime(*entry.published_parsed[:6])
     if published < one_day_ago:
