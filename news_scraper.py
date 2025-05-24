@@ -11,7 +11,7 @@ KEYWORDS = [
 # Parse the RSS feed
 feed = feedparser.parse(RSS_URL)
 now = datetime.utcnow()
-one_day_ago = now - timedelta(days=1)
+one_day_ago = now - timedelta(days=10)
 filtered = []
 
 # Filter entries with relevant keywords in the last 24 hours
