@@ -268,32 +268,5 @@
     "Date Added":1745798400000,
     "Type of Breach":"Hacking\/IT Incident",
     "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Maximus, Inc.",
-    "State":"VA",
-    "Entity Type":"Business Associate",
-    "Individuals Affected":"4529",
-    "Date Added":1745539200000,
-    "Type of Breach":"Unauthorized Access\/Disclosure",
-    "Location of Breached Info":"Network Server"
-  },
-  {
-    "Name of Covered Entity":"Carlton County Public Health and Human Services",
-    "State":"MN",
-    "Entity Type":"Healthcare Provider",
-    "Individuals Affected":"3502",
-    "Date Added":1745539200000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Email"
-  },
-  {
-    "Name of Covered Entity":"Prestonwood Baptist Church, Inc.",
-    "State":"TX",
-    "Entity Type":"Health Plan",
-    "Individuals Affected":"501",
-    "Date Added":1745539200000,
-    "Type of Breach":"Hacking\/IT Incident",
-    "Location of Breached Info":"Network Server"
   }
 ]
