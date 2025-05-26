@@ -2,91 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Healthcare@ThreatPodium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root {
-      --bg-color: #f7f9fb;
-      --text-color: #333;
-      --accent-color: #0077b6;
-      --hover-color: #005f8f;
-    }
-    body.dark-mode {
-      --bg-color: #1a1a1a;
-      --text-color: #f1f1f1;
-      --accent-color: #0077b6;
-      --hover-color: #0096c7;
-    }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      padding: 2rem;
-      text-align: center;
-      transition: background 0.3s ease, color 0.3s ease;
+      margin: 0;
+      padding: 2rem 1rem;
+      background: #f7f9fb;
+      color: #333;
     }
+
     h1 {
-      font-size: 2.5rem;
-      color: var(--accent-color);
+      font-size: 1.8rem;
+      text-align: center;
       margin-bottom: 0.5rem;
     }
-    p {
-      font-size: 1.2rem;
-      color: var(--text-color);
+
+    .subtitle {
+      font-size: 1rem;
+      text-align: center;
+      color: #555;
+      margin-bottom: 2rem;
     }
+
     nav {
-      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
     }
+
     nav a {
-      display: inline-block;
-      margin: 0 1rem;
-      padding: 0.75rem 1.5rem;
-      background-color: var(--accent-color);
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
+      padding: 0.75rem 1.2rem;
+      font-size: 1rem;
       font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      background-color: #0077b6;
+      border-radius: 6px;
+      transition: background 0.2s ease;
     }
+
     nav a:hover {
-      background-color: var(--hover-color);
+      background-color: #005f8e;
     }
-    .toggle {
-      display: inline-block;
-      margin-top: 2rem;
-      background: none;
-      border: 1px solid var(--text-color);
-      color: var(--text-color);
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      border-radius: 4px;
-    }
+
     footer {
-      margin-top: 4rem;
-      font-size: 0.9rem;
+      text-align: center;
+      font-size: 0.85rem;
       color: #888;
+      margin-top: 3rem;
+      border-top: 1px solid #ccc;
+      padding-top: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      nav a {
+        width: 100%;
+        text-align: center;
+      }
     }
   </style>
 </head>
 <body>
   <h1>Healthcare@ThreatPodium</h1>
-  <p>Your portal to breach intelligence and cybersecurity threats affecting the healthcare industry.</p>
+  <p class="subtitle">Stay current on breaches and threats impacting the healthcare sector.</p>
+
   <nav>
     <a href="breaches.html">📊 Breaches</a>
     <a href="news.html">📰 News</a>
     <a href="stats.html">📈 Stats</a>
   </nav>
-  <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+
+  <p style="text-align: center;">Explore each section to view live breach reports, curated news, and data analytics.</p>
+
   <footer>
-    &copy; 2025 Healthcare@ThreatPodium. Automatically updated daily.
+    &copy; 2025 ThreatPodium. Powered by open data and smart automation.
   </footer>
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-    }
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-    }
-  </script>
 </body>
 </html>
