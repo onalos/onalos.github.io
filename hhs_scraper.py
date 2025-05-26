@@ -39,13 +39,14 @@ for _, row in df_recent.iterrows():
 table_html = f"""
 <div class="toolbar">
   <div class="downloads">
-    📥 <a href="breaches.csv">CSV</a>
-    📥 <a href="breaches.json">JSON</a>
+    📥 <a href="breaches.csv" class="btn">CSV</a>
+    📥 <a href="breaches.json" class="btn">JSON</a>
   </div>
   <div class="source">
     🔎 Source: <a href="{url}" target="_blank">HHS OCR Breach Portal</a>
   </div>
 </div>
+
 <div class="table-wrapper">
   <table id="breach-table" class="display">
     <thead>
@@ -64,6 +65,7 @@ table_html = f"""
     </tbody>
   </table>
 </div>
+
 <script>
   $(document).ready(function () {{
     $('#breach-table').DataTable({{ pageLength: 25 }});
@@ -74,9 +76,18 @@ table_html = f"""
 with open("base_template.html", "r", encoding="utf-8") as f:
     template = f.read()
 
-start = template.find("<!-- START-BREACH-SECTION -->")
-end = template.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
-new_html = template[:start] + "<!-- START-BREACH-SECTION -->\n" + table_html + "\n" + template[end:]
+start_marker = "<!-- START-BREACH-SECTION -->"
+end_marker = "<!-- END-BREACH-SECTION -->"
+
+start = template.find(start_marker)
+end = template.find(end_marker) + len(end_marker)
+
+if start == -1 or end == -1:
+    raise ValueError("Missing section markers in base_template.html")
+
+final_output = template[:start] + start_marker + "\n" + table_html + "\n" + template[end:]
 
 with open("breaches.html", "w", encoding="utf-8", errors="surrogatepass") as f:
-    f.write(new_html)
+    f.write(final_output)
+
+print(f"✅ breaches.html generated with {len(df_recent)} entries.")
