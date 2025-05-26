@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Healthcare@ThreatPodium — Stats</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 style-src 'self' 'unsafe-inline';
+                 script-src 'self';
+                 script-src-attr 'unsafe-inline';">
+  <script src="theme.js"></script>
+  <style>
+    :root {
+      --bg-color: #f7f9fb;
+      --text-color: #222;
+      --link-color: #005f8e;
+      --card-bg: #ffffff;
+    }
+
+    body.dark-mode {
+      --bg-color: #121212;
+      --text-color: #f1f1f1;
+      --link-color: #58a6ff;
+      --card-bg: #1e1e1e;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 1rem;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header, footer {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .toggle {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--text-color);
+      background: none;
+      color: var(--text-color);
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+
+    nav.navbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    nav.navbar a {
+      padding: 0.6rem 1rem;
+      background: #0077b6;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    nav.navbar a.active {
+      outline: 2px solid #fff;
+    }
+
+    .stats-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1rem;
+      background-color: var(--card-bg);
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    footer {
+      font-size: 0.85rem;
+      color: #888;
+      border-top: 1px solid #ccc;
+      margin-top: 2rem;
+      padding-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      nav.navbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      nav.navbar a {
+        width: 100%;
+        font-size: 1rem;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      .stats-container {
+        padding: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Healthcare@ThreatPodium</h1>
+    <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+  </header>
+
+  <nav class="navbar">
+    <a href="index.html">🏠 Home</a>
+    <a href="breaches.html">📊 Breaches</a>
+    <a href="news.html">📰 News</a>
+    <a href="stats.html" class="active">📈 Stats</a>
+  </nav>
+
+  <div class="stats-container">
+    <!-- START-STATS-SECTION -->
+    <!-- END-STATS-SECTION -->
+  </div>
+
+  <footer>
+    &copy; 2025 ThreatPodium. Powered by open data and smart automation.
+  </footer>
+</body>
+</html>
