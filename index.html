@@ -1,91 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Healthcare@ThreatPodium</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
       --bg-color: #f7f9fb;
-      --text-color: #333;
-      --btn-color: #0077b6;
-      --btn-hover: #005f8e;
+      --text-color: #222;
+      --accent: #0077b6;
+      --accent-hover: #005f8e;
+      --link-color: #005f8e;
     }
 
     body.dark-mode {
       --bg-color: #121212;
       --text-color: #f1f1f1;
-      --btn-color: #444;
-      --btn-hover: #333;
+      --accent: #444;
+      --accent-hover: #333;
+      --link-color: #58a6ff;
     }
 
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 2rem 1rem;
-      background: var(--bg-color);
+      padding: 1rem;
+      background-color: var(--bg-color);
       color: var(--text-color);
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    h1 {
-      font-size: 1.8rem;
+    header, footer {
       text-align: center;
-      margin-bottom: 0.5rem;
+      padding: 1rem;
     }
 
-    .subtitle {
-      font-size: 1rem;
-      text-align: center;
-      color: #777;
-      margin-bottom: 2rem;
+    h1 {
+      margin: 0.2rem 0 0.5rem;
+      font-size: 1.8rem;
     }
 
     nav {
       display: flex;
       justify-content: center;
-      gap: 1rem;
       flex-wrap: wrap;
-      margin-bottom: 2rem;
+      gap: 1rem;
+      margin: 1rem 0;
     }
 
     nav a {
-      padding: 0.75rem 1.2rem;
-      font-size: 1rem;
-      font-weight: bold;
-      text-decoration: none;
+      background-color: var(--accent);
       color: #fff;
-      background-color: var(--btn-color);
+      text-decoration: none;
+      padding: 0.7rem 1.2rem;
       border-radius: 6px;
+      font-weight: 600;
       transition: background 0.2s ease;
     }
 
     nav a:hover {
-      background-color: var(--btn-hover);
+      background-color: var(--accent-hover);
     }
 
     .toggle {
       display: block;
-      margin: 0 auto 2rem;
+      margin: 0.5rem auto 1rem;
       padding: 0.5rem 1rem;
-      font-size: 0.95rem;
+      font-size: 1rem;
       border: 1px solid var(--text-color);
+      border-radius: 4px;
       background: none;
       color: var(--text-color);
-      border-radius: 4px;
       cursor: pointer;
     }
 
-    footer {
+    .summary {
       text-align: center;
-      font-size: 0.85rem;
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    footer {
+      font-size: 0.9rem;
       color: #888;
-      margin-top: 3rem;
       border-top: 1px solid #ccc;
+      margin-top: 2rem;
       padding-top: 1rem;
     }
 
     @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
       nav a {
         width: 100%;
         text-align: center;
@@ -94,10 +104,10 @@
   </style>
 </head>
 <body>
-  <h1>Healthcare@ThreatPodium</h1>
-  <p class="subtitle">Stay current on breaches and threats impacting the healthcare sector.</p>
-
-  <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+  <header>
+    <h1>Healthcare@ThreatPodium</h1>
+    <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+  </header>
 
   <nav>
     <a href="breaches.html">📊 Breaches</a>
@@ -105,7 +115,10 @@
     <a href="stats.html">📈 Stats</a>
   </nav>
 
-  <p style="text-align: center;">Explore breach reports, curated news, and data-driven insights.</p>
+  <div class="summary">
+    <p>Welcome to <strong>ThreatPodium</strong>, your centralized dashboard for tracking healthcare-related breaches, curated threat intelligence, and real-time data visualizations.</p>
+    <p>Use the links above to explore breach reports, security news, and interactive stats. All content is refreshed automatically to keep you informed.</p>
+  </div>
 
   <footer>
     &copy; 2025 ThreatPodium. Powered by open data and smart automation.
@@ -113,9 +126,10 @@
 
   <script>
     function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+      const isDark = document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
+
     if (localStorage.getItem('theme') === 'dark') {
       document.body.classList.add('dark-mode');
     }
