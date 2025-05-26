@@ -1,0 +1,30 @@
+name: Generate Stats Page
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2:00 AM UTC
+  workflow_dispatch:
+
+jobs:
+  generate-stats:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Generate stats.html
+        run: python stats_generator.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "Stats Bot"
+          git config user.email "actions@github.com"
+          git add stats.html
+          git diff --cached --quiet || git commit -m "Update stats page"
+          git push
