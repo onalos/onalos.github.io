@@ -30,122 +30,58 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
+      padding: 1rem;
       background-color: var(--bg-color);
       color: var(--text-color);
       transition: background 0.3s ease, color 0.3s ease;
-      line-height: 1.6;
-      padding: 1rem;
     }
 
     header, footer {
       text-align: center;
-      padding: 1rem;
+      margin-bottom: 1rem;
     }
 
     h1 {
-      margin: 0.2rem 0 0.5rem;
       font-size: 1.8rem;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    nav a {
-      color: var(--link-color);
-      font-weight: 600;
-      text-decoration: none;
-      padding: 0.4rem 0.8rem;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
+      margin-bottom: 0.5rem;
     }
 
     .toggle {
-      display: block;
-      margin: 0.5rem auto 1rem;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
+      display: inline-block;
+      padding: 0.4rem 1rem;
       border: 1px solid var(--text-color);
-      border-radius: 4px;
       background: none;
       color: var(--text-color);
+      border-radius: 5px;
       cursor: pointer;
-    }
-
-    main {
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .downloads a {
-      background: var(--table-header-bg);
-      color: #fff;
-      text-decoration: none;
-      padding: 0.4rem 0.8rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-    }
-
-    .source {
-      font-size: 0.9rem;
-    }
-
-    .table-wrapper {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    table.display {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-    }
-
-    table.display th, table.display td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      word-break: break-word;
-      vertical-align: top;
-    }
-
-    table.display th {
-      background-color: var(--table-header-bg);
-      color: var(--table-header-color);
-    }
-
-    .dataTables_wrapper .dataTables_length,
-    .dataTables_wrapper .dataTables_filter {
       margin-bottom: 1rem;
     }
 
-    .dataTables_wrapper input[type="search"],
-    .dataTables_wrapper select {
-      background-color: var(--input-bg);
-      color: var(--text-color);
-      border: 1px solid #ccc;
-      padding: 5px;
-      font-size: 0.9rem;
+    nav.navbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    nav.navbar a {
+      padding: 0.6rem 1rem;
+      background: var(--table-header-bg);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    nav.navbar a.active {
+      outline: 2px solid #fff;
     }
 
     footer {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #888;
       border-top: 1px solid #ccc;
       margin-top: 2rem;
@@ -153,24 +89,18 @@
     }
 
     @media (max-width: 768px) {
-      .toolbar {
+      nav.navbar {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
       }
 
-      .downloads {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-
-      .dataTables_wrapper .dataTables_length,
-      .dataTables_wrapper .dataTables_filter {
+      nav.navbar a {
         width: 100%;
+        font-size: 1rem;
       }
 
-      table.display {
-        font-size: 0.85rem;
+      h1 {
+        font-size: 1.4rem;
       }
     }
   </style>
@@ -178,14 +108,15 @@
 <body>
   <header>
     <h1>Healthcare@ThreatPodium</h1>
-    <nav>
-      <a href="index.html">🏠 Home</a>
-      <a href="breaches.html">📊 Breaches</a>
-      <a href="news.html">📰 News</a>
-      <a href="stats.html">📈 Stats</a>
-    </nav>
     <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
   </header>
+
+  <nav class="navbar">
+    <a href="index.html">🏠 Home</a>
+    <a href="breaches.html" class="active">📊 Breaches</a>
+    <a href="news.html">📰 News</a>
+    <a href="stats.html">📈 Stats</a>
+  </nav>
 
   <main>
     <!-- START-BREACH-SECTION -->
@@ -198,12 +129,11 @@
 
   <script>
     function toggleDarkMode() {
-      const isDark = document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      const dark = document.body.classList.toggle("dark-mode");
+      localStorage.setItem("theme", dark ? "dark" : "light");
     }
-
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark-mode");
     }
   </script>
 </body>
