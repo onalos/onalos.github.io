@@ -1,8 +1,12 @@
+// theme.js — shared across all pages
+
 function toggleDarkMode() {
-  const dark = document.body.classList.toggle("dark-mode");
-  localStorage.setItem("theme", dark ? "dark" : "light");
+  const isDark = document.body.classList.toggle("dark-mode");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
 }
 
-if (localStorage.getItem("theme") === "dark") {
-  document.body.classList.add("dark-mode");
-}
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+  }
+});
