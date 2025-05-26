@@ -86,26 +86,184 @@
       margin: auto;
     }
 
-    .toolbar {
+    .dataTables_wrapper {
+      overflow-x: auto;
+    }
+
+    table.display {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    table.display th, table.display td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      word-break: break-word;
+      vertical-align: top;
+    }
+
+    table.display th {
+      background-color: var(--table-header-bg);
+      color: var(--table-header-color);
+    }
+
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+      margin-bottom: 1rem;
+    }
+
+    .dataTables_wrapper input[type="search"],
+    .dataTables_wrapper select {
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      border: 1px solid #ccc;
+      padding: 5px;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      padding: 2rem 1rem;
+      border-top: 1px solid #ccc;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Healthcare@ThreatPodium</h1>
+    <p class="subtitle">Your daily source for healthcare breach and threat intelligence.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="news.html">News</a>
+      <a href="stats.html">Stats</a>
+      <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- START-BREACH-SECTION -->
+    <!-- END-BREACH-SECTION -->
+  </main>
+
+  <footer>
+    &copy; 2025 ThreatPodium. Powered by open data and smart automation.
+  </footer>
+
+  <script>
+    function toggleDarkMode() {
+      const isDark = document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
+</body>
+</html>
+<!-- START-NEWS-SECTION -->
+<h2>📰 Recent Healthcare Threat News</h2>
+<p>As of 2025-05-26 18:20:33 UTC | Source: <a href="https://www.bleepingcomputer.com/feed/">BleepingComputer RSS</a></p>
+<input type="text" id="news-filter" placeholder="Filter news..." />
+<ul id="news-list">
+<li>No healthcare-relevant news found in the last 24 hours.</li></ul>
+<script>
+  document.getElementById('news-filter').addEventListener('input', function () {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('#news-list li').forEach(li => {
+      li.style.display = li.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+</script>
+<!-- END-NEWS-SECTION -->ng="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Healthcare@ThreatPodium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://code.jquery.com https://cdn.datatables.net;">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #f7f9fb;
+      --text-color: #333;
+      --table-header-bg: #0077b6;
+      --table-header-color: #fff;
+      --link-color: #005f8e;
+      --input-bg: #fff;
+    }
+
+    body.dark-mode {
+      --bg-color: #121212;
+      --text-color: #f1f1f1;
+      --table-header-bg: #444;
+      --table-header-color: #fff;
+      --link-color: #58a6ff;
+      --input-bg: #1e1e1e;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s ease, color 0.3s ease;
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem 1rem 1rem;
+      border-bottom: 1px solid #ccc;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    }
+
+    .subtitle {
+      color: #666;
+      margin: 0.5rem 0 1rem;
+      font-size: 1rem;
+    }
+
+    nav {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 1rem;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
-    .toolbar .downloads a {
-      background: var(--table-header-bg);
-      color: #fff;
+    nav a {
+      color: var(--link-color);
+      font-weight: 600;
       text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .toggle {
+      border: 1px solid var(--text-color);
+      background: none;
+      color: var(--text-color);
       padding: 0.4rem 0.8rem;
       border-radius: 4px;
-      font-size: 0.9rem;
+      cursor: pointer;
     }
 
-    .toolbar .source {
-      font-size: 0.9rem;
+    main {
+      padding: 1rem;
+      max-width: 1000px;
+      margin: auto;
     }
 
     .dataTables_wrapper {
@@ -152,29 +310,6 @@
       border-top: 1px solid #ccc;
       margin-top: 2rem;
     }
-
-    @media (max-width: 768px) {
-      .toolbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .toolbar .downloads {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-
-      .dataTables_wrapper .dataTables_length,
-      .dataTables_wrapper .dataTables_filter {
-        width: 100%;
-        margin-bottom: 1rem;
-      }
-
-      table.display {
-        font-size: 0.85rem;
-      }
-    }
   </style>
 </head>
 <body>
@@ -192,23 +327,6 @@
   <main>
     <!-- START-BREACH-SECTION -->
     <!-- END-BREACH-SECTION -->
-
-    
-<!-- START-NEWS-SECTION -->
-<h2>📰 Recent Healthcare Threat News</h2>
-<p>As of 2025-05-26 18:13:14 UTC | Source: <a href="https://www.bleepingcomputer.com/feed/">BleepingComputer RSS</a></p>
-<input type="text" id="news-filter" placeholder="Filter news..." />
-<ul id="news-list">
-<li>No healthcare-relevant news found in the last 24 hours.</li></ul>
-<script>
-  document.getElementById('news-filter').addEventListener('input', function () {
-    const q = this.value.toLowerCase();
-    document.querySelectorAll('#news-list li').forEach(li => {
-      li.style.display = li.textContent.toLowerCase().includes(q) ? '' : 'none';
-    });
-  });
-</script>
-<!-- END-NEWS-SECTION -->
   </main>
 
   <footer>
