@@ -38,7 +38,7 @@ for _, row in df_recent.iterrows():
 
 last_updated = datetime.utcnow().strftime("%B %d, %Y")
 
-table_html = f"""
+html_injection = f"""
 <div class="toolbar">
   <div class="downloads">
     📥 <a href="breaches.csv">CSV</a>
@@ -90,7 +90,7 @@ end = template.find(end_marker) + len(end_marker)
 if start == -1 or end == -1:
     raise ValueError("Markers missing in base_template.html")
 
-output = template[:start] + start_marker + "\n" + table_html + "\n" + template[end:]
+output = template[:start] + start_marker + "\n" + html_injection + "\n" + template[end:]
 
 with open("breaches.html", "w", encoding="utf-8", errors="surrogatepass") as f:
     f.write(output)
