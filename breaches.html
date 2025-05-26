@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
   <style>
     :root {
       --bg-color: #f7f9fb;
@@ -30,10 +31,10 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 1rem;
       background-color: var(--bg-color);
       color: var(--text-color);
+      margin: 0;
+      padding: 1rem;
       transition: background 0.3s ease, color 0.3s ease;
     }
 
@@ -115,6 +116,7 @@
 
     .table-wrapper {
       overflow-x: auto;
+      margin-top: 1rem;
     }
 
     .dataTables_wrapper {
@@ -143,9 +145,16 @@
       padding-top: 1rem;
     }
 
+    /* 🔽 Mobile-first overrides 🔽 */
     @media (max-width: 768px) {
-      h1 {
-        font-size: 1.4rem;
+      nav.navbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      nav.navbar a {
+        width: 100%;
+        font-size: 1rem;
       }
 
       .toolbar {
@@ -168,14 +177,11 @@
         width: 90%;
       }
 
-      nav.navbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      nav.navbar a {
-        width: 100%;
-        font-size: 1rem;
+      table.display th,
+      table.display td {
+        padding: 8px 6px;
+        font-size: 0.85rem;
+        white-space: normal;
       }
     }
   </style>
