@@ -15,14 +15,17 @@
       --row-alt-color: #f0f8ff;
       --table-header-bg: #0077b6;
       --table-header-color: #fff;
+      --link-color: #005f8e;
     }
+
     body.dark-mode {
-      --bg-color: #1a1a1a;
-      --text-color: #f1f1f1;
+      --bg-color: #121212;
+      --text-color: #e0e0e0;
       --header-color: #f1f1f1;
-      --row-alt-color: #2a2a2a;
-      --table-header-bg: #444;
+      --row-alt-color: #1e1e1e;
+      --table-header-bg: #333;
       --table-header-color: #fff;
+      --link-color: #58a6ff;
     }
 
     body {
@@ -39,7 +42,6 @@
       flex-direction: column;
       align-items: center;
       padding: 1.5rem 1rem;
-      background: var(--bg-color);
       border-bottom: 1px solid #ccc;
     }
 
@@ -53,7 +55,7 @@
       font-size: 0.95rem;
       text-align: center;
       margin: 0.5rem 0 1rem;
-      color: #666;
+      color: var(--text-color);
     }
 
     nav {
@@ -65,7 +67,7 @@
     }
 
     nav a {
-      color: var(--text-color);
+      color: var(--link-color);
       text-decoration: none;
       font-weight: 600;
       padding: 0.5rem;
@@ -74,7 +76,7 @@
 
     nav a:hover,
     nav a.active {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: rgba(0, 0, 0, 0.1);
     }
 
     .toggle {
@@ -110,8 +112,9 @@
       min-width: 700px;
       width: 100%;
       border-collapse: collapse;
-      background: #fff;
+      background: var(--bg-color);
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+      color: var(--text-color);
     }
 
     table.display th, table.display td {
@@ -147,7 +150,7 @@
     footer {
       text-align: center;
       font-size: 0.85rem;
-      color: #888;
+      color: var(--text-color);
       padding: 2rem 1rem;
       border-top: 1px solid #ccc;
       margin-top: 2rem;
