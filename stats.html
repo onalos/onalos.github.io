@@ -2,203 +2,228 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Healthcare Breach Stats — ThreatPodium</title>
+  <title>📈 Stats — ThreatPodium</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    :root {
+      --bg-color: #f7f9fb;
+      --text-color: #333;
+      --btn-bg: #0077b6;
+      --btn-hover: #005f8e;
+    }
+
+    body.dark-mode {
+      --bg-color: #121212;
+      --text-color: #f1f1f1;
+      --btn-bg: #333;
+      --btn-hover: #444;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f7f9fb;
-      color: #333;
       margin: 0;
-      padding: 0;
+      padding: 1rem;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s ease, color 0.3s ease;
     }
+
     header {
-      background-color: #0077b6;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    nav {
-      background-color: #023e8a;
-      text-align: center;
-      padding: 0.5rem;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 1rem;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    main {
-      max-width: 960px;
-      margin: 2rem auto;
-      padding: 1rem;
-    }
-    section {
-      background: white;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 2rem;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-    .chart-wrapper {
-      height: 400px;
-    }
-    canvas {
-      width: 100% !important;
-      height: 100% !important;
-    }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background-color: #f1f1f1;
-      font-size: 0.9rem;
-      color: #555;
-    }
-    .range-select {
       text-align: center;
       margin-bottom: 1rem;
     }
-    .range-select button {
-      margin: 0 0.5rem;
-      padding: 0.5rem 1rem;
-      background-color: #0077b6;
-      color: white;
-      border: none;
+
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    nav a {
+      color: var(--text-color);
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+    }
+
+    nav a:hover {
+      background-color: rgba(0,0,0,0.1);
+    }
+
+    .toggle {
+      margin-top: 0.5rem;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--text-color);
+      background: none;
+      color: var(--text-color);
       border-radius: 4px;
       cursor: pointer;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .controls button {
+      background: var(--btn-bg);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .controls button.active {
+      outline: 2px solid #fff;
       font-weight: bold;
     }
-    .range-select button.active {
-      background-color: #0096c7;
-      border: 2px solid #023e8a;
-      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+
+    .chart-section {
+      max-width: 800px;
+      margin: auto;
     }
-    #current-range {
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+      max-height: 400px;
+    }
+
+    footer {
       text-align: center;
-      font-size: 1.2rem;
-      margin: 0.5rem 0 2rem;
-      font-weight: bold;
-      color: #0077b6;
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ccc;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>📈 Healthcare Breach Stats</h1>
-    <p>Visualizing real-time data from the HHS Breach Portal</p>
+    <h1>📈 ThreatPodium Stats</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="breaches.html">Breaches</a>
+      <a href="news.html">News</a>
+    </nav>
+    <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
   </header>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="breaches.html">Breaches</a>
-    <a href="news.html">News</a>
-  </nav>
-  <main>
-    <div class="range-select">
-      <button onclick="loadCharts(1, this)">1 Day</button>
-      <button onclick="loadCharts(7, this)">7 Days</button>
-      <button class="active" onclick="loadCharts(30, this)">30 Days</button>
-    </div>
-    <div id="current-range">Currently showing data for: Last 30 Days</div>
-    <section>
-      <h2>Top Breach Types</h2>
-      <div class="chart-wrapper">
-        <canvas id="breachTypeChart"></canvas>
-      </div>
-    </section>
-    <section>
-      <h2>Breaches by State</h2>
-      <div class="chart-wrapper">
-        <canvas id="stateChart"></canvas>
-      </div>
-    </section>
-  </main>
+
+  <div class="controls">
+    <button onclick="renderCharts(1)">1 Day</button>
+    <button onclick="renderCharts(7)">7 Days</button>
+    <button onclick="renderCharts(30)" class="active">30 Days</button>
+  </div>
+
+  <div class="chart-section">
+    <h3>Breach Types</h3>
+    <canvas id="typeChart"></canvas>
+
+    <h3>Breach Locations (States)</h3>
+    <canvas id="stateChart"></canvas>
+  </div>
+
   <footer>
-    &copy; 2025 ThreatPodium. Data sourced from HHS.
+    &copy; 2025 ThreatPodium. Built with Chart.js and auto-generated data.
   </footer>
+
   <script>
-    let breachTypeChart, stateChart;
-
-    function loadCharts(days, btn = null) {
-      if (btn) {
-        document.querySelectorAll('.range-select button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      }
-
-      document.getElementById('current-range').textContent = `Currently showing data for: Last ${days} Day${days > 1 ? 's' : ''}`;
-
-      fetch('breaches.json')
-        .then(response => response.json())
-        .then(data => {
-          const now = new Date();
-          const cutoff = new Date(now);
-          cutoff.setDate(cutoff.getDate() - days);
-
-          const breachTypes = {};
-          const states = {};
-
-          data.forEach(entry => {
-            const entryDate = new Date(entry["Date Added"]);
-            if (entryDate >= cutoff) {
-              const type = entry["Type of Breach"] || "Unknown";
-              const state = entry["State"] || "Unknown";
-
-              breachTypes[type] = (breachTypes[type] || 0) + 1;
-              states[state] = (states[state] || 0) + 1;
-            }
-          });
-
-          if (breachTypeChart) breachTypeChart.destroy();
-          if (stateChart) stateChart.destroy();
-
-          breachTypeChart = new Chart(document.getElementById('breachTypeChart'), {
-            type: 'bar',
-            data: {
-              labels: Object.keys(breachTypes),
-              datasets: [{
-                label: 'Number of Breaches',
-                data: Object.values(breachTypes),
-                backgroundColor: '#0077b6'
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                legend: { display: false }
-              },
-              scales: {
-                y: { beginAtZero: true }
-              }
-            }
-          });
-
-          stateChart = new Chart(document.getElementById('stateChart'), {
-            type: 'doughnut',
-            data: {
-              labels: Object.keys(states),
-              datasets: [{
-                label: 'Breaches by State',
-                data: Object.values(states),
-                backgroundColor: Object.keys(states).map(() => '#' + Math.floor(Math.random()*16777215).toString(16))
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false
-            }
-          });
-        });
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+      renderCharts(currentDays); // Re-render with correct colors
     }
 
-    window.onload = function () {
-      const defaultBtn = document.querySelector('.range-select button.active');
-      loadCharts(30, defaultBtn);
-    };
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+
+    let currentDays = 30;
+    let breaches = [];
+
+    async function loadData() {
+      const res = await fetch('breaches.json');
+      breaches = await res.json();
+      renderCharts(currentDays);
+    }
+
+    function renderCharts(days) {
+      currentDays = days;
+
+      document.querySelectorAll('.controls button').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.controls button[onclick="renderCharts(${days})"]`).classList.add('active');
+
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - days);
+
+      const filtered = breaches.filter(b => new Date(b["Date Added"]) >= cutoff);
+
+      const typeCounts = {};
+      const stateCounts = {};
+
+      filtered.forEach(b => {
+        typeCounts[b["Type of Breach"]] = (typeCounts[b["Type of Breach"]] || 0) + 1;
+        stateCounts[b["State"]] = (stateCounts[b["State"]] || 0) + 1;
+      });
+
+      const dark = document.body.classList.contains('dark-mode');
+      const fontColor = dark ? '#f1f1f1' : '#333';
+
+      const chartOptions = {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: fontColor } },
+          title: { color: fontColor }
+        },
+        scales: {
+          x: { ticks: { color: fontColor }, grid: { color: dark ? '#333' : '#ccc' } },
+          y: { ticks: { color: fontColor }, grid: { color: dark ? '#333' : '#ccc' } }
+        }
+      };
+
+      new Chart(document.getElementById('typeChart'), {
+        type: 'bar',
+        data: {
+          labels: Object.keys(typeCounts),
+          datasets: [{
+            label: 'Count',
+            data: Object.values(typeCounts),
+            backgroundColor: dark ? '#58a6ff' : '#0077b6'
+          }]
+        },
+        options: chartOptions
+      });
+
+      new Chart(document.getElementById('stateChart'), {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(stateCounts),
+          datasets: [{
+            label: 'States',
+            data: Object.values(stateCounts),
+            backgroundColor: Object.keys(stateCounts).map((_, i) =>
+              `hsl(${(i * 137.5) % 360}, 65%, ${dark ? '55%' : '70%'})`
+            )
+          }]
+        },
+        options: chartOptions
+      });
+    }
+
+    loadData();
   </script>
 </body>
 </html>
