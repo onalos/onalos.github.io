@@ -1,62 +1,63 @@
-import feedparser
-from datetime import datetime, timedelta
+import requests
+from bs4 import BeautifulSoup
+from datetime import datetime
+import os
 
-RSS_URL = "https://www.bleepingcomputer.com/feed/"
-KEYWORDS = [
-    "hospital", "clinic", "healthcare", "medtech", "medical", "EMR", "ehr",
-    "HHS", "pharma", "provider", "cyberattack", "ransomware", "data breach"
+TEMPLATE_FILE = "base_template.html"
+OUTPUT_FILE = "news.html"
+
+# 📰 Replace this list with actual scraping or RSS parsing
+news_items = [
+    {
+        "title": "Ransomware hits major hospital chain",
+        "link": "https://example.com/article1",
+        "date": "2025-06-01"
+    },
+    {
+        "title": "Healthcare data leak exposes 500k patients",
+        "link": "https://example.com/article2",
+        "date": "2025-06-02"
+    },
+    {
+        "title": "New threat actor targets patient portals",
+        "link": "https://example.com/article3",
+        "date": "2025-06-03"
+    }
 ]
 
-feed = feedparser.parse(RSS_URL)
-now = datetime.utcnow()
-one_day_ago = now - timedelta(days=1)
-filtered = []
+# Generate HTML for each news card
+news_html = ""
+for item in news_items:
+    news_html += f"""
+    <div class="news-item">
+      <h3><a href="{item['link']}" target="_blank">{item['title']}</a></h3>
+      <p><em>{item['date']}</em></p>
+    </div>
+    """
 
-for entry in feed.entries:
-    published = datetime(*entry.published_parsed[:6])
-    if published < one_day_ago:
-        continue
-    summary = entry.summary.lower()
-    title = entry.title.lower()
-    if any(keyword in summary or keyword in title for keyword in KEYWORDS):
-        filtered.append({
-            "title": entry.title,
-            "link": entry.link,
-            "summary": entry.summary,
-            "published": published.strftime("%Y-%m-%d %H:%M UTC")
-        })
+# Load base template
+with open(TEMPLATE_FILE, "r", encoding="utf-8") as f:
+    template = f.read()
 
-news_html = f"""
-<!-- START-NEWS-SECTION -->
-<h2>📰 Recent Healthcare Threat News</h2>
-<p>As of {now.strftime('%Y-%m-%d %H:%M:%S UTC')} | Source: <a href="{RSS_URL}">BleepingComputer RSS</a></p>
-<input type="text" id="news-filter" placeholder="Filter news..." />
-<ul id="news-list">
-"""
+start_marker = "<!-- START-NEWS-SECTION -->"
+end_marker = "<!-- END-NEWS-SECTION -->"
 
-if not filtered:
-    news_html += "<li>No healthcare-relevant news found in the last 24 hours.</li>"
-else:
-    for article in filtered:
-        news_html += f"""
-        <li>
-            <strong><a href=\"{article['link']}\" target=\"_blank\">{article['title']}</a></strong><br>
-            <em>{article['published']}</em><br>
-            {article['summary'][:300]}...
-        </li><br>
-        """
+start = template.find(start_marker)
+end = template.find(end_marker) + len(end_marker)
 
-news_html += "</ul>\n<script>\n  document.getElementById('news-filter').addEventListener('input', function () {\n    const q = this.value.toLowerCase();\n    document.querySelectorAll('#news-list li').forEach(li => {\n      li.style.display = li.textContent.toLowerCase().includes(q) ? '' : 'none';\n    });\n  });\n</script>\n<!-- END-NEWS-SECTION -->"
+if start == -1 or end == -1:
+    raise ValueError("Missing START-NEWS-SECTION or END-NEWS-SECTION markers in base_template.html")
 
-try:
-    with open("base_template.html", "r", encoding="utf-8") as f:
-        content = f.read()
-except FileNotFoundError:
-    raise Exception("Missing base_template.html. Please create it from ThreatPodium_Upgrade.")
+# Inject HTML between the markers
+new_html = (
+    template[:start]
+    + start_marker
+    + "\n" + news_html + "\n"
+    + template[end:]
+)
 
-start = content.find("<!-- START-NEWS-SECTION -->")
-end = content.find("<!-- END-NEWS-SECTION -->") + len("<!-- END-NEWS-SECTION -->")
-new_content = content[:start] + news_html + content[end:]
+# Write the final page
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    f.write(new_html)
 
-with open("news.html", "w", encoding="utf-8") as f:
-    f.write(new_content)
+print(f"✅ Generated {OUTPUT_FILE} with {len(news_items)} news items.")
