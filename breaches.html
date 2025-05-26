@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Healthcare@ThreatPodium</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://code.jquery.com https://cdn.datatables.net;">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -17,7 +16,6 @@
       --link-color: #005f8e;
       --input-bg: #fff;
     }
-
     body.dark-mode {
       --bg-color: #121212;
       --text-color: #f1f1f1;
@@ -26,7 +24,6 @@
       --link-color: #58a6ff;
       --input-bg: #1e1e1e;
     }
-
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
@@ -35,17 +32,14 @@
       color: var(--text-color);
       transition: background 0.3s ease, color 0.3s ease;
     }
-
     header, footer {
       text-align: center;
       margin-bottom: 1rem;
     }
-
     h1 {
       font-size: 1.8rem;
       margin-bottom: 0.5rem;
     }
-
     .toggle {
       display: inline-block;
       padding: 0.4rem 1rem;
@@ -56,7 +50,6 @@
       cursor: pointer;
       margin-bottom: 1rem;
     }
-
     nav.navbar {
       display: flex;
       flex-wrap: wrap;
@@ -64,7 +57,6 @@
       gap: 0.75rem;
       margin-bottom: 1.5rem;
     }
-
     nav.navbar a {
       padding: 0.6rem 1rem;
       background: var(--table-header-bg);
@@ -75,11 +67,9 @@
       font-size: 0.95rem;
       text-align: center;
     }
-
     nav.navbar a.active {
       outline: 2px solid #fff;
     }
-
     footer {
       font-size: 0.85rem;
       color: #888;
@@ -87,18 +77,15 @@
       margin-top: 2rem;
       padding-top: 1rem;
     }
-
     @media (max-width: 768px) {
       nav.navbar {
         flex-direction: column;
         align-items: stretch;
       }
-
       nav.navbar a {
         width: 100%;
         font-size: 1rem;
       }
-
       h1 {
         font-size: 1.4rem;
       }
