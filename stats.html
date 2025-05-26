@@ -4,120 +4,123 @@
   <meta charset="UTF-8" />
   <title>Healthcare@ThreatPodium — Stats</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 style-src 'self' 'unsafe-inline';
+                 script-src 'self' https://cdn.jsdelivr.net;
+                 script-src-attr 'unsafe-inline';">
+  <script src="theme.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --bg-color: #f7f9fb;
       --text-color: #222;
       --link-color: #005f8e;
-      --btn-bg: #0077b6;
-      --btn-hover: #005f8e;
+      --card-bg: #ffffff;
     }
 
     body.dark-mode {
       --bg-color: #121212;
       --text-color: #f1f1f1;
       --link-color: #58a6ff;
-      --btn-bg: #444;
-      --btn-hover: #333;
+      --card-bg: #1e1e1e;
     }
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 1rem;
       background-color: var(--bg-color);
       color: var(--text-color);
-      transition: background 0.3s ease, color 0.3s ease;
+      margin: 0;
+      padding: 1rem;
+      transition: background 0.3s, color 0.3s;
     }
 
     header, footer {
       text-align: center;
-      padding: 1rem;
-    }
-
-    h1 {
-      margin: 0.2rem 0 0.5rem;
-      font-size: 1.8rem;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
       margin-bottom: 1rem;
     }
 
-    nav a {
-      color: var(--link-color);
-      font-weight: 600;
-      text-decoration: none;
-      padding: 0.4rem 0.8rem;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
     }
 
     .toggle {
-      display: block;
-      margin: 0.5rem auto 1rem;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
+      display: inline-block;
+      padding: 0.4rem 1rem;
       border: 1px solid var(--text-color);
-      border-radius: 4px;
       background: none;
       color: var(--text-color);
+      border-radius: 5px;
       cursor: pointer;
+      margin-bottom: 1rem;
     }
 
-    .controls {
+    nav.navbar {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 0.75rem;
-      margin: 1.5rem 0;
+      margin-bottom: 1.5rem;
     }
 
-    .controls button {
-      background: var(--btn-bg);
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
+    nav.navbar a {
+      padding: 0.6rem 1rem;
+      background: #0077b6;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
     }
 
-    .controls button.active {
-      outline: 2px solid white;
-      font-weight: bold;
+    nav.navbar a.active {
+      outline: 2px solid #fff;
     }
 
-    .chart-container {
-      max-width: 800px;
-      margin: auto;
+    .stats-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1rem;
+      background-color: var(--card-bg);
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
 
     canvas {
-      max-width: 100%;
-      height: auto;
-      max-height: 400px;
+      width: 100% !important;
+      height: auto !important;
+      max-width: 800px;
+      display: block;
+      margin: 0 auto;
     }
 
     footer {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #888;
       border-top: 1px solid #ccc;
       margin-top: 2rem;
       padding-top: 1rem;
     }
 
-    @media (max-width: 600px) {
-      nav {
+    @media (max-width: 768px) {
+      nav.navbar {
         flex-direction: column;
-        gap: 0.8rem;
+        align-items: stretch;
+      }
+
+      nav.navbar a {
+        width: 100%;
+        font-size: 1rem;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      .stats-container {
+        padding: 0.8rem;
       }
     }
   </style>
@@ -125,114 +128,53 @@
 <body>
   <header>
     <h1>Healthcare@ThreatPodium</h1>
-    <nav>
-      <a href="index.html">🏠 Home</a>
-      <a href="breaches.html">📊 Breaches</a>
-      <a href="news.html">📰 News</a>
-      <a href="stats.html">📈 Stats</a>
-    </nav>
     <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
   </header>
 
-  <div class="controls">
-    <button onclick="renderCharts(1)">1 Day</button>
-    <button onclick="renderCharts(7)">7 Days</button>
-    <button class="active" onclick="renderCharts(30)">30 Days</button>
-  </div>
+  <nav class="navbar">
+    <a href="index.html">🏠 Home</a>
+    <a href="breaches.html">📊 Breaches</a>
+    <a href="news.html">📰 News</a>
+    <a href="stats.html" class="active">📈 Stats</a>
+  </nav>
 
-  <div class="chart-container">
-    <h3 style="text-align: center;">Breach Types</h3>
-    <canvas id="typeChart"></canvas>
-  </div>
+  <div class="stats-container">
+    <!-- START-STATS-SECTION -->
 
-  <div class="chart-container">
-    <h3 style="text-align: center;">States with Breaches</h3>
-    <canvas id="stateChart"></canvas>
+<div>
+  <h2 style="text-align:center;">📊 Breaches Over Time (Mock Data)</h2>
+  <canvas id="breachChart"></canvas>
+</div>
+<script>
+const ctx = document.getElementById('breachChart').getContext('2d');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+    datasets: [{
+      label: 'Breaches',
+      data: [5, 9, 3, 7, 6],
+      backgroundColor: 'rgba(0, 119, 182, 0.2)',
+      borderColor: 'rgba(0, 119, 182, 1)',
+      borderWidth: 2,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+</script>
+
+
   </div>
 
   <footer>
     &copy; 2025 ThreatPodium. Powered by open data and smart automation.
   </footer>
-
-  <script>
-    function toggleDarkMode() {
-      const isDark = document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      renderCharts(currentDays); // re-render with new theme
-    }
-
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-    }
-
-    let currentDays = 30;
-    let breaches = [];
-
-    async function loadData() {
-      const res = await fetch("breaches.json");
-      breaches = await res.json();
-      renderCharts(currentDays);
-    }
-
-    function renderCharts(days) {
-      currentDays = days;
-      document.querySelectorAll(".controls button").forEach(b => b.classList.remove("active"));
-      document.querySelector(`.controls button[onclick="renderCharts(${days})"]`).classList.add("active");
-
-      const cutoff = new Date();
-      cutoff.setDate(cutoff.getDate() - days);
-      const filtered = breaches.filter(b => new Date(b["Date Added"]) >= cutoff);
-
-      const types = {};
-      const states = {};
-
-      filtered.forEach(b => {
-        types[b["Type of Breach"]] = (types[b["Type of Breach"]] || 0) + 1;
-        states[b["State"]] = (states[b["State"]] || 0) + 1;
-      });
-
-      const dark = document.body.classList.contains("dark-mode");
-      const labelColor = dark ? "#f1f1f1" : "#333";
-
-      const options = {
-        plugins: {
-          legend: { labels: { color: labelColor }},
-        },
-        scales: {
-          x: { ticks: { color: labelColor }, grid: { color: dark ? "#444" : "#ccc" }},
-          y: { ticks: { color: labelColor }, grid: { color: dark ? "#444" : "#ccc" }}
-        }
-      };
-
-      new Chart(document.getElementById("typeChart"), {
-        type: "bar",
-        data: {
-          labels: Object.keys(types),
-          datasets: [{
-            label: "Count",
-            data: Object.values(types),
-            backgroundColor: dark ? "#58a6ff" : "#0077b6"
-          }]
-        },
-        options
-      });
-
-      new Chart(document.getElementById("stateChart"), {
-        type: "doughnut",
-        data: {
-          labels: Object.keys(states),
-          datasets: [{
-            data: Object.values(states),
-            backgroundColor: Object.keys(states).map((_, i) =>
-              `hsl(${(i * 137.5) % 360}, 65%, ${dark ? "55%" : "70%"})`
-            )
-          }]
-        },
-        options
-      });
-    }
-
-    loadData();
-  </script>
 </body>
 </html>
