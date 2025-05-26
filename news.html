@@ -15,6 +15,7 @@
       --table-header-bg: #0077b6;
       --table-header-color: #fff;
       --link-color: #005f8e;
+      --input-bg: #fff;
     }
 
     body.dark-mode {
@@ -23,6 +24,7 @@
       --table-header-bg: #444;
       --table-header-color: #fff;
       --link-color: #58a6ff;
+      --input-bg: #1e1e1e;
     }
 
     body {
@@ -93,12 +95,6 @@
       margin-bottom: 1.5rem;
     }
 
-    .toolbar .downloads {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
     .toolbar .downloads a {
       background: var(--table-header-bg);
       color: #fff;
@@ -141,7 +137,7 @@
 
     .dataTables_wrapper input[type="search"],
     .dataTables_wrapper select {
-      background-color: var(--bg-color);
+      background-color: var(--input-bg);
       color: var(--text-color);
       border: 1px solid #ccc;
       padding: 5px;
@@ -200,7 +196,7 @@
     
 <!-- START-NEWS-SECTION -->
 <h2>📰 Recent Healthcare Threat News</h2>
-<p>As of 2025-05-26 18:04:36 UTC | Source: <a href="https://www.bleepingcomputer.com/feed/">BleepingComputer RSS</a></p>
+<p>As of 2025-05-26 18:13:14 UTC | Source: <a href="https://www.bleepingcomputer.com/feed/">BleepingComputer RSS</a></p>
 <input type="text" id="news-filter" placeholder="Filter news..." />
 <ul id="news-list">
 <li>No healthcare-relevant news found in the last 24 hours.</li></ul>
