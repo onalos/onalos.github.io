@@ -3,99 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <title>Healthcare@ThreatPodium — News</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
       --bg-color: #f7f9fb;
       --text-color: #222;
-      --accent: #0077b6;
-      --accent-hover: #005f8e;
       --link-color: #005f8e;
-      --input-bg: #fff;
+      --card-bg: #ffffff;
+      --input-bg: #ffffff;
     }
 
     body.dark-mode {
       --bg-color: #121212;
       --text-color: #f1f1f1;
-      --accent: #444;
-      --accent-hover: #333;
       --link-color: #58a6ff;
+      --card-bg: #1e1e1e;
       --input-bg: #1e1e1e;
     }
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 1rem;
       background-color: var(--bg-color);
       color: var(--text-color);
-      transition: background 0.3s ease, color 0.3s ease;
+      margin: 0;
+      padding: 1rem;
+      transition: background 0.3s, color 0.3s;
     }
 
     header, footer {
       text-align: center;
-      padding: 1rem;
-    }
-
-    h1 {
-      margin: 0.2rem 0 0.5rem;
-      font-size: 1.8rem;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
       margin-bottom: 1rem;
     }
 
-    nav a {
-      color: var(--link-color);
-      font-weight: 600;
-      text-decoration: none;
-      padding: 0.4rem 0.8rem;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
     }
 
     .toggle {
-      display: block;
-      margin: 0.5rem auto 1rem;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
+      display: inline-block;
+      padding: 0.4rem 1rem;
       border: 1px solid var(--text-color);
-      border-radius: 4px;
       background: none;
       color: var(--text-color);
+      border-radius: 5px;
       cursor: pointer;
+      margin-bottom: 1rem;
+    }
+
+    nav.navbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    nav.navbar a {
+      padding: 0.6rem 1rem;
+      background: #0077b6;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    nav.navbar a.active {
+      outline: 2px solid #fff;
     }
 
     #news-filter {
       display: block;
       width: 100%;
-      max-width: 500px;
-      margin: 1rem auto;
-      padding: 0.5rem;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+      padding: 0.6rem;
       font-size: 1rem;
       background-color: var(--input-bg);
       color: var(--text-color);
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 5px;
     }
 
     .news-item {
+      background-color: var(--card-bg);
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
       margin: 1rem auto;
       max-width: 800px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 1rem;
     }
 
     .news-item h3 {
       margin: 0 0 0.3rem;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     .news-item a {
@@ -107,22 +110,37 @@
       text-decoration: underline;
     }
 
-    footer {
+    .news-item p {
+      margin: 0.2rem 0 0;
       font-size: 0.9rem;
+      color: var(--text-color);
+    }
+
+    footer {
+      font-size: 0.85rem;
       color: #888;
       border-top: 1px solid #ccc;
       margin-top: 2rem;
       padding-top: 1rem;
     }
 
-    @media (max-width: 600px) {
-      nav {
+    @media (max-width: 768px) {
+      nav.navbar {
         flex-direction: column;
-        gap: 0.8rem;
+        align-items: stretch;
       }
 
-      nav a {
-        text-align: center;
+      nav.navbar a {
+        width: 100%;
+        font-size: 1rem;
+      }
+
+      #news-filter {
+        width: 90%;
+      }
+
+      .news-item {
+        margin: 1rem 0;
       }
     }
   </style>
@@ -130,19 +148,31 @@
 <body>
   <header>
     <h1>Healthcare@ThreatPodium</h1>
-    <nav>
-      <a href="index.html">🏠 Home</a>
-      <a href="breaches.html">📊 Breaches</a>
-      <a href="news.html">📰 News</a>
-      <a href="stats.html">📈 Stats</a>
-    </nav>
     <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
   </header>
+
+  <nav class="navbar">
+    <a href="index.html">🏠 Home</a>
+    <a href="breaches.html">📊 Breaches</a>
+    <a href="news.html" class="active">📰 News</a>
+    <a href="stats.html">📈 Stats</a>
+  </nav>
 
   <input type="text" id="news-filter" placeholder="Search healthcare threat news..." />
 
   <div id="news-list">
-    <!-- news_scraper.py injects headlines here -->
+    <div class="news-item">
+      <h3><a href="#">Ransomware hits major hospital chain</a></h3>
+      <p><em>June 1, 2025</em></p>
+    </div>
+    <div class="news-item">
+      <h3><a href="#">Healthcare data breach affects 500k patients</a></h3>
+      <p><em>May 31, 2025</em></p>
+    </div>
+    <div class="news-item">
+      <h3><a href="#">New threat group targeting patient portals</a></h3>
+      <p><em>May 30, 2025</em></p>
+    </div>
   </div>
 
   <footer>
@@ -151,20 +181,18 @@
 
   <script>
     function toggleDarkMode() {
-      const isDark = document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      const dark = document.body.classList.toggle("dark-mode");
+      localStorage.setItem("theme", dark ? "dark" : "light");
     }
 
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark-mode");
     }
 
     document.getElementById('news-filter').addEventListener('input', function () {
       const query = this.value.toLowerCase();
-      const items = document.querySelectorAll('.news-item');
-      items.forEach(item => {
-        const match = item.innerText.toLowerCase().includes(query);
-        item.style.display = match ? 'block' : 'none';
+      document.querySelectorAll('.news-item').forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(query) ? 'block' : 'none';
       });
     });
   </script>
