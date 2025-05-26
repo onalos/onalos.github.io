@@ -12,7 +12,6 @@
       --card-bg: #ffffff;
       --input-bg: #ffffff;
     }
-
     body.dark-mode {
       --bg-color: #121212;
       --text-color: #f1f1f1;
@@ -20,7 +19,6 @@
       --card-bg: #1e1e1e;
       --input-bg: #1e1e1e;
     }
-
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: var(--bg-color);
@@ -29,17 +27,14 @@
       padding: 1rem;
       transition: background 0.3s, color 0.3s;
     }
-
     header, footer {
       text-align: center;
       margin-bottom: 1rem;
     }
-
     h1 {
       font-size: 1.8rem;
       margin-bottom: 0.5rem;
     }
-
     .toggle {
       display: inline-block;
       padding: 0.4rem 1rem;
@@ -50,7 +45,6 @@
       cursor: pointer;
       margin-bottom: 1rem;
     }
-
     nav.navbar {
       display: flex;
       flex-wrap: wrap;
@@ -58,7 +52,6 @@
       gap: 0.75rem;
       margin-bottom: 1.5rem;
     }
-
     nav.navbar a {
       padding: 0.6rem 1rem;
       background: #0077b6;
@@ -69,11 +62,9 @@
       font-size: 0.95rem;
       text-align: center;
     }
-
     nav.navbar a.active {
       outline: 2px solid #fff;
     }
-
     #news-filter {
       display: block;
       width: 100%;
@@ -86,7 +77,6 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-
     .news-item {
       background-color: var(--card-bg);
       padding: 1rem;
@@ -95,27 +85,22 @@
       margin: 1rem auto;
       max-width: 800px;
     }
-
     .news-item h3 {
       margin: 0 0 0.3rem;
       font-size: 1.1rem;
     }
-
     .news-item a {
       color: var(--link-color);
       text-decoration: none;
     }
-
     .news-item a:hover {
       text-decoration: underline;
     }
-
     .news-item p {
       margin: 0.2rem 0 0;
       font-size: 0.9rem;
       color: var(--text-color);
     }
-
     footer {
       font-size: 0.85rem;
       color: #888;
@@ -123,22 +108,18 @@
       margin-top: 2rem;
       padding-top: 1rem;
     }
-
     @media (max-width: 768px) {
       nav.navbar {
         flex-direction: column;
         align-items: stretch;
       }
-
       nav.navbar a {
         width: 100%;
         font-size: 1rem;
       }
-
       #news-filter {
         width: 90%;
       }
-
       .news-item {
         margin: 1rem 0;
       }
@@ -160,20 +141,24 @@
 
   <input type="text" id="news-filter" placeholder="Search healthcare threat news..." />
 
-  <div id="news-list">
+  <!-- START-NEWS-SECTION -->
+
     <div class="news-item">
-      <h3><a href="#">Ransomware hits major hospital chain</a></h3>
+      <h3><a href="https://example.com/article1" target="_blank">Ransomware hits major hospital chain</a></h3>
       <p><em>June 1, 2025</em></p>
     </div>
+    
     <div class="news-item">
-      <h3><a href="#">Healthcare data breach affects 500k patients</a></h3>
+      <h3><a href="https://example.com/article2" target="_blank">Healthcare data breach affects 500k patients</a></h3>
       <p><em>May 31, 2025</em></p>
     </div>
+    
     <div class="news-item">
-      <h3><a href="#">New threat group targeting patient portals</a></h3>
+      <h3><a href="https://example.com/article3" target="_blank">New threat actor targets patient portals</a></h3>
       <p><em>May 30, 2025</em></p>
     </div>
-  </div>
+    
+
 
   <footer>
     &copy; 2025 ThreatPodium. Powered by open data and smart automation.
@@ -184,7 +169,6 @@
       const dark = document.body.classList.toggle("dark-mode");
       localStorage.setItem("theme", dark ? "dark" : "light");
     }
-
     if (localStorage.getItem("theme") === "dark") {
       document.body.classList.add("dark-mode");
     }
