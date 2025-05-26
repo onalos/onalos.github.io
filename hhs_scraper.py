@@ -31,7 +31,7 @@ df_recent = df[df["Date Added"] >= cutoff].copy()
 df_recent.to_csv("breaches.csv", index=False)
 df_recent.to_json("breaches.json", orient="records", indent=2)
 
-# Build table HTML
+# Build the table HTML
 table_rows = ""
 for _, row in df_recent.iterrows():
     table_rows += "<tr>" + "".join(f"<td>{cell}</td>" for cell in row) + "</tr>"
@@ -39,8 +39,8 @@ for _, row in df_recent.iterrows():
 table_html = f"""
 <div class="toolbar">
   <div class="downloads">
-    📥 <a href="breaches.csv" class="btn">CSV</a>
-    📥 <a href="breaches.json" class="btn">JSON</a>
+    📥 <a href="breaches.csv">CSV</a>
+    📥 <a href="breaches.json">JSON</a>
   </div>
   <div class="source">
     🔎 Source: <a href="{url}" target="_blank">HHS OCR Breach Portal</a>
@@ -78,14 +78,12 @@ with open("base_template.html", "r", encoding="utf-8") as f:
 
 start_marker = "<!-- START-BREACH-SECTION -->"
 end_marker = "<!-- END-BREACH-SECTION -->"
-
 start = template.find(start_marker)
 end = template.find(end_marker) + len(end_marker)
-
-if start == -1 or end == -1:
-    raise ValueError("Missing section markers in base_template.html")
 
 final_output = template[:start] + start_marker + "\n" + table_html + "\n" + template[end:]
 
 with open("breaches.html", "w", encoding="utf-8", errors="surrogatepass") as f:
     f.write(final_output)
+
+print(f"✅ Generated breaches.html with {len(df_recent)} entries.")
