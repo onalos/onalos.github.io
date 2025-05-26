@@ -31,14 +31,13 @@ df_recent = df[df["Date Added"] >= cutoff].copy()
 df_recent.to_csv("breaches.csv", index=False)
 df_recent.to_json("breaches.json", orient="records", indent=2)
 
-# Table rows
 table_rows = ""
 for _, row in df_recent.iterrows():
     table_rows += "<tr>" + "".join(f"<td>{cell}</td>" for cell in row) + "</tr>"
 
 last_updated = datetime.utcnow().strftime("%B %d, %Y")
 
-html_injection = f"""
+html = f"""
 <div class="toolbar">
   <div class="downloads">
     📥 <a href="breaches.csv">CSV</a>
@@ -82,17 +81,12 @@ html_injection = f"""
 with open("base_template.html", "r", encoding="utf-8") as f:
     template = f.read()
 
-start_marker = "<!-- START-BREACH-SECTION -->"
-end_marker = "<!-- END-BREACH-SECTION -->"
-start = template.find(start_marker)
-end = template.find(end_marker) + len(end_marker)
+start = template.find("<!-- START-BREACH-SECTION -->")
+end = template.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
 
-if start == -1 or end == -1:
-    raise ValueError("Markers missing in base_template.html")
-
-output = template[:start] + start_marker + "\n" + html_injection + "\n" + template[end:]
+new_html = template[:start] + "<!-- START-BREACH-SECTION -->\n" + html + "\n" + template[end:]
 
 with open("breaches.html", "w", encoding="utf-8", errors="surrogatepass") as f:
-    f.write(output)
+    f.write(new_html)
 
 print(f"✅ breaches.html generated with {len(df_recent)} entries on {last_updated}")
