@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>📈 Stats — ThreatPodium</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Healthcare@ThreatPodium — Stats</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --bg-color: #f7f9fb;
-      --text-color: #333;
+      --text-color: #222;
+      --link-color: #005f8e;
       --btn-bg: #0077b6;
       --btn-hover: #005f8e;
     }
@@ -16,81 +17,85 @@
     body.dark-mode {
       --bg-color: #121212;
       --text-color: #f1f1f1;
-      --btn-bg: #333;
-      --btn-hover: #444;
+      --link-color: #58a6ff;
+      --btn-bg: #444;
+      --btn-hover: #333;
     }
 
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 1rem;
-      background: var(--bg-color);
+      background-color: var(--bg-color);
       color: var(--text-color);
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    header {
+    header, footer {
       text-align: center;
-      margin-bottom: 1rem;
+      padding: 1rem;
     }
 
     h1 {
-      margin-bottom: 0.5rem;
+      margin: 0.2rem 0 0.5rem;
+      font-size: 1.8rem;
     }
 
     nav {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 1rem;
-      margin: 1rem 0;
+      margin-bottom: 1rem;
     }
 
     nav a {
-      color: var(--text-color);
+      color: var(--link-color);
       font-weight: 600;
       text-decoration: none;
       padding: 0.4rem 0.8rem;
-      border-radius: 4px;
     }
 
     nav a:hover {
-      background-color: rgba(0,0,0,0.1);
+      text-decoration: underline;
     }
 
     .toggle {
-      margin-top: 0.5rem;
-      padding: 0.4rem 1rem;
+      display: block;
+      margin: 0.5rem auto 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
       border: 1px solid var(--text-color);
+      border-radius: 4px;
       background: none;
       color: var(--text-color);
-      border-radius: 4px;
       cursor: pointer;
     }
 
     .controls {
       display: flex;
       justify-content: center;
-      gap: 0.5rem;
       flex-wrap: wrap;
-      margin: 1rem 0;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
     }
 
     .controls button {
       background: var(--btn-bg);
-      color: #fff;
+      color: white;
       padding: 0.5rem 1rem;
       border: none;
-      border-radius: 5px;
+      border-radius: 4px;
       cursor: pointer;
+      font-size: 1rem;
     }
 
     .controls button.active {
-      outline: 2px solid #fff;
+      outline: 2px solid white;
       font-weight: bold;
     }
 
-    .chart-section {
+    .chart-container {
       max-width: 800px;
       margin: auto;
     }
@@ -102,22 +107,29 @@
     }
 
     footer {
-      text-align: center;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: #888;
+      border-top: 1px solid #ccc;
       margin-top: 2rem;
       padding-top: 1rem;
-      border-top: 1px solid #ccc;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>📈 ThreatPodium Stats</h1>
+    <h1>Healthcare@ThreatPodium</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="breaches.html">Breaches</a>
-      <a href="news.html">News</a>
+      <a href="index.html">🏠 Home</a>
+      <a href="breaches.html">📊 Breaches</a>
+      <a href="news.html">📰 News</a>
+      <a href="stats.html">📈 Stats</a>
     </nav>
     <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
   </header>
@@ -125,26 +137,28 @@
   <div class="controls">
     <button onclick="renderCharts(1)">1 Day</button>
     <button onclick="renderCharts(7)">7 Days</button>
-    <button onclick="renderCharts(30)" class="active">30 Days</button>
+    <button class="active" onclick="renderCharts(30)">30 Days</button>
   </div>
 
-  <div class="chart-section">
-    <h3>Breach Types</h3>
+  <div class="chart-container">
+    <h3 style="text-align: center;">Breach Types</h3>
     <canvas id="typeChart"></canvas>
+  </div>
 
-    <h3>Breach Locations (States)</h3>
+  <div class="chart-container">
+    <h3 style="text-align: center;">States with Breaches</h3>
     <canvas id="stateChart"></canvas>
   </div>
 
   <footer>
-    &copy; 2025 ThreatPodium. Built with Chart.js and auto-generated data.
+    &copy; 2025 ThreatPodium. Powered by open data and smart automation.
   </footer>
 
   <script>
     function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-      renderCharts(currentDays); // Re-render with correct colors
+      const isDark = document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      renderCharts(currentDays); // re-render with new theme
     }
 
     if (localStorage.getItem('theme') === 'dark') {
@@ -155,71 +169,66 @@
     let breaches = [];
 
     async function loadData() {
-      const res = await fetch('breaches.json');
+      const res = await fetch("breaches.json");
       breaches = await res.json();
       renderCharts(currentDays);
     }
 
     function renderCharts(days) {
       currentDays = days;
-
-      document.querySelectorAll('.controls button').forEach(btn => btn.classList.remove('active'));
-      document.querySelector(`.controls button[onclick="renderCharts(${days})"]`).classList.add('active');
+      document.querySelectorAll(".controls button").forEach(b => b.classList.remove("active"));
+      document.querySelector(`.controls button[onclick="renderCharts(${days})"]`).classList.add("active");
 
       const cutoff = new Date();
       cutoff.setDate(cutoff.getDate() - days);
-
       const filtered = breaches.filter(b => new Date(b["Date Added"]) >= cutoff);
 
-      const typeCounts = {};
-      const stateCounts = {};
+      const types = {};
+      const states = {};
 
       filtered.forEach(b => {
-        typeCounts[b["Type of Breach"]] = (typeCounts[b["Type of Breach"]] || 0) + 1;
-        stateCounts[b["State"]] = (stateCounts[b["State"]] || 0) + 1;
+        types[b["Type of Breach"]] = (types[b["Type of Breach"]] || 0) + 1;
+        states[b["State"]] = (states[b["State"]] || 0) + 1;
       });
 
-      const dark = document.body.classList.contains('dark-mode');
-      const fontColor = dark ? '#f1f1f1' : '#333';
+      const dark = document.body.classList.contains("dark-mode");
+      const labelColor = dark ? "#f1f1f1" : "#333";
 
-      const chartOptions = {
-        responsive: true,
+      const options = {
         plugins: {
-          legend: { labels: { color: fontColor } },
-          title: { color: fontColor }
+          legend: { labels: { color: labelColor }},
         },
         scales: {
-          x: { ticks: { color: fontColor }, grid: { color: dark ? '#333' : '#ccc' } },
-          y: { ticks: { color: fontColor }, grid: { color: dark ? '#333' : '#ccc' } }
+          x: { ticks: { color: labelColor }, grid: { color: dark ? "#444" : "#ccc" }},
+          y: { ticks: { color: labelColor }, grid: { color: dark ? "#444" : "#ccc" }}
         }
       };
 
-      new Chart(document.getElementById('typeChart'), {
-        type: 'bar',
+      new Chart(document.getElementById("typeChart"), {
+        type: "bar",
         data: {
-          labels: Object.keys(typeCounts),
+          labels: Object.keys(types),
           datasets: [{
-            label: 'Count',
-            data: Object.values(typeCounts),
-            backgroundColor: dark ? '#58a6ff' : '#0077b6'
+            label: "Count",
+            data: Object.values(types),
+            backgroundColor: dark ? "#58a6ff" : "#0077b6"
           }]
         },
-        options: chartOptions
+        options
       });
 
-      new Chart(document.getElementById('stateChart'), {
-        type: 'doughnut',
+      new Chart(document.getElementById("stateChart"), {
+        type: "doughnut",
         data: {
-          labels: Object.keys(stateCounts),
+          labels: Object.keys(states),
           datasets: [{
-            label: 'States',
-            data: Object.values(stateCounts),
-            backgroundColor: Object.keys(stateCounts).map((_, i) =>
-              `hsl(${(i * 137.5) % 360}, 65%, ${dark ? '55%' : '70%'})`
+            data: Object.values(states),
+            backgroundColor: Object.keys(states).map((_, i) =>
+              `hsl(${(i * 137.5) % 360}, 65%, ${dark ? "55%" : "70%"})`
             )
           }]
         },
-        options: chartOptions
+        options
       });
     }
 
