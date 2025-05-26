@@ -46,10 +46,9 @@ html = f"""
   <div class="source">
     🔎 Source: <a href="{url}" target="_blank">HHS OCR Breach Portal</a>
   </div>
-</div>
-
-<div class="updated">
-  Last updated: <strong>{last_updated}</strong>
+  <div class="updated">
+    🕒 Last updated: <strong>{last_updated}</strong>
+  </div>
 </div>
 
 <div class="table-wrapper">
@@ -83,7 +82,6 @@ with open("base_template.html", "r", encoding="utf-8") as f:
 
 start = template.find("<!-- START-BREACH-SECTION -->")
 end = template.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
-
 new_html = template[:start] + "<!-- START-BREACH-SECTION -->\n" + html + "\n" + template[end:]
 
 with open("breaches.html", "w", encoding="utf-8", errors="surrogatepass") as f:
