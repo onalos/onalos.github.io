@@ -31,10 +31,12 @@ df_recent = df[df["Date Added"] >= cutoff].copy()
 df_recent.to_csv("breaches.csv", index=False)
 df_recent.to_json("breaches.json", orient="records", indent=2)
 
-# Build the table HTML
+# Table rows
 table_rows = ""
 for _, row in df_recent.iterrows():
     table_rows += "<tr>" + "".join(f"<td>{cell}</td>" for cell in row) + "</tr>"
+
+last_updated = datetime.utcnow().strftime("%B %d, %Y")
 
 table_html = f"""
 <div class="toolbar">
@@ -45,6 +47,10 @@ table_html = f"""
   <div class="source">
     🔎 Source: <a href="{url}" target="_blank">HHS OCR Breach Portal</a>
   </div>
+</div>
+
+<div class="updated">
+  Last updated: <strong>{last_updated}</strong>
 </div>
 
 <div class="table-wrapper">
@@ -81,9 +87,12 @@ end_marker = "<!-- END-BREACH-SECTION -->"
 start = template.find(start_marker)
 end = template.find(end_marker) + len(end_marker)
 
-final_output = template[:start] + start_marker + "\n" + table_html + "\n" + template[end:]
+if start == -1 or end == -1:
+    raise ValueError("Markers missing in base_template.html")
+
+output = template[:start] + start_marker + "\n" + table_html + "\n" + template[end:]
 
 with open("breaches.html", "w", encoding="utf-8", errors="surrogatepass") as f:
-    f.write(final_output)
+    f.write(output)
 
-print(f"✅ Generated breaches.html with {len(df_recent)} entries.")
+print(f"✅ breaches.html generated with {len(df_recent)} entries on {last_updated}")
