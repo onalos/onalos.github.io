@@ -5,7 +5,7 @@
   <title>Healthcare@ThreatPodium</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://code.jquery.com https://cdn.datatables.net;">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <style>
@@ -99,16 +99,10 @@
       padding: 0.4rem 0.8rem;
       border-radius: 4px;
       font-size: 0.9rem;
-      margin-right: 0.5rem;
     }
 
     .source {
       font-size: 0.9rem;
-    }
-
-    .dataTables_wrapper {
-      margin-top: 1rem;
-      overflow-x: auto;
     }
 
     .table-wrapper {
@@ -134,6 +128,11 @@
     table.display th {
       background-color: var(--table-header-bg);
       color: var(--table-header-color);
+    }
+
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+      margin-bottom: 1rem;
     }
 
     .dataTables_wrapper input[type="search"],
@@ -163,16 +162,15 @@
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
-        margin-bottom: 0.5rem;
-      }
-
-      table.display {
-        font-size: 0.85rem;
       }
 
       .dataTables_wrapper .dataTables_length,
       .dataTables_wrapper .dataTables_filter {
         width: 100%;
+      }
+
+      table.display {
+        font-size: 0.85rem;
       }
     }
   </style>
