@@ -56,23 +56,27 @@
       margin-bottom: 1rem;
     }
 
-    nav {
+    nav.navbar {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
     }
 
-    nav a {
-      color: var(--link-color);
+    nav.navbar a {
+      padding: 0.6rem 1rem;
+      background: var(--table-header-bg);
+      color: #fff;
       text-decoration: none;
+      border-radius: 5px;
       font-weight: 600;
-      padding: 0.4rem 0.6rem;
+      font-size: 0.95rem;
+      text-align: center;
     }
 
-    nav a.active {
-      text-decoration: underline;
+    nav.navbar a.active {
+      outline: 2px solid #fff;
     }
 
     .toolbar {
@@ -169,11 +173,6 @@
         align-items: flex-start;
       }
 
-      nav {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
       .downloads {
         margin-bottom: 0.5rem;
       }
@@ -187,6 +186,16 @@
         width: 100%;
         margin-top: 0.5rem;
       }
+
+      nav.navbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      nav.navbar a {
+        width: 100%;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -196,7 +205,7 @@
     <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
   </header>
 
-  <nav>
+  <nav class="navbar">
     <a href="index.html">🏠 Home</a>
     <a href="breaches.html" class="active">📊 Breaches</a>
     <a href="news.html">📰 News</a>
