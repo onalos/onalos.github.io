@@ -2,11 +2,11 @@ name: HHS Breach Page Generator
 
 on:
   schedule:
-    - cron: '0 15 * * *'  # Daily at 10am ET
+    - cron: '0 15 * * *'  # 10:00 AM ET
   workflow_dispatch:
 
 jobs:
-  generate-breaches:
+  breach:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,19 +23,22 @@ jobs:
 
       - name: Clone GitHub Pages repo
         run: |
-          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git site
+          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/onalos/onalos.github.io.git repo
 
-      - name: Generate breaches.html
+      - name: Copy base HTML template
         run: |
-          cp site/base_template.html .
-          python scraper.py
-          cp breaches.html breaches.csv breaches.json site/
+          cp repo/base_template.html .
+
+      - name: Run HHS scraper
+        run: |
+          python hhs_scraper.py
+          cp breaches.html raw.html breaches.csv breaches.json repo/
 
       - name: Commit and push
         run: |
-          cd site
+          cd repo
           git config user.name "Breach Bot"
           git config user.email "actions@github.com"
-          git add breaches.html breaches.csv breaches.json
-          git diff --cached --quiet || git commit -m "Update breach data"
+          git add breaches.html raw.html breaches.csv breaches.json
+          git diff --cached --quiet || git commit -m "Update HHS breach page"
           git push origin HEAD:main
