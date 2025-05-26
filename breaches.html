@@ -81,11 +81,16 @@
 
     .toolbar {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
       gap: 1rem;
       margin-bottom: 1rem;
+    }
+
+    .downloads {
+      display: flex;
+      gap: 0.5rem;
     }
 
     .downloads a {
@@ -103,7 +108,6 @@
 
     .updated {
       font-size: 0.9rem;
-      margin-bottom: 1rem;
     }
 
     .table-wrapper {
@@ -149,16 +153,22 @@
 
       .toolbar {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
+      }
+
+      .downloads {
+        justify-content: center;
       }
 
       .dataTables_wrapper .dataTables_length,
       .dataTables_wrapper .dataTables_filter {
         width: 100%;
+        text-align: center;
       }
 
       .dataTables_wrapper input[type="search"] {
-        width: 100%;
+        width: 90%;
       }
     }
   </style>
@@ -187,10 +197,9 @@
   <div class="source">
     🔎 Source: <a href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank">HHS OCR Breach Portal</a>
   </div>
-</div>
-
-<div class="updated">
-  Last updated: <strong>May 26, 2025</strong>
+  <div class="updated">
+    🕒 Last updated: <strong>May 26, 2025</strong>
+  </div>
 </div>
 
 <div class="table-wrapper">
