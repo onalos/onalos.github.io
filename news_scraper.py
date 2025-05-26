@@ -1,8 +1,8 @@
 import feedparser
 from datetime import datetime
-import re
+import html
 
-# Define your sources
+# Define RSS feeds and sources
 feeds = {
     "BleepingComputer": "https://www.bleepingcomputer.com/feed/",
     "HealthITSecurity": "https://healthitsecurity.com/rss",
@@ -13,21 +13,21 @@ feeds = {
     "CISA": "https://www.cisa.gov/news.xml"
 }
 
-# Keywords to filter against
+# Keywords to filter for
 keywords = [
     "health", "healthcare", "clinic", "patients", "hospital",
     "medical", "ehr", "pharma", "pharmaceutical", "drug"
 ]
 
-# Match any keyword in a string
+# Match keyword
 def is_relevant(text):
     return any(kw in text.lower() for kw in keywords)
 
-# Parse feeds and filter
+# Parse feeds
 items = []
 for source, url in feeds.items():
-    feed = feedparser.parse(url)
-    for entry in feed.entries[:20]:
+    parsed = feedparser.parse(url)
+    for entry in parsed.entries[:20]:
         text = f"{entry.get('title', '')} {entry.get('summary', '')}"
         if is_relevant(text):
             date = entry.get('published', 'Unknown')
@@ -38,40 +38,40 @@ for source, url in feeds.items():
                 date_str = date
 
             items.append({
-                "title": entry.get("title", "No Title"),
+                "title": html.escape(entry.get("title", "No Title")),
                 "link": entry.get("link", "#"),
                 "date": date_str,
                 "source": source
             })
 
-# Sort newest first (where possible)
-def parse_date(item):
+# Sort by most recent
+def parse_date(entry):
     try:
-        return datetime.strptime(item["date"], "%B %d, %Y")
+        return datetime.strptime(entry["date"], "%B %d, %Y")
     except:
         return datetime.min
 
 items = sorted(items, key=parse_date, reverse=True)
 
-# Generate HTML for news cards
+# Generate news card HTML
 news_html = ""
 for item in items:
     news_html += f"""
     <div class="news-item">
-      <h3><a href="{item['link']}" target="_blank">{item['title']}</a></h3>
+      <h3><a href="{item['link']}" target="_blank" rel="noopener noreferrer">{item['title']}</a></h3>
       <p><em>{item['date']} — {item['source']}</em></p>
     </div>
     """
 
-# Inject into base template
+# Inject into base_template_news.html
 with open("base_template_news.html", "r", encoding="utf-8") as f:
     template = f.read()
 
 start = template.find("<!-- START-NEWS-SECTION -->")
 end = template.find("<!-- END-NEWS-SECTION -->") + len("<!-- END-NEWS-SECTION -->")
-final_html = template[:start] + "<!-- START-NEWS-SECTION -->\n" + news_html + "\n" + template[end:]
+new_html = template[:start] + "<!-- START-NEWS-SECTION -->\n" + news_html + "\n" + template[end:]
 
 with open("news.html", "w", encoding="utf-8") as f:
-    f.write(final_html)
+    f.write(new_html)
 
-print(f"✅ news.html generated with {len(items)} items.")
+print(f"✅ news.html generated with {len(items)} secure, filtered headlines.")
