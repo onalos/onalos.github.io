@@ -56,6 +56,25 @@
       margin-bottom: 1rem;
     }
 
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    nav a {
+      color: var(--link-color);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.4rem 0.6rem;
+    }
+
+    nav a.active {
+      text-decoration: underline;
+    }
+
     .toolbar {
       display: flex;
       flex-wrap: wrap;
@@ -150,6 +169,11 @@
         align-items: flex-start;
       }
 
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
       .downloads {
         margin-bottom: 0.5rem;
       }
@@ -171,6 +195,13 @@
     <h1>Healthcare@ThreatPodium</h1>
     <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
   </header>
+
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="breaches.html" class="active">📊 Breaches</a>
+    <a href="news.html">📰 News</a>
+    <a href="stats.html">📈 Stats</a>
+  </nav>
 
   <div class="toolbar">
     <div class="downloads">
