@@ -31,7 +31,7 @@ df_recent = df[df["Date Added"] >= cutoff].copy()
 df_recent.to_csv("breaches.csv", index=False)
 df_recent.to_json("breaches.json", orient="records", indent=2)
 
-# Generate breach table
+# Build table HTML
 table_rows = ""
 for _, row in df_recent.iterrows():
     table_rows += "<tr>" + "".join(f"<td>{cell}</td>" for cell in row) + "</tr>"
@@ -89,5 +89,3 @@ final_output = template[:start] + start_marker + "\n" + table_html + "\n" + temp
 
 with open("breaches.html", "w", encoding="utf-8", errors="surrogatepass") as f:
     f.write(final_output)
-
-print(f"✅ breaches.html generated with {len(df_recent)} entries.")
