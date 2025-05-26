@@ -72,7 +72,6 @@
       padding: 0.4rem 0.8rem;
       border-radius: 4px;
       font-size: 0.9rem;
-      margin-right: 0.5rem;
     }
 
     .source {
@@ -89,6 +88,7 @@
 
     .table-wrapper {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     table.display {
@@ -106,9 +106,10 @@
     table.display th,
     table.display td {
       border: 1px solid #ccc;
-      padding: 6px 8px;
-      font-size: 0.9rem;
-      word-break: break-word;
+      padding: 12px 10px;
+      font-size: 0.95rem;
+      text-align: left;
+      vertical-align: top;
     }
 
     .dataTables_wrapper input[type="search"],
@@ -120,6 +121,11 @@
       font-size: 0.9rem;
     }
 
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+      margin-bottom: 1rem;
+    }
+
     footer {
       font-size: 0.85rem;
       color: #888;
@@ -129,17 +135,33 @@
     }
 
     @media (max-width: 768px) {
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      table.display th,
+      table.display td {
+        padding: 10px 6px;
+        font-size: 0.85rem;
+      }
+
       .toolbar {
         flex-direction: column;
         align-items: flex-start;
       }
 
-      table.display {
-        font-size: 0.85rem;
-      }
-
       .downloads {
         margin-bottom: 0.5rem;
+      }
+
+      .dataTables_wrapper .dataTables_length,
+      .dataTables_wrapper .dataTables_filter {
+        width: 100%;
+      }
+
+      .dataTables_wrapper input[type="search"] {
+        width: 100%;
+        margin-top: 0.5rem;
       }
     }
   </style>
