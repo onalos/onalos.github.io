@@ -25,9 +25,10 @@ jobs:
         run: python stats_generator.py
 
       - name: Commit and push stats.html
-        run: |
-          git config user.name "Stats Bot"
-          git config user.email "actions@github.com"
-          git add stats.html
-          git diff --cached --quiet || git commit -m "Update stats page"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD:main
+  run: |
+    git config user.name "Stats Bot"
+    git config user.email "actions@github.com"
+    git add stats.html
+    git diff --cached --quiet || git commit -m "Update stats page"
+    git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}
+    git push origin HEAD:main
