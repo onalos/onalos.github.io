@@ -13,6 +13,7 @@
       --text-color: #222;
       --table-header-bg: #0077b6;
       --table-header-color: #fff;
+      --link-color: #005f8e;
       --input-bg: #fff;
     }
 
@@ -21,36 +22,69 @@
       --text-color: #f1f1f1;
       --table-header-bg: #444;
       --table-header-color: #fff;
+      --link-color: #58a6ff;
       --input-bg: #1e1e1e;
     }
 
     body {
-      margin: 0;
       font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 1rem;
       background-color: var(--bg-color);
       color: var(--text-color);
-      padding: 1rem;
-      transition: background 0.3s, color 0.3s;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    header {
+    header, footer {
       text-align: center;
       margin-bottom: 1rem;
     }
 
     h1 {
       font-size: 1.8rem;
+      margin-bottom: 0.5rem;
     }
 
     .toggle {
       display: inline-block;
-      margin-top: 0.5rem;
       padding: 0.4rem 1rem;
       border: 1px solid var(--text-color);
       background: none;
       color: var(--text-color);
       border-radius: 5px;
       cursor: pointer;
+      margin-bottom: 1rem;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .downloads a {
+      background: var(--table-header-bg);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      margin-right: 0.5rem;
+    }
+
+    .source {
+      font-size: 0.9rem;
+    }
+
+    .updated {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: -1rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
     }
 
     .table-wrapper {
@@ -60,19 +94,20 @@
     table.display {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
       background-color: var(--bg-color);
       color: var(--text-color);
     }
 
     table.display th {
-      background: var(--table-header-bg);
+      background-color: var(--table-header-bg);
       color: var(--table-header-color);
     }
 
-    table.display th, table.display td {
+    table.display th,
+    table.display td {
       border: 1px solid #ccc;
-      padding: 8px;
+      padding: 6px 8px;
+      font-size: 0.9rem;
       word-break: break-word;
     }
 
@@ -81,19 +116,31 @@
       background-color: var(--input-bg);
       color: var(--text-color);
       border: 1px solid #ccc;
-    }
-
-    @media (max-width: 768px) {
-      table.display {
-        font-size: 0.85rem;
-      }
+      padding: 5px;
+      font-size: 0.9rem;
     }
 
     footer {
-      text-align: center;
       font-size: 0.85rem;
       color: #888;
+      border-top: 1px solid #ccc;
       margin-top: 2rem;
+      padding-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      table.display {
+        font-size: 0.85rem;
+      }
+
+      .downloads {
+        margin-bottom: 0.5rem;
+      }
     }
   </style>
 </head>
@@ -102,6 +149,20 @@
     <h1>Healthcare@ThreatPodium</h1>
     <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
   </header>
+
+  <div class="toolbar">
+    <div class="downloads">
+      📥 <a href="breaches.csv">CSV</a>
+      📥 <a href="breaches.json">JSON</a>
+    </div>
+    <div class="source">
+      🔎 Source: <a href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank">HHS OCR Portal</a>
+    </div>
+  </div>
+
+  <div class="updated">
+    Last updated: <strong>June 1, 2025</strong>
+  </div>
 
   <div class="table-wrapper">
     <table id="breach-table" class="display">
@@ -117,7 +178,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>HealthNet</td><td>TX</td><td>Healthcare Provider</td><td>1200</td><td>05/01/2025</td><td>Hacking</td><td>Email</td></tr>
+        <tr><td>HealthNet</td><td>TX</td><td>Provider</td><td>1200</td><td>05/01/2025</td><td>Hacking</td><td>Email</td></tr>
         <tr><td>LifeWell</td><td>CA</td><td>Insurer</td><td>2500</td><td>05/03/2025</td><td>Unauthorized Access</td><td>Database</td></tr>
         <tr><td>MedicServe</td><td>NY</td><td>Hospital</td><td>980</td><td>05/05/2025</td><td>Theft</td><td>Laptop</td></tr>
       </tbody>
@@ -133,6 +194,7 @@
       const dark = document.body.classList.toggle("dark-mode");
       localStorage.setItem("theme", dark ? "dark" : "light");
     }
+
     if (localStorage.getItem("theme") === "dark") {
       document.body.classList.add("dark-mode");
     }
