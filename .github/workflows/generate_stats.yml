@@ -2,7 +2,7 @@ name: Generate Stats Page
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # Daily at 2:00 AM UTC
+    - cron: '0 2 * * *'  # Runs daily at 2:00 AM UTC
   workflow_dispatch:
 
 jobs:
@@ -18,13 +18,16 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Generate stats.html
+      - name: Install requirements (if needed)
+        run: pip install -r requirements.txt || true
+
+      - name: Run stats generator script
         run: python stats_generator.py
 
-      - name: Commit and push changes
+      - name: Commit and push stats.html
         run: |
           git config user.name "Stats Bot"
           git config user.email "actions@github.com"
           git add stats.html
           git diff --cached --quiet || git commit -m "Update stats page"
-          git push
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD:main
