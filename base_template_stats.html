@@ -7,9 +7,10 @@
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  style-src 'self' 'unsafe-inline';
-                 script-src 'self';
+                 script-src 'self' https://cdn.jsdelivr.net;
                  script-src-attr 'unsafe-inline';">
   <script src="theme.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --bg-color: #f7f9fb;
@@ -85,6 +86,14 @@
       background-color: var(--card-bg);
       border: 1px solid #ccc;
       border-radius: 6px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+      max-width: 800px;
+      display: block;
+      margin: 0 auto;
     }
 
     footer {
