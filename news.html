@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ThreatPodium — Healthcare Cyber Threat Intelligence</title>
+  <title>Healthcare@ThreatPodium</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://code.jquery.com https://cdn.datatables.net;">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -11,16 +12,13 @@
     :root {
       --bg-color: #f7f9fb;
       --text-color: #333;
-      --header-color: #2c3e50;
-      --row-alt-color: #f0f8ff;
       --table-header-bg: #0077b6;
       --table-header-color: #fff;
     }
+
     body.dark-mode {
-      --bg-color: #1a1a1a;
+      --bg-color: #121212;
       --text-color: #f1f1f1;
-      --header-color: #f1f1f1;
-      --row-alt-color: #2a2a2a;
       --table-header-bg: #444;
       --table-header-color: #fff;
     }
@@ -30,51 +28,43 @@
       margin: 0;
       background: var(--bg-color);
       color: var(--text-color);
-      line-height: 1.6;
       transition: background 0.3s ease, color 0.3s ease;
+      line-height: 1.6;
     }
 
     header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1.5rem 1rem;
-      background: var(--bg-color);
+      text-align: center;
+      padding: 1.5rem 1rem 1rem;
       border-bottom: 1px solid #ccc;
     }
 
     header h1 {
       margin: 0;
       font-size: clamp(1.6rem, 2.5vw, 2.2rem);
-      text-align: center;
     }
 
     .subtitle {
-      font-size: 0.95rem;
-      text-align: center;
-      margin: 0.5rem 0 1rem;
       color: #666;
+      margin: 0.5rem 0 1rem;
+      font-size: 1rem;
     }
 
     nav {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.8rem;
+      gap: 1rem;
       margin-bottom: 1rem;
     }
 
     nav a {
       color: var(--text-color);
-      text-decoration: none;
       font-weight: 600;
-      padding: 0.5rem;
-      border-radius: 4px;
+      text-decoration: none;
     }
 
-    nav a:hover,
-    nav a.active {
-      background-color: rgba(0, 0, 0, 0.05);
+    nav a:hover {
+      text-decoration: underline;
     }
 
     .toggle {
@@ -84,7 +74,6 @@
       padding: 0.4rem 0.8rem;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 0.9rem;
     }
 
     main {
@@ -93,29 +82,46 @@
       margin: auto;
     }
 
-    .section {
-      margin-bottom: 2rem;
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      row-gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    .download-links {
-      margin: 1rem 0;
+    .toolbar .downloads {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
-    .table-wrapper {
+    .toolbar .downloads a {
+      background: var(--table-header-bg);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .toolbar .source {
+      font-size: 0.9rem;
+    }
+
+    .dataTables_wrapper {
       overflow-x: auto;
-      width: 100%;
     }
 
     table.display {
-      min-width: 700px;
       width: 100%;
       border-collapse: collapse;
-      background: #fff;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+      margin-top: 1rem;
     }
 
     table.display th, table.display td {
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
       padding: 8px;
       word-break: break-word;
       vertical-align: top;
@@ -124,24 +130,6 @@
     table.display th {
       background-color: var(--table-header-bg);
       color: var(--table-header-color);
-    }
-
-    table.display tr:nth-child(even) {
-      background-color: var(--row-alt-color);
-    }
-
-    canvas {
-      max-width: 100%;
-      max-height: 400px;
-      height: auto;
-    }
-
-    #news-filter {
-      width: 100%;
-      padding: 0.5rem;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      box-sizing: border-box;
     }
 
     footer {
@@ -153,18 +141,22 @@
       margin-top: 2rem;
     }
 
-    @media (max-width: 600px) {
-      nav {
+    @media (max-width: 768px) {
+      .toolbar {
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
       }
 
-      .toggle {
+      .toolbar .downloads {
+        flex-direction: column;
+        align-items: stretch;
         width: 100%;
       }
 
-      .subtitle {
-        font-size: 0.9rem;
+      .dataTables_wrapper .dataTables_length,
+      .dataTables_wrapper .dataTables_filter {
+        width: 100%;
+        margin-bottom: 1rem;
       }
 
       table.display {
@@ -175,11 +167,10 @@
 </head>
 <body>
   <header>
-    <h1>ThreatPodium</h1>
+    <h1>Healthcare@ThreatPodium</h1>
     <p class="subtitle">Your daily source for healthcare breach and threat intelligence.</p>
     <nav>
       <a href="index.html">Home</a>
-      <a href="breaches.html">Breaches</a>
       <a href="news.html">News</a>
       <a href="stats.html">Stats</a>
       <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
@@ -193,7 +184,7 @@
     
 <!-- START-NEWS-SECTION -->
 <h2>📰 Recent Healthcare Threat News</h2>
-<p>As of 2025-05-26 16:40:27 UTC | Source: <a href="https://www.bleepingcomputer.com/feed/">BleepingComputer RSS</a></p>
+<p>As of 2025-05-26 17:41:18 UTC | Source: <a href="https://www.bleepingcomputer.com/feed/">BleepingComputer RSS</a></p>
 <input type="text" id="news-filter" placeholder="Filter news..." />
 <ul id="news-list">
 <li>No healthcare-relevant news found in the last 24 hours.</li></ul>
@@ -209,7 +200,7 @@
   </main>
 
   <footer>
-    &copy; 2025 ThreatPodium. Data sourced from HHS & trusted cybersecurity news.
+    &copy; 2025 ThreatPodium. Powered by open data and smart automation.
   </footer>
 
   <script>
