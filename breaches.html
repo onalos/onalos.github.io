@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Healthcare@ThreatPodium — Breaches</title>
+  <title>ThreatPodium — Healthcare Cyber Threat Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://code.jquery.com https://cdn.datatables.net;">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -12,15 +11,21 @@
     :root {
       --bg-color: #f7f9fb;
       --text-color: #333;
+      --header-color: #2c3e50;
+      --row-alt-color: #f0f8ff;
       --table-header-bg: #0077b6;
       --table-header-color: #fff;
+      --link-color: #005f8e;
     }
 
     body.dark-mode {
       --bg-color: #121212;
-      --text-color: #f1f1f1;
-      --table-header-bg: #444;
+      --text-color: #e0e0e0;
+      --header-color: #f1f1f1;
+      --row-alt-color: #1e1e1e;
+      --table-header-bg: #333;
       --table-header-color: #fff;
+      --link-color: #58a6ff;
     }
 
     body {
@@ -28,43 +33,50 @@
       margin: 0;
       background: var(--bg-color);
       color: var(--text-color);
-      transition: background 0.3s ease, color 0.3s ease;
       line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     header {
-      text-align: center;
-      padding: 1.5rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem;
       border-bottom: 1px solid #ccc;
     }
 
     header h1 {
       margin: 0;
       font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      text-align: center;
     }
 
     .subtitle {
-      color: #666;
+      font-size: 0.95rem;
+      text-align: center;
       margin: 0.5rem 0 1rem;
-      font-size: 1rem;
+      color: var(--text-color);
     }
 
     nav {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
+      gap: 0.8rem;
       margin-bottom: 1rem;
     }
 
     nav a {
-      color: var(--text-color);
-      font-weight: 600;
+      color: var(--link-color);
       text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem;
+      border-radius: 4px;
     }
 
-    nav a:hover {
-      text-decoration: underline;
+    nav a:hover,
+    nav a.active {
+      background-color: rgba(0, 0, 0, 0.1);
     }
 
     .toggle {
@@ -74,6 +86,7 @@
       padding: 0.4rem 0.8rem;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 0.9rem;
     }
 
     main {
@@ -82,46 +95,30 @@
       margin: auto;
     }
 
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      row-gap: 1rem;
-      margin-bottom: 1.5rem;
+    .section {
+      margin-bottom: 2rem;
     }
 
-    .toolbar .downloads {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+    .download-links {
+      margin: 1rem 0;
     }
 
-    .toolbar .downloads a {
-      background: var(--table-header-bg);
-      color: #fff;
-      text-decoration: none;
-      padding: 0.4rem 0.8rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-    }
-
-    .toolbar .source {
-      font-size: 0.9rem;
-    }
-
-    .dataTables_wrapper {
+    .table-wrapper {
       overflow-x: auto;
+      width: 100%;
     }
 
     table.display {
+      min-width: 700px;
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
+      background: var(--bg-color);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+      color: var(--text-color);
     }
 
     table.display th, table.display td {
-      border: 1px solid #ccc;
+      border: 1px solid #ddd;
       padding: 8px;
       word-break: break-word;
       vertical-align: top;
@@ -132,31 +129,45 @@
       color: var(--table-header-color);
     }
 
+    table.display tr:nth-child(even) {
+      background-color: var(--row-alt-color);
+    }
+
+    canvas {
+      max-width: 100%;
+      max-height: 400px;
+      height: auto;
+    }
+
+    #news-filter {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      box-sizing: border-box;
+    }
+
     footer {
       text-align: center;
       font-size: 0.85rem;
-      color: #888;
+      color: var(--text-color);
       padding: 2rem 1rem;
       border-top: 1px solid #ccc;
       margin-top: 2rem;
     }
 
-    @media (max-width: 768px) {
-      .toolbar {
+    @media (max-width: 600px) {
+      nav {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
       }
 
-      .toolbar .downloads {
-        flex-direction: column;
-        align-items: stretch;
+      .toggle {
         width: 100%;
       }
 
-      .dataTables_wrapper .dataTables_length,
-      .dataTables_wrapper .dataTables_filter {
-        width: 100%;
-        margin-bottom: 1rem;
+      .subtitle {
+        font-size: 0.9rem;
       }
 
       table.display {
@@ -167,10 +178,11 @@
 </head>
 <body>
   <header>
-    <h1>Healthcare@ThreatPodium</h1>
-    <p class="subtitle">Auto-collected breach disclosures from the HHS Wall of Shame</p>
+    <h1>ThreatPodium</h1>
+    <p class="subtitle">Your daily source for healthcare breach and threat intelligence.</p>
     <nav>
       <a href="index.html">Home</a>
+      <a href="breaches.html">Breaches</a>
       <a href="news.html">News</a>
       <a href="stats.html">Stats</a>
       <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
@@ -178,38 +190,47 @@
   </header>
 
   <main>
-    <div class="toolbar">
-      <div class="downloads">
-        📥 <a href="breaches.csv">CSV</a>
-        📥 <a href="breaches.json">JSON</a>
-      </div>
-      <div class="source">
-        🔎 Source: <a href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank">HHS OCR Breach Portal</a>
-      </div>
-    </div>
+    
+<!-- START-BREACH-SECTION -->
+<h2>📊 Healthcare Breaches — Last 30 Days</h2>
+<p>As of 2025-05-26 17:35:10 UTC</p>
+<p class="download-links">
+  📥 <a href="breaches.csv">CSV</a> |
+  📥 <a href="breaches.json">JSON</a> |
+  🔎 Source: <a href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank">HHS OCR Breach Portal</a>
+</p>
+<table id="breach-table" class="display">
+  <thead>
+    <tr>
+      <th>Name of Covered Entity</th>
+      <th>State</th>
+      <th>Entity Type</th>
+      <th>Individuals Affected</th>
+      <th>Date Added</th>
+      <th>Type of Breach</th>
+      <th>Location of Breached Info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Balance Autism</td><td>IA</td><td>Healthcare Provider</td><td>1281</td><td>2025-05-16 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Harbin Clinic, LLC</td><td>GA</td><td>Healthcare Provider</td><td>176149</td><td>2025-05-16 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Weiser Valley Hospital District dba Weiser Memorial Hospital</td><td>ID</td><td>Healthcare Provider</td><td>59990</td><td>2025-05-15 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Anne Arundel County Department of Health</td><td>MD</td><td>Healthcare Provider</td><td>500</td><td>2025-05-15 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Katie Jo Sider</td><td>CO</td><td>Healthcare Provider</td><td>1435</td><td>2025-05-13 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Email</td></tr><tr><td>Union County Children and Youth Services</td><td>PA</td><td>Healthcare Provider</td><td>501</td><td>2025-05-13 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>CVS Caremark</td><td>RI</td><td>Business Associate</td><td>2599</td><td>2025-05-13 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Paper/Films</td></tr><tr><td>Marlboro-Chesterfield Pathology, P.C.</td><td>NC</td><td>Healthcare Provider</td><td>235911</td><td>2025-05-09 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Blue Cross Blue Shield of Texas</td><td>IL</td><td>Business Associate</td><td>593</td><td>2025-05-09 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Paper/Films</td></tr><tr><td>Serviceaide, Inc.</td><td>CA</td><td>Business Associate</td><td>483126</td><td>2025-05-09 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Other</td></tr><tr><td>THE CARING HEALTHCARE NETWORK, LLC</td><td>PA</td><td>Healthcare Provider</td><td>1019</td><td>2025-05-09 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Paper/Films</td></tr><tr><td>Tri-City Cardiology Consultants, P.C.</td><td>AZ</td><td>Healthcare Provider</td><td>22753</td><td>2025-05-08 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>The Carpenter Health Network</td><td>LA</td><td>Healthcare Provider</td><td>878</td><td>2025-05-06 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Primary Health Care, Inc.</td><td>IA</td><td>Healthcare Provider</td><td>787</td><td>2025-05-06 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Email</td></tr><tr><td>SunLink Health Systems, Inc.</td><td>GA</td><td>Healthcare Provider</td><td>2856</td><td>2025-05-06 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Minnesota Orthodontics and Dentofacial Orthopedics, P.A.</td><td>MN</td><td>Healthcare Provider</td><td>501</td><td>2025-05-05 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Monongalia Health System, Inc.</td><td>WV</td><td>Healthcare Provider</td><td>4895</td><td>2025-05-03 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Email</td></tr><tr><td>CardioVascular Health Clinic</td><td>OK</td><td>Healthcare Provider</td><td>501</td><td>2025-05-03 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Schewitz Psychological Services Inc (DBA: Couples Learn)</td><td>ME</td><td>Healthcare Provider</td><td>3700</td><td>2025-05-03 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>DermCare Management</td><td>FL</td><td>Business Associate</td><td>501</td><td>2025-05-02 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Arizona Arthritis and Rheumatology Associates, P.C.</td><td>AZ</td><td>Healthcare Provider</td><td>5509</td><td>2025-05-02 00:00:00</td><td>Hacking/IT Incident</td><td>Email</td></tr><tr><td>Lincoln National Corporation d/b/a Lincoln Financial</td><td>IN</td><td>Health Plan</td><td>1123</td><td>2025-05-02 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Anesthesia Associates of Morristown, P.A.</td><td>NJ</td><td>Healthcare Provider</td><td>501</td><td>2025-05-02 00:00:00</td><td>Improper Disposal</td><td>Paper/Films</td></tr><tr><td>Sonrisas Dental Health</td><td>CA</td><td>Healthcare Provider</td><td>15644</td><td>2025-05-02 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>The Neurological Institute of Savannah & Center for Spine, P.C</td><td>GA</td><td>Healthcare Provider</td><td>32548</td><td>2025-05-01 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Canby Clinic</td><td>OR</td><td>Healthcare Provider</td><td>549</td><td>2025-04-30 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Email</td></tr><tr><td>Berkeley Research Group, LLC</td><td>CA</td><td>Business Associate</td><td>500</td><td>2025-04-30 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Family Christian Health Center</td><td>IL</td><td>Healthcare Provider</td><td>12500</td><td>2025-04-30 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr><tr><td>Physician Wound Solutions, LLC dba Apollo Medical Supply</td><td>FL</td><td>Healthcare Provider</td><td>3561</td><td>2025-04-29 00:00:00</td><td>Unauthorized Access/Disclosure</td><td>Network Server, Other</td></tr><tr><td>Ascension Health</td><td>MO</td><td>Healthcare Provider</td><td>437329</td><td>2025-04-28 00:00:00</td><td>Hacking/IT Incident</td><td>Network Server</td></tr>
+  </tbody>
+</table>
+<script>
+  $(document).ready(function() {
+    if (!$.fn.dataTable.isDataTable('#breach-table')) {
+      $('#breach-table').DataTable({ "pageLength": 25 });
+    }
+  });
+</script>
+<!-- END-BREACH-SECTION -->
 
-    <div class="table-wrapper">
-      <table id="breach-table" class="display">
-        <thead>
-          <tr>
-            <th>Name of Covered Entity</th>
-            <th>State</th>
-            <th>Entity Type</th>
-            <th>Individuals Affected</th>
-            <th>Date Added</th>
-            <th>Type of Breach</th>
-            <th>Location of Breached Info</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- breach rows auto-injected by hhs_scraper.py -->
-        </tbody>
-      </table>
-    </div>
+
+    <!-- START-NEWS-SECTION -->
+    <!-- END-NEWS-SECTION -->
   </main>
 
   <footer>
-    &copy; 2025 ThreatPodium. Powered by open data and smart automation.
+    &copy; 2025 ThreatPodium. Data sourced from HHS & trusted cybersecurity news.
   </footer>
 
   <script>
@@ -221,14 +242,6 @@
     if (localStorage.getItem('theme') === 'dark') {
       document.body.classList.add('dark-mode');
     }
-
-    $(document).ready(function () {
-      if (!$.fn.dataTable.isDataTable('#breach-table')) {
-        $('#breach-table').DataTable({
-          pageLength: 25
-        });
-      }
-    });
   </script>
 </body>
 </html>
