@@ -47,12 +47,12 @@ breach_html = f"""
 <!-- START-BREACH-SECTION -->
 <h2>📊 Healthcare Breaches — Last {DAYS_BACK} Days</h2>
 <p>As of {timestamp}</p>
-<p class=\"download-links\">
-  📥 <a href=\"breaches.csv\">CSV</a> |
-  📥 <a href=\"breaches.json\">JSON</a> |
-  🔎 Source: <a href=\"{url}\" target=\"_blank\">HHS OCR Breach Portal</a>
+<p class="download-links">
+  📥 <a href="breaches.csv">CSV</a> |
+  📥 <a href="breaches.json">JSON</a> |
+  🔎 Source: <a href="{url}" target="_blank">HHS OCR Breach Portal</a>
 </p>
-<table id=\"breach-table\" class=\"display\">
+<table id="breach-table" class="display">
   <thead>
     <tr>
       <th>Name of Covered Entity</th>
@@ -78,11 +78,12 @@ breach_html = f"""
 <!-- END-BREACH-SECTION -->
 """
 
+# Load the base template
 try:
     with open("base_template.html", "r", encoding="utf-8") as f:
         content = f.read()
 except FileNotFoundError:
-    raise Exception("Missing base_template.html. Please create it from ThreatPodium_Upgrade.")
+    raise FileNotFoundError("Missing base_template.html. Please upload it to your repo.")
 
 start = content.find("<!-- START-BREACH-SECTION -->")
 end = content.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
