@@ -1,182 +1,148 @@
-import json
-from datetime import datetime, timedelta
-from collections import Counter
-from pathlib import Path
-
-# Load breach data
-with open("breaches.json", "r", encoding="utf-8") as f:
-    data = json.load(f)
-
-# Count breaches by date
-date_counts = Counter()
-state_counts = Counter()
-type_counts = Counter()
-
-for entry in data:
-    # Breaches over time
-    raw_date = entry.get("Date Added")
-    if isinstance(raw_date, str):
-        try:
-            parsed_date = datetime.strptime(raw_date.strip(), "%m/%d/%Y").date()
-            date_counts[parsed_date] += 1
-        except ValueError:
-            continue
-
-    # Breaches by state
-    state = entry.get("State")
-    if isinstance(state, str):
-        state_counts[state.strip()] += 1
-
-    # Breaches by type
-    breach_type = entry.get("Type of Breach")
-    if isinstance(breach_type, str):
-        type_counts[breach_type.strip()] += 1
-
-# Sort and build datasets
-today = datetime.today().date()
-datasets = {}
-for days in [1, 7, 30]:
-    start = today - timedelta(days=days - 1)
-    filtered = {d: c for d, c in date_counts.items() if start <= d <= today}
-    sorted_items = sorted(filtered.items())
-    datasets[days] = {
-        "labels": [d.strftime("%b %d") for d, _ in sorted_items],
-        "data": [c for _, c in sorted_items]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Healthcare@ThreatPodium — Stats</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 style-src 'self' 'unsafe-inline';
+                 script-src 'self' https://cdn.jsdelivr.net;
+                 script-src-attr 'unsafe-inline';">
+  <script src="theme.js"></script>
+  <style>
+    :root {
+      --bg-color: #f7f9fb;
+      --text-color: #222;
+      --link-color: #005f8e;
+      --card-bg: #ffffff;
     }
 
-# Top states and types
-top_states = state_counts.most_common(15)
-top_types = type_counts.most_common(15)
-state_labels, state_data = zip(*top_states) if top_states else ([], [])
-type_labels, type_data = zip(*top_types) if top_types else ([], [])
+    body.dark-mode {
+      --bg-color: #121212;
+      --text-color: #f1f1f1;
+      --link-color: #58a6ff;
+      --card-bg: #1e1e1e;
+    }
 
-# Build Chart.js section
-chart_html = f"""
-<h2 style="text-align:center;">📊 Breaches Over Time</h2>
-<div style="text-align:center;margin-bottom:1rem;">
-  <label for="range">View:</label>
-  <select id="range" onchange="updateChart()">
-    <option value="1">Last 1 Day</option>
-    <option value="7" selected>Last 7 Days</option>
-    <option value="30">Last 30 Days</option>
-  </select>
-</div>
-<canvas id="breachChart" style="margin-bottom:3rem;"></canvas>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 1rem;
+      transition: background 0.3s, color 0.3s;
+    }
 
-<h2 style="text-align:center;">🗺️ Breaches by State</h2>
-<canvas id="stateChart" style="margin-bottom:3rem;"></canvas>
+    header, footer {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
 
-<h2 style="text-align:center;">🧩 Breaches by Type</h2>
-<canvas id="typeChart"></canvas>
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-const chartData = {{
-  1: {{ labels: {json.dumps(datasets[1]["labels"])}, data: {json.dumps(datasets[1]["data"])} }},
-  7: {{ labels: {json.dumps(datasets[7]["labels"])}, data: {json.dumps(datasets[7]["data"])} }},
-  30: {{ labels: {json.dumps(datasets[30]["labels"])}, data: {json.dumps(datasets[30]["data"])} }}
-}};
+    .toggle {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--text-color);
+      background: none;
+      color: var(--text-color);
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
 
-const ctxTime = document.getElementById('breachChart').getContext('2d');
-const ctxState = document.getElementById('stateChart').getContext('2d');
-const ctxType = document.getElementById('typeChart').getContext('2d');
+    nav.navbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
 
-let breachChart = new Chart(ctxTime, {{
-  type: 'bar',
-  data: {{
-    labels: chartData[7].labels,
-    datasets: [{{
-      label: 'Breaches',
-      data: chartData[7].data,
-      backgroundColor: 'rgba(0, 119, 182, 0.6)',
-      borderColor: 'rgba(0, 119, 182, 1)',
-      borderWidth: 1
-    }}]
-  }},
-  options: {{
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {{
-      y: {{
-        beginAtZero: true,
-        ticks: {{ precision: 0 }}
-      }}
-    }}
-  }}
-}});
+    nav.navbar a {
+      padding: 0.6rem 1rem;
+      background: #0077b6;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
+    }
 
-function updateChart() {{
-  const days = document.getElementById('range').value;
-  breachChart.data.labels = chartData[days].labels;
-  breachChart.data.datasets[0].data = chartData[days].data;
-  breachChart.update();
-}}
+    nav.navbar a.active {
+      outline: 2px solid #fff;
+    }
 
-new Chart(ctxState, {{
-  type: 'bar',
-  data: {{
-    labels: {json.dumps(state_labels)},
-    datasets: [{{
-      label: 'Breach Count by State',
-      data: {json.dumps(state_data)},
-      backgroundColor: 'rgba(255, 99, 132, 0.6)',
-      borderColor: 'rgba(255, 99, 132, 1)',
-      borderWidth: 1
-    }}]
-  }},
-  options: {{
-    indexAxis: 'y',
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {{
-      x: {{
-        beginAtZero: true,
-        ticks: {{ precision: 0 }}
-      }}
-    }}
-  }}
-}});
+    .stats-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem;
+      background-color: var(--card-bg);
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
 
-new Chart(ctxType, {{
-  type: 'bar',
-  data: {{
-    labels: {json.dumps(type_labels)},
-    datasets: [{{
-      label: 'Breach Count by Type',
-      data: {json.dumps(type_data)},
-      backgroundColor: 'rgba(54, 162, 235, 0.6)',
-      borderColor: 'rgba(54, 162, 235, 1)',
-      borderWidth: 1
-    }}]
-  }},
-  options: {{
-    indexAxis: 'y',
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {{
-      x: {{
-        beginAtZero: true,
-        ticks: {{ precision: 0 }}
-      }}
-    }}
-  }}
-}});
-</script>
-"""
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto 2rem;
+    }
 
-# Load base template
-template_path = "base_template_stats.html"
-output_path = "stats.html"
-with open(template_path, "r", encoding="utf-8") as f:
-    base_html = f.read()
+    footer {
+      font-size: 0.85rem;
+      color: #888;
+      border-top: 1px solid #ccc;
+      margin-top: 2rem;
+      padding-top: 1rem;
+    }
 
-# Inject charts into template
-start = base_html.find("<!-- START-STATS-SECTION -->")
-end = base_html.find("<!-- END-STATS-SECTION -->") + len("<!-- END-STATS-SECTION -->")
-final_html = base_html[:start] + "<!-- START-STATS-SECTION -->\n" + chart_html + "\n" + base_html[end:]
+    @media (max-width: 768px) {
+      nav.navbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
 
-# Write output file
-with open(output_path, "w", encoding="utf-8") as f:
-    f.write(final_html)
+      nav.navbar a {
+        width: 100%;
+        font-size: 1rem;
+      }
 
-print("✅ stats.html generated.")
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      .stats-container {
+        padding: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Healthcare@ThreatPodium</h1>
+    <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+  </header>
+
+  <nav class="navbar">
+    <a href="index.html">🏠 Home</a>
+    <a href="breaches.html">📊 Breaches</a>
+    <a href="news.html">📰 News</a>
+    <a href="stats.html" class="active">📈 Stats</a>
+  </nav>
+
+  <div class="stats-container">
+    <!-- START-STATS-SECTION -->
+    <!-- END-STATS-SECTION -->
+  </div>
+
+  <footer>
+    &copy; 2025 ThreatPodium. Powered by open data and smart automation.
+  </footer>
+</body>
+</html>
