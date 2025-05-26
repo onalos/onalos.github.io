@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <title>Healthcare@ThreatPodium</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 style-src 'self' 'unsafe-inline';
+                 script-src 'self';
+                 script-src-attr 'unsafe-inline';">
+  <script src="theme.js"></script>
   <style>
     :root {
       --bg-color: #f7f9fb;
@@ -40,26 +46,31 @@
       font-size: 1.8rem;
     }
 
-    nav {
+    nav.navbar {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 1rem;
-      margin: 1rem 0;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
     }
 
-    nav a {
-      background-color: var(--accent);
+    nav.navbar a {
+      padding: 0.6rem 1rem;
+      background: var(--accent);
       color: #fff;
       text-decoration: none;
-      padding: 0.7rem 1.2rem;
-      border-radius: 6px;
+      border-radius: 5px;
       font-weight: 600;
-      transition: background 0.2s ease;
+      font-size: 0.95rem;
+      text-align: center;
     }
 
-    nav a:hover {
-      background-color: var(--accent-hover);
+    nav.navbar a.active {
+      outline: 2px solid #fff;
+    }
+
+    nav.navbar a:hover {
+      background: var(--accent-hover);
     }
 
     .toggle {
@@ -91,12 +102,12 @@
     }
 
     @media (max-width: 600px) {
-      nav {
+      nav.navbar {
         flex-direction: column;
         gap: 0.8rem;
       }
 
-      nav a {
+      nav.navbar a {
         width: 100%;
         text-align: center;
       }
@@ -109,30 +120,19 @@
     <button class="toggle" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
   </header>
 
-  <nav>
+  <nav class="navbar">
     <a href="breaches.html">📊 Breaches</a>
     <a href="news.html">📰 News</a>
     <a href="stats.html">📈 Stats</a>
   </nav>
 
   <div class="summary">
-    <p>Welcome to <strong>ThreatPodium</strong>, your centralized dashboard for tracking healthcare-related breaches, curated threat intelligence, and real-time data visualizations.</p>
+    <p>Welcome to <strong>ThreatPodium</strong>, your centralized dashboard for tracking healthcare-related breaches, curated threat news, and real-time data visualizations.</p>
     <p>Use the links above to explore breach reports, security news, and interactive stats. All content is refreshed automatically to keep you informed.</p>
   </div>
 
   <footer>
     &copy; 2025 ThreatPodium. Powered by open data and smart automation.
   </footer>
-
-  <script>
-    function toggleDarkMode() {
-      const isDark = document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
-
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-    }
-  </script>
 </body>
 </html>
