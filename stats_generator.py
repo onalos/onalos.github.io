@@ -20,13 +20,13 @@ for entry in data:
     if isinstance(breach_type, str):
         type_counts[breach_type.strip()] += 1
 
-# Get top 15 entries
+# Top 15 entries
 top_states = state_counts.most_common(15)
 top_types = type_counts.most_common(15)
 state_labels, state_data = zip(*top_states) if top_states else ([], [])
 type_labels, type_data = zip(*top_types) if top_types else ([], [])
 
-# Generate unique bar colors
+# Generate distinct bar colors
 def generate_colors(n):
     return [f"rgba({random.randint(50,255)}, {random.randint(50,255)}, {random.randint(50,255)}, 0.6)" for _ in range(n)]
 
@@ -40,7 +40,7 @@ with open("base_template_stats.html", "r", encoding="utf-8") as f:
 start = template_html.find("<!-- START-STATS-SECTION -->")
 end = template_html.find("<!-- END-STATS-SECTION -->") + len("<!-- END-STATS-SECTION -->")
 
-# Chart HTML block
+# Chart HTML block with no legends
 chart_html = f"""
 <style>
 canvas {{
@@ -68,7 +68,6 @@ new Chart(document.getElementById('stateChart').getContext('2d'), {{
   data: {{
     labels: {json.dumps(state_labels)},
     datasets: [{{
-      label: 'Breach Count by State',
       data: {json.dumps(state_data)},
       backgroundColor: {json.dumps(state_colors)},
       borderColor: {json.dumps(state_colors)},
@@ -79,6 +78,9 @@ new Chart(document.getElementById('stateChart').getContext('2d'), {{
     indexAxis: 'y',
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {{
+      legend: {{ display: false }}
+    }},
     scales: {{
       x: {{
         beginAtZero: true,
@@ -93,7 +95,6 @@ new Chart(document.getElementById('typeChart').getContext('2d'), {{
   data: {{
     labels: {json.dumps(type_labels)},
     datasets: [{{
-      label: 'Breach Count by Type',
       data: {json.dumps(type_data)},
       backgroundColor: {json.dumps(type_colors)},
       borderColor: {json.dumps(type_colors)},
@@ -104,6 +105,9 @@ new Chart(document.getElementById('typeChart').getContext('2d'), {{
     indexAxis: 'y',
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {{
+      legend: {{ display: false }}
+    }},
     scales: {{
       x: {{
         beginAtZero: true,
@@ -115,9 +119,10 @@ new Chart(document.getElementById('typeChart').getContext('2d'), {{
 </script>
 """
 
-# Inject and write to stats.html
+# Inject chart block into template
 final_html = template_html[:start] + "<!-- START-STATS-SECTION -->\n" + chart_html + "\n" + template_html[end:]
 
+# Write output file
 with open("stats.html", "w", encoding="utf-8") as f:
     f.write(final_html)
 
