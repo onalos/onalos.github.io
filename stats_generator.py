@@ -3,11 +3,10 @@ from datetime import datetime, timedelta
 from collections import Counter
 from pathlib import Path
 
-# Load data
+# Load breach data
 with open("breaches.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
-# Count breaches
 date_counts = Counter()
 state_counts = Counter()
 type_counts = Counter()
@@ -29,7 +28,7 @@ for entry in data:
     if isinstance(breach_type, str):
         type_counts[breach_type.strip()] += 1
 
-# Build datasets for 1, 7, 30 days
+# Generate time-based datasets
 today = datetime.today().date()
 datasets = {}
 for days in [1, 7, 30]:
@@ -41,25 +40,24 @@ for days in [1, 7, 30]:
         "data": [c for _, c in sorted_items]
     }
 
-# Top 15 states and types
+# Limit to top 15
 top_states = state_counts.most_common(15)
 top_types = type_counts.most_common(15)
 state_labels, state_data = zip(*top_states) if top_states else ([], [])
 type_labels, type_data = zip(*top_types) if top_types else ([], [])
 
-# Chart block
+# Chart HTML block with max-height containers
 chart_html = f"""
 <style>
 canvas {{
+  max-height: 480px;
   width: 100% !important;
-  max-width: 800px;
-  height: 400px;
-  margin: 0 auto 3rem;
+  height: auto !important;
   display: block;
+  margin-bottom: 2rem;
 }}
-.stats-container h2 {{
-  text-align: center;
-  margin: 2rem 0 1rem;
+.chart-wrapper {{
+  overflow-x: auto;
 }}
 </style>
 
@@ -72,13 +70,13 @@ canvas {{
     <option value="30">Last 30 Days</option>
   </select>
 </div>
-<canvas id="breachChart"></canvas>
+<div class="chart-wrapper"><canvas id="breachChart"></canvas></div>
 
 <h2>🗺️ Breaches by State</h2>
-<canvas id="stateChart"></canvas>
+<div class="chart-wrapper"><canvas id="stateChart"></canvas></div>
 
 <h2>🧩 Breaches by Type</h2>
-<canvas id="typeChart"></canvas>
+<div class="chart-wrapper"><canvas id="typeChart"></canvas></div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -108,10 +106,7 @@ let breachChart = new Chart(ctxTime, {{
     responsive: true,
     maintainAspectRatio: false,
     scales: {{
-      y: {{
-        beginAtZero: true,
-        ticks: {{ precision: 0 }}
-      }}
+      y: {{ beginAtZero: true, ticks: {{ precision: 0 }} }}
     }}
   }}
 }});
@@ -140,10 +135,7 @@ new Chart(ctxState, {{
     responsive: true,
     maintainAspectRatio: false,
     scales: {{
-      x: {{
-        beginAtZero: true,
-        ticks: {{ precision: 0 }}
-      }}
+      x: {{ beginAtZero: true, ticks: {{ precision: 0 }} }}
     }}
   }}
 }});
@@ -165,23 +157,19 @@ new Chart(ctxType, {{
     responsive: true,
     maintainAspectRatio: false,
     scales: {{
-      x: {{
-        beginAtZero: true,
-        ticks: {{ precision: 0 }}
-      }}
+      x: {{ beginAtZero: true, ticks: {{ precision: 0 }} }}
     }}
   }}
 }});
 </script>
 """
 
-# Inject into base template
+# Inject into template
 with open("base_template_stats.html", "r", encoding="utf-8") as f:
     base_html = f.read()
 
 start = base_html.find("<!-- START-STATS-SECTION -->")
 end = base_html.find("<!-- END-STATS-SECTION -->") + len("<!-- END-STATS-SECTION -->")
-
 final_html = base_html[:start] + "<!-- START-STATS-SECTION -->\n" + chart_html + "\n" + base_html[end:]
 
 with open("stats.html", "w", encoding="utf-8") as f:
