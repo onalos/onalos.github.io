@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <title>Healthcare@ThreatPodium</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  style-src 'self' 'unsafe-inline';
-                 script-src 'self';
+                 script-src 'self' 'unsafe-inline';
                  script-src-attr 'unsafe-inline';">
   <script src="theme.js"></script>
   <style>
@@ -16,7 +16,6 @@
       --text-color: #222;
       --accent: #0077b6;
       --accent-hover: #005f8e;
-      --link-color: #005f8e;
     }
 
     body.dark-mode {
@@ -24,7 +23,6 @@
       --text-color: #f1f1f1;
       --accent: #444;
       --accent-hover: #333;
-      --link-color: #58a6ff;
     }
 
     body {
@@ -38,7 +36,7 @@
 
     header, footer {
       text-align: center;
-      padding: 1rem;
+      margin-bottom: 1rem;
     }
 
     h1 {
@@ -48,8 +46,8 @@
 
     nav.navbar {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 0.75rem;
       margin-bottom: 1.5rem;
     }
@@ -121,6 +119,7 @@
   </header>
 
   <nav class="navbar">
+    <a href="index.html" class="active">🏠 Home</a>
     <a href="breaches.html">📊 Breaches</a>
     <a href="news.html">📰 News</a>
     <a href="stats.html">📈 Stats</a>
