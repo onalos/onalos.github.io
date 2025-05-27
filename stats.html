@@ -14,8 +14,6 @@
     :root {
       --bg-color: #f7f9fb;
       --text-color: #222;
-      --accent: #0077b6;
-      --accent-hover: #005f8e;
       --link-color: #005f8e;
       --card-bg: #ffffff;
     }
@@ -23,8 +21,6 @@
     body.dark-mode {
       --bg-color: #121212;
       --text-color: #f1f1f1;
-      --accent: #444;
-      --accent-hover: #333;
       --link-color: #58a6ff;
       --card-bg: #1e1e1e;
     }
@@ -69,7 +65,7 @@
 
     nav.navbar a {
       padding: 0.6rem 1rem;
-      background: var(--accent);
+      background: #0077b6;
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
@@ -80,10 +76,6 @@
 
     nav.navbar a.active {
       outline: 2px solid #fff;
-    }
-
-    nav.navbar a:hover {
-      background: var(--accent-hover);
     }
 
     .stats-container {
@@ -179,8 +171,8 @@ new Chart(document.getElementById('stateChart').getContext('2d'), {
     labels: ["GA", "CA", "IA", "PA", "IL", "AZ", "FL", "ID", "MD", "CO", "RI", "NC", "LA", "MN", "WV"],
     datasets: [{
       data: [3, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1],
-      backgroundColor: ["rgba(157, 245, 202, 0.6)", "rgba(127, 205, 103, 0.6)", "rgba(53, 96, 100, 0.6)", "rgba(153, 79, 193, 0.6)", "rgba(134, 145, 85, 0.6)", "rgba(127, 117, 105, 0.6)", "rgba(65, 59, 149, 0.6)", "rgba(110, 252, 253, 0.6)", "rgba(171, 213, 123, 0.6)", "rgba(69, 87, 199, 0.6)", "rgba(186, 189, 91, 0.6)", "rgba(182, 81, 102, 0.6)", "rgba(135, 186, 107, 0.6)", "rgba(65, 164, 236, 0.6)", "rgba(55, 197, 233, 0.6)"],
-      borderColor: ["rgba(157, 245, 202, 0.6)", "rgba(127, 205, 103, 0.6)", "rgba(53, 96, 100, 0.6)", "rgba(153, 79, 193, 0.6)", "rgba(134, 145, 85, 0.6)", "rgba(127, 117, 105, 0.6)", "rgba(65, 59, 149, 0.6)", "rgba(110, 252, 253, 0.6)", "rgba(171, 213, 123, 0.6)", "rgba(69, 87, 199, 0.6)", "rgba(186, 189, 91, 0.6)", "rgba(182, 81, 102, 0.6)", "rgba(135, 186, 107, 0.6)", "rgba(65, 164, 236, 0.6)", "rgba(55, 197, 233, 0.6)"],
+      backgroundColor: ["rgba(97, 149, 71, 0.6)", "rgba(249, 78, 80, 0.6)", "rgba(198, 169, 197, 0.6)", "rgba(68, 126, 206, 0.6)", "rgba(143, 204, 144, 0.6)", "rgba(122, 138, 120, 0.6)", "rgba(109, 209, 223, 0.6)", "rgba(165, 137, 116, 0.6)", "rgba(150, 223, 219, 0.6)", "rgba(233, 175, 236, 0.6)", "rgba(200, 235, 169, 0.6)", "rgba(165, 56, 180, 0.6)", "rgba(104, 132, 200, 0.6)", "rgba(58, 71, 246, 0.6)", "rgba(68, 243, 115, 0.6)"],
+      borderColor: ["rgba(97, 149, 71, 0.6)", "rgba(249, 78, 80, 0.6)", "rgba(198, 169, 197, 0.6)", "rgba(68, 126, 206, 0.6)", "rgba(143, 204, 144, 0.6)", "rgba(122, 138, 120, 0.6)", "rgba(109, 209, 223, 0.6)", "rgba(165, 137, 116, 0.6)", "rgba(150, 223, 219, 0.6)", "rgba(233, 175, 236, 0.6)", "rgba(200, 235, 169, 0.6)", "rgba(165, 56, 180, 0.6)", "rgba(104, 132, 200, 0.6)", "rgba(58, 71, 246, 0.6)", "rgba(68, 243, 115, 0.6)"],
       borderWidth: 1
     }]
   },
@@ -206,8 +198,8 @@ new Chart(document.getElementById('typeChart').getContext('2d'), {
     labels: ["Hacking/IT Incident", "Unauthorized Access/Disclosure", "Improper Disposal"],
     datasets: [{
       data: [20, 9, 1],
-      backgroundColor: ["rgba(225, 155, 122, 0.6)", "rgba(115, 96, 217, 0.6)", "rgba(195, 175, 93, 0.6)"],
-      borderColor: ["rgba(225, 155, 122, 0.6)", "rgba(115, 96, 217, 0.6)", "rgba(195, 175, 93, 0.6)"],
+      backgroundColor: ["rgba(167, 200, 197, 0.6)", "rgba(211, 99, 186, 0.6)", "rgba(158, 235, 230, 0.6)"],
+      borderColor: ["rgba(167, 200, 197, 0.6)", "rgba(211, 99, 186, 0.6)", "rgba(158, 235, 230, 0.6)"],
       borderWidth: 1
     }]
   },
