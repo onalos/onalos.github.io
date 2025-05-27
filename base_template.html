@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Healthcare@ThreatPodium</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healthcare@ThreatPodium — Breaches</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  style-src 'self' 'unsafe-inline' https://cdn.datatables.net;
-                 script-src 'self' https://code.jquery.com https://cdn.datatables.net;
+                 script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.datatables.net;
                  script-src-attr 'unsafe-inline';">
   <script src="theme.js"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
@@ -17,6 +17,8 @@
     :root {
       --bg-color: #f7f9fb;
       --text-color: #222;
+      --accent: #0077b6;
+      --accent-hover: #005f8e;
       --table-header-bg: #0077b6;
       --table-header-color: #fff;
       --link-color: #005f8e;
@@ -26,6 +28,8 @@
     body.dark-mode {
       --bg-color: #121212;
       --text-color: #f1f1f1;
+      --accent: #444;
+      --accent-hover: #333;
       --table-header-bg: #444;
       --table-header-color: #fff;
       --link-color: #58a6ff;
@@ -72,7 +76,7 @@
 
     nav.navbar a {
       padding: 0.6rem 1rem;
-      background: var(--table-header-bg);
+      background: var(--accent);
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
@@ -83,6 +87,10 @@
 
     nav.navbar a.active {
       outline: 2px solid #fff;
+    }
+
+    nav.navbar a:hover {
+      background: var(--accent-hover);
     }
 
     .toolbar {
@@ -101,7 +109,7 @@
     }
 
     .downloads a {
-      background: var(--table-header-bg);
+      background: var(--accent);
       color: #fff;
       text-decoration: none;
       padding: 0.4rem 0.8rem;
