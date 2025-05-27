@@ -1,90 +1,72 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import datetime
+from pathlib import Path
 
+# Fetch the live HHS breach portal page
 url = "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
 headers = {"User-Agent": "Mozilla/5.0"}
-DAYS_BACK = 30
 
 response = requests.get(url, headers=headers)
 soup = BeautifulSoup(response.text, "html.parser")
-tbody = soup.find("tbody", {"id": "ocrForm:reportResultTable_data"})
 
-rows = tbody.find_all("tr") if tbody else []
-data = []
+# Save raw HTML for debugging
+Path("raw.html").write_text(response.text, encoding="utf-8")
 
-for row in rows:
-    cells = row.find_all("td")
-    if len(cells) >= 8:
-        data.append([cell.text.strip() for cell in cells[1:8]])
+# Extract the breach table
+table = soup.find("table", {"id": "reportForm:reportListTable"})
+if not table:
+    Path("index.html").write_text("<h1>Could not find breach table</h1><p>Inspect <a href='raw.html'>raw.html</a> to debug.</p>", encoding="utf-8")
+    exit()
 
-columns = [
-    "Name of Covered Entity", "State", "Entity Type", "Individuals Affected",
-    "Date Added", "Type of Breach", "Location of Breached Info"
-]
-df = pd.DataFrame(data, columns=columns)
-df["Date Added"] = pd.to_datetime(df["Date Added"], format="%m/%d/%Y", errors="coerce")
-cutoff = datetime.utcnow() - timedelta(days=DAYS_BACK)
-df_recent = df[df["Date Added"] >= cutoff].copy()
+# Parse the rows
+rows = []
+headers = [th.text.strip() for th in table.find_all("th")]
+for row in table.find_all("tr")[1:]:
+    cells = [td.text.strip() for td in row.find_all("td")]
+    if len(cells) == len(headers):
+        rows.append(dict(zip(headers, cells)))
 
-df_recent.to_csv("breaches.csv", index=False)
-df_recent.to_json("breaches.json", orient="records", indent=2)
+df = pd.DataFrame(rows)
+df.to_csv("breaches.csv", index=False)
+df.to_json("breaches.json", orient="records", indent=2)
 
-table_rows = ""
-for _, row in df_recent.iterrows():
-    table_rows += "<tr>" + "".join(f"<td>{cell}</td>" for cell in row) + "</tr>"
+# Build HTML table
+table_html = df.to_html(classes="display", index=False, table_id="breach-table", border=0)
 
-last_updated = datetime.utcnow().strftime("%B %d, %Y")
+# Load base template
+template = Path("base_template.html").read_text(encoding="utf-8")
+start = template.find("<!-- START-BREACH-SECTION -->")
+end = template.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
 
-html = f"""
+# Build the toolbar content
+toolbar = f"""
 <div class="toolbar">
   <div class="downloads">
-    📥 <a href="breaches.csv">CSV</a>
-    📥 <a href="breaches.json">JSON</a>
+    <a href="breaches.csv" download>⬇️ CSV</a>
+    <a href="breaches.json" download>⬇️ JSON</a>
   </div>
-  <div class="source">
-    🔎 Source: <a href="{url}" target="_blank">HHS OCR Breach Portal</a>
-  </div>
-  <div class="updated">
-    🕒 Last updated: <strong>{last_updated}</strong>
-  </div>
+  <div class="source">Source: <a href="{url}" target="_blank">{url}</a></div>
+  <div class="updated">Last Updated: {datetime.now().strftime('%Y-%m-%d %I:%M %p')}</div>
 </div>
-
 <div class="table-wrapper">
-  <table id="breach-table" class="display">
-    <thead>
-      <tr>
-        <th>Name of Covered Entity</th>
-        <th>State</th>
-        <th>Entity Type</th>
-        <th>Individuals Affected</th>
-        <th>Date Added</th>
-        <th>Type of Breach</th>
-        <th>Location of Breached Info</th>
-      </tr>
-    </thead>
-    <tbody>
-      {table_rows}
-    </tbody>
-  </table>
+  {table_html}
 </div>
-
 <script>
   $(document).ready(function () {{
-    $('#breach-table').DataTable({{ pageLength: 25 }});
+    $('#breach-table').DataTable({{
+      responsive: true,
+      pageLength: 25
+    }});
   }});
 </script>
 """
 
-with open("base_template.html", "r", encoding="utf-8") as f:
-    template = f.read()
+# Final HTML injection
+final = template[:start] + "<!-- START-BREACH-SECTION -->\n" + toolbar + "\n" + template[end:]
 
-start = template.find("<!-- START-BREACH-SECTION -->")
-end = template.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
-new_html = template[:start] + "<!-- START-BREACH-SECTION -->\n" + html + "\n" + template[end:]
+# Write to index.html (you can rename if desired)
+Path("breaches.html").write_text(final, encoding="utf-8")
 
-with open("breaches.html", "w", encoding="utf-8", errors="surrogatepass") as f:
-    f.write(new_html)
-
-print(f"✅ breaches.html generated with {len(df_recent)} entries on {last_updated}")
+print("✅ breaches.html generated.")
