@@ -10,16 +10,16 @@ headers = {"User-Agent": "Mozilla/5.0"}
 response = requests.get(url, headers=headers)
 soup = BeautifulSoup(response.text, "html.parser")
 
-# Save raw HTML for debugging
+# Save raw.html for troubleshooting
 Path("raw.html").write_text(response.text, encoding="utf-8")
 
-# Find breach table
+# Extract the breach table
 table = soup.find("table", {"id": "reportForm:reportListTable"})
 if not table:
     Path("breaches.html").write_text("<h1>Could not find breach table</h1><p>See <a href='raw.html'>raw.html</a>.</p>", encoding="utf-8")
     exit()
 
-# Parse table rows
+# Parse table headers and rows
 headers = [th.text.strip() for th in table.find_all("th")]
 rows = []
 for tr in table.find_all("tr")[1:]:
@@ -31,15 +31,15 @@ df = pd.DataFrame(rows)
 df.to_csv("breaches.csv", index=False)
 df.to_json("breaches.json", orient="records", indent=2)
 
-# Convert to HTML table
+# Convert table to HTML
 table_html = df.to_html(classes="display", index=False, table_id="breach-table", border=0)
 
-# Load template
+# Load base template
 template = Path("base_template.html").read_text(encoding="utf-8")
 start = template.find("<!-- START-BREACH-SECTION -->")
 end = template.find("<!-- END-BREACH-SECTION -->") + len("<!-- END-BREACH-SECTION -->")
 
-# Toolbar content + DataTable injection
+# Build toolbar content (no search config here)
 toolbar_html = f"""
 <div class="toolbar">
   <div class="downloads">
@@ -58,15 +58,14 @@ toolbar_html = f"""
   $(document).ready(function () {{
     $('#breach-table').DataTable({{
       responsive: true,
-      pageLength: 25,
-      dom: 'lfrtip'  // length + filter (search) + results + table + pagination
+      pageLength: 25
     }});
   }});
 </script>
 """
 
-# Inject into base template
+# Inject content into template
 final_html = template[:start] + "<!-- START-BREACH-SECTION -->\n" + toolbar_html + "\n" + template[end:]
 Path("breaches.html").write_text(final_html, encoding="utf-8")
 
-print("✅ breaches.html generated with search bar.")
+print("✅ breaches.html generated.")
