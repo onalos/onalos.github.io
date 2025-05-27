@@ -88,10 +88,15 @@
     }
 
     canvas {
+      max-height: 480px;
+      width: 100% !important;
+      height: auto !important;
       display: block;
-      width: 100%;
-      height: auto;
-      margin: 0 auto 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .chart-wrapper {
+      overflow-x: auto;
     }
 
     footer {
@@ -141,15 +146,14 @@
 
 <style>
 canvas {
+  max-height: 480px;
   width: 100% !important;
-  max-width: 800px;
-  height: 400px;
-  margin: 0 auto 3rem;
+  height: auto !important;
   display: block;
+  margin-bottom: 2rem;
 }
-.stats-container h2 {
-  text-align: center;
-  margin: 2rem 0 1rem;
+.chart-wrapper {
+  overflow-x: auto;
 }
 </style>
 
@@ -162,13 +166,13 @@ canvas {
     <option value="30">Last 30 Days</option>
   </select>
 </div>
-<canvas id="breachChart"></canvas>
+<div class="chart-wrapper"><canvas id="breachChart"></canvas></div>
 
 <h2>🗺️ Breaches by State</h2>
-<canvas id="stateChart"></canvas>
+<div class="chart-wrapper"><canvas id="stateChart"></canvas></div>
 
 <h2>🧩 Breaches by Type</h2>
-<canvas id="typeChart"></canvas>
+<div class="chart-wrapper"><canvas id="typeChart"></canvas></div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -198,10 +202,7 @@ let breachChart = new Chart(ctxTime, {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      y: {
-        beginAtZero: true,
-        ticks: { precision: 0 }
-      }
+      y: { beginAtZero: true, ticks: { precision: 0 } }
     }
   }
 });
@@ -230,10 +231,7 @@ new Chart(ctxState, {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      x: {
-        beginAtZero: true,
-        ticks: { precision: 0 }
-      }
+      x: { beginAtZero: true, ticks: { precision: 0 } }
     }
   }
 });
@@ -255,10 +253,7 @@ new Chart(ctxType, {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      x: {
-        beginAtZero: true,
-        ticks: { precision: 0 }
-      }
+      x: { beginAtZero: true, ticks: { precision: 0 } }
     }
   }
 });
