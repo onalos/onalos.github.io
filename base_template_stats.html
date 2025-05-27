@@ -14,8 +14,6 @@
     :root {
       --bg-color: #f7f9fb;
       --text-color: #222;
-      --accent: #0077b6;
-      --accent-hover: #005f8e;
       --link-color: #005f8e;
       --card-bg: #ffffff;
     }
@@ -23,8 +21,6 @@
     body.dark-mode {
       --bg-color: #121212;
       --text-color: #f1f1f1;
-      --accent: #444;
-      --accent-hover: #333;
       --link-color: #58a6ff;
       --card-bg: #1e1e1e;
     }
@@ -69,7 +65,7 @@
 
     nav.navbar a {
       padding: 0.6rem 1rem;
-      background: var(--accent);
+      background: #0077b6;
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
@@ -80,10 +76,6 @@
 
     nav.navbar a.active {
       outline: 2px solid #fff;
-    }
-
-    nav.navbar a:hover {
-      background: var(--accent-hover);
     }
 
     .stats-container {
